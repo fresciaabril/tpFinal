@@ -12,7 +12,6 @@
 // Un arma rota no puede equiparse.
 // Un personaje debe cumplir el nivel mínimo para equipar un arma.
 // Un arma equipada no puede asignarse a otro personaje
-require_once 'config.php';
 class Arma {
 	private int $id;
 	private string $nombre;
