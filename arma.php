@@ -14,9 +14,6 @@
 // Un arma equipada no puede asignarse a otro personaje
 require_once 'config.php';
 class Arma {
-	private $db;
-
-	// Propiedades mapeadas directamente a tu DB
 	private int $id;
 	private string $nombre;
 	private string $tipo;
@@ -24,16 +21,15 @@ class Arma {
 	private int $nivelMinimo;
 	private string $estado;
 
-	public function __construct() {
-	        $this->db = new Medoo([
-			    'type' => 'mariadb',
-			    'host' => 'localhost',
-			    'database' => 'biblioteca',
-			    'username' => 'root',
-			    'password' => ''
-	        ]);
+	public function __construct($id, $nombre, $tipo, $danioBase, $nivelMinimo, $estado) {
+		$this->id = $id;
+		$this->nombre = $nombre;
+		$this->tipo = $tipo;
+		$this->danioBase = $danioBase;
+		$this->nivelMinimo = $nivelMinimo;
+		$this->estado = $estado;
 	}
-	/*public function getId(){
+	public function getId(){
 		return $this->id;
 	}
 	public function setId($id){
@@ -50,11 +46,11 @@ class Arma {
 	}
 	public function setTipo($tipo){
 		$this->tipo = $tipo;
-	}*/
+	}
 	public function getDanioBase(){
 		return $this->danioBase;
 	}
-	/*public function setDanioBase($danioBase){
+	public function setDanioBase($danioBase){
 		$this->danioBase = $danioBase;
 	}
 	public function getNivelMinimo(){
@@ -68,7 +64,7 @@ class Arma {
 	}
 	public function setEstado($estado){
 		$this->estado = $estado;
-	}*/
+	}
 	// metodos
 	public function calcularDanio(){
 		return $this->getDanioBase();
