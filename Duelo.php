@@ -1,10 +1,10 @@
 <?php
-require_once 'config.php';
+// Representa un enfrentamiento entre dos personajes.
 class Duelo {
-	private int $id;
-	private string $personaje1;
-	private string $personaje2;
-	private int $arena;
+	private $id;
+	private $personaje1;
+	private $personaje2;
+	private $arena;
 	private int $fecha;
 	private string $estado; // pendiente, realizado, cancelado
 	private string $ganador;
