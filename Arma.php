@@ -20,7 +20,7 @@ class Arma {
 	private int $nivelMinimo;
 	private string $estado;
 
-	public function __construct($id, $nombre, $tipo, $danioBase, $nivelMinimo, $estado) {
+	public function __construct($id, $nombre, $tipo, $danioBase, $nivelMinimo, $estado){
 		$this->id = $id;
 		$this->nombre = $nombre;
 		$this->tipo = $tipo;
