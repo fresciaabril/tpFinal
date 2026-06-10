@@ -72,7 +72,7 @@ class Torneo {
 		return ;
 	}
 	public function listarDuelos(){
-		$duelos = getDuelos();
+		$duelos = $this->getDuelos();
 		$acumular = 0;
 		$i = 1;
 		foreach ($duelos as $duelo){
