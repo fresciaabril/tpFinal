@@ -72,7 +72,14 @@ class Torneo {
 		return ;
 	}
 	public function listarDuelos(){
-		return ;
+		$duelos = getDuelos();
+		$acumular = 0;
+		$i = 1;
+		foreach ($duelos as $duelo){
+			$acumular = "El duelo ".$i." es ".$duelo."\n";
+			$i++;
+		}
+		return $acumular;
 	}
 	public function rankingPersonajes(){
 		return ;
