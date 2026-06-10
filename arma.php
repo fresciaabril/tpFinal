@@ -29,8 +29,41 @@ class Arma {
 		$this->nivelMinimo = $nivelMinimo;
 		$this->estado = $estado;
 	}
+	public function getId(){
+		return $this->id;
+	}
+	public function setId($id){
+		$this->id = $id;
+	}
+	public function getNombre(){
+		return $this->nombre;
+	}
+	public function setNombre($nombre){
+		$this->nombre = $nombre;
+	}
+	public function getTipo(){
+		return $this->tipo;
+	}
+	public function setTipo($tipo){
+		$this->tipo = $tipo;
+	}
 	public function getDanioBase(){
 		return $this->danioBase;
+	}
+	public function setDanioBase($danioBase){
+		$this->danioBase = $danioBase;
+	}
+	public function getNivelMinimo(){
+		return $this->nivelMinimo;
+	}
+	public function setNivelMinimo($nivelMinimo){
+		$this->nivelMinimo = $nivelMinimo;
+	}
+	public function getEstado(){
+		return $this->estado;
+	}
+	public function setEstado($estado){
+		$this->estado = $estado;
 	}
 	// metodos
 	public function calcularDanio(){
