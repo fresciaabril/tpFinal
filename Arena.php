@@ -10,7 +10,7 @@ class Arena {
         private $clima;
 
         //Construct
-        public function __construct($id=null, $nombre, $dificultad, $capacidadPublico, $clima)
+        public function __construct( $nombre, $dificultad, $capacidadPublico, $clima, $id=null)
         {
                 $this->id = $id;
                 $this->nombre = $nombre;
