@@ -86,4 +86,16 @@ class Arma {
         }
         return $bandera;
 	}
+
+	public function __toString(){
+		return 
+		"--------------------------------------------------- \n" .
+		"Nombre: " . $this->getNombre().
+		"\n Tipo: " . $this->getTipo().
+		"\n Daño base: " . $this->getDanioBase().
+		"\n Nivel minimo: " . $this->getNivelMinimo().
+		"\n Estado: " . $this->getEstado() . 
+		"\n ---------------------------------------------------" ;
+	}
+
 }

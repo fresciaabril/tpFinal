@@ -157,7 +157,17 @@
 
         abstract public function calcularPoderEspecial();
 
-
-
+        public function __toString(){
+            return 
+            "--------------------------------------------------- \n" .
+            "Nombre: " . $this->getNombre().
+            "\n Nivel: " . $this->getNivel().
+            "\n Vida: "  . $this->getPuntosVida().
+            "\n Energia: " . $this->getEnergia().
+            "\n Duelos ganados: " . $this->getDuelosGanados().
+            "\n Duelos perdidos: " . $this->getDuelosPerdidos().
+            "\n Estado: " . $this->getEstado().
+            "\n Arma equipada: \n" . $this->getArma();
+        }
 
     }

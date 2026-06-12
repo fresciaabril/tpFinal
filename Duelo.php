@@ -82,34 +82,74 @@ class Duelo {
 		$this->ganador = $ganador;
 	}
 
-	public function estadoPersonaje($personaje){
-		$puede = true;
-		if($personaje->getEstado() == "lesionado"){
-			$puede = false;
+	
+
+	public function puedeRealizarse(){
+		$puede = false;
+		$personaje1 = $this->getPersonaje1();
+		$personaje2 = $this->getPersonaje2();
+		if($this->getPersonaje1()->getId() != $this->getPersonaje2()->getId()){
+			if($personaje1->getEstado() === "disponible" && $personaje2->getEstado() === "disponible"){
+				$puede = true;
+			}
 		}
 		return $puede;
 	}
-
-	// public function puedeRealizarse(){
-	// 	$puede = false;
-	// 	if($this->getPersonaje1()->getId() != $this->getPersonaje2()->getId()){
-	// 		$personaje1 = $this->getPersonaje1();
-	// 		$personaje2 = $this->getPersonaje2();
-	// 		if($this->estadoPersonaje($personaje1) == true &&  $this->estadoPersonaje($personaje2) == true){
-
-	// 		}
-
-	// 	}
-		
-	// }
-
 
 	public function realizarDuelo(){
 		return ;
 	}
 
+	public function ganador($personaje){
+		$nivel = $personaje->getNivel() + 1;
+		$personaje->setNivel($nivel);
+
+		$energia = $personaje->getEnergia(); + 5;
+		$personaje->setEnergia($energia);
+
+		$cant = $personaje->getDuelosGanados() + 1;
+		$personaje->setDuelosGanados($cant);
+	}
+
+
 
 	public function obtenerGanador(){
-		return ;
+		$ganador = null;
+		$personaje1 = $this->getPersonaje1();
+		$modArena1 = $this->getArena()->calcularModificadorArena($personaje1);
+		$poder1 = $personaje1->calcularPoderTotal($modArena1);
+
+		$personaje2 = $this->getPersonaje2();
+		$modArena2 = $this->getArena()->calcularModificadorArena($personaje2);
+		$poder2 = $personaje1->calcularPoderTotal($modArena2);
+
+		if($poder1 > $poder2){
+			$ganador = $personaje1;
+			$this->ganador($personaje1);
+
+			$danio1 = $poder1 - $poder2;
+			$personaje2->recibirDanio($danio1);
+
+			$cantPerdidos = $personaje2->getDuelosPerdidos() + 1;
+			$personaje2->setDuelosPerdidos($cantPerdidos);
+
+			$energia = $personaje2-> getEnergia() - 2;
+			$personaje2->setEnergia($energia);
+
+		}else{
+			$ganador = $personaje2;
+			$this->ganador($personaje2);
+
+			$danio2 = $poder2 - $poder1;
+			$personaje1->recibirDanio($danio2);
+
+			$cantPerdidos = $personaje1->getDuelosPerdidos() + 1;
+			$personaje1->setDuelosPerdidos($cantPerdidos);
+
+			$energia = $personaje1-> getEnergia() - 2;
+			$personaje1->setEnergia($energia);
+		}
+		return $ganador;
 	}
+
 }

@@ -37,5 +37,12 @@
             return ($this->getFuerza() * 2) + $this->getArmadura();
         }
 
+       
+        public function __toString(){
+            return parent::__toString().
+            "\n Fuerza: " . $this->getFuerza().
+            "\n Armadura: " . $this->getArmadura().
+            "\n---------------------------------------------------";
+        }
 
     }

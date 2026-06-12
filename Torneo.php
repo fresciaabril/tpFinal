@@ -13,68 +13,128 @@ class Torneo {
 		$this->arenas = $arenas;
 		$this->duelos = $duelos;
 	}
-	public function getPersonajes(){
+
+
+	public function getPersonaje(){
 		return $this->personajes;
 	}
-	public function setPersonajes($personajes){
+
+	public function setPersonaje($personajes){
 		$this->personajes = $personajes;
 	}
+
+
 	public function getArmas(){
 		return $this->armas;
 	}
+
 	public function setArmas($armas){
 		$this->armas = $armas;
 	}
+
+
 	public function getArenas(){
 		return $this->arenas;
 	}
+
 	public function setArenas($arenas){
 		$this->arenas = $arenas;
 	}
+
+
 	public function getDuelos(){
 		return $this->duelos;
 	}
+
 	public function setDuelos($duelos){
 		$this->duelos = $duelos;
 	}
+
+
 	public function getPersonajes(){
 		return $this->personajes;
 	}
+
 	public function setPersonajes($personajes){
 		$this->personajes = $personajes;
 	}
+
+
 	// metodos
-	public function agregarPersonaje(){
-		return ;
+
+	public function agregarPersonaje($personaje){
+		array_push($this->personajes, $personaje);
 	}
-	public function agregarArma(){
-		return ;
+
+
+	public function agregarArma($arma){
+		array_push($this->armas, $arma);
 	}
-	public function agregarArena(){
-		return ;
+
+
+	public function agregarArena($arena){
+		array_push($this->arenas, $arena);
 	}
+
+
 	public function equiparArma(){
-		return ;
+		
 	}
+
+
 	public function registrarDuelo(){
-		return ;
+		
 	}
+
+
 	public function realizarDuelo(){
-		return ;
+		
 	}
+
+
 	public function listarPersonajes(){
-		return ;
+		$cadena = "";
+		foreach($this->getPersonaje() as $personaje){
+			$cadena .= $personaje . "\n";
+		}
+		return $cadena;
 	}
+
+
 	public function listarArmas(){
-		return ;
+		$cadena = "";
+		foreach($this->getArmas() as $arma){
+			$cadena .= $arma . "\n";
+		}
+		return $cadena;
 	}
+
+
 	public function listarArenas(){
-		return ;
+		$cadena = "";
+		foreach($this->getArenas() as $arena){
+			$cadena .= $arena . "\n";
+		}
+		return $cadena;
 	}
+
+
 	public function listarDuelos(){
-		return ;
+		$cadena = "";
+		foreach($this->getDuelos() as $personaje){
+			$cadena .= $personaje . "\n";
+		}
+		return $cadena;
 	}
-	public function rankingPersonajes(){
-		return ;
+
+
+	public function rankingPersonajes(){ //SOLO LOS QUE TIENEN MAS DE 5 PARTIDAS GANADAS APARECEN
+		$ranking = "";
+		foreach($this->getPersonaje() as $personaje){
+			if($personaje->getDuelosGanados() >= 5){
+				$ranking .= $personaje . "\n";
+			}
+		}
+		return $ranking;
 	}	
 }

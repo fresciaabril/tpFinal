@@ -37,4 +37,12 @@
         public function calcularPoderEspecial(){
             return ($this->precision * 2) + $this->getVelocidad();
         }
+
+
+        public function __toString(){
+            return parent::__toString().
+            "\n Precision: " . $this->getPrecision().
+            "\n Velocidad: " . $this->getVelocidad().
+            "\n---------------------------------------------------";
+        }
     }
