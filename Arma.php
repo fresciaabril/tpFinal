@@ -81,7 +81,7 @@ class Arma {
 
 	public function puedeSerEquipadaPor(Personaje $personaje){
 		$bandera=false;
-        if ($this->getEstado() === 'disponible' && $personaje->getNivel() > $this->getNivelMinimo()){
+        if ($this->getEstado() === 'disponible' && ($personaje->getNivel() > $this->getNivelMinimo())){
         	$bandera=true;
         }
         return $bandera;
