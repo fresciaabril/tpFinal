@@ -2,16 +2,16 @@
 // Representa el torneo completo.
 class Torneo {
 	// colecciones
-	private $personajes;
-	private $armas;
-	private $arenas;
-	private $duelos;
+	private $personajes = [];
+	private $armas = [];
+	private $arenas = [];
+	private $duelos = [];
 
-	public function __construct($personajes, $armas, $arenas, $duelos) {
-		$this->personajes = $personajes;
-		$this->armas = $armas;
-		$this->arenas = $arenas;
-		$this->duelos = $duelos;
+	public function __construct() {
+		$this->personajes = [];
+		$this->armas = [];
+		$this->arenas = [];
+		$this->duelos = [];
 	}
 
 
@@ -93,9 +93,9 @@ class Torneo {
 
 
 	public function listarPersonajes(){
-		$cadena = "";
+		$cadena = [];
 		foreach($this->getPersonaje() as $personaje){
-			$cadena .= $personaje . "\n";
+			array_push($cadena, $personaje);
 		}
 		return $cadena;
 	}
@@ -120,9 +120,9 @@ class Torneo {
 
 
 	public function listarDuelos(){
-		$cadena = "";
-		foreach($this->getDuelos() as $personaje){
-			$cadena .= $personaje . "\n";
+		$cadena = [];
+		foreach($this->getDuelos() as $duelo){
+			array_push($cadena, $duelo);
 		}
 		return $cadena;
 	}
