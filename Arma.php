@@ -17,6 +17,7 @@ class Arma {
 		$this->estado = $estado;
 	}
 
+	
 
 	public function getId(){
 		return $this->id;
