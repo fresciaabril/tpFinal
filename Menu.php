@@ -95,7 +95,7 @@ MENU:
 			$historial = "";
 			foreach($torneo->listarPersonajes() as $personaje){
 				foreach ($torneo->listarDuelos() as $duelo){
-					if($duelo)
+					
 				}
 			}
 			break;
