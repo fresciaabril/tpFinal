@@ -92,12 +92,12 @@ MENU:
 			break;
 		case '9':
 			// Mostrar el historial de duelos de un personaje.
-			$historial = "";
-			foreach($torneo->listarPersonajes() as $personaje){
-				foreach ($torneo->listarDuelos() as $duelo){
+			// $historial = "";
+			// foreach($torneo->listarPersonajes() as $personaje){
+			// 	foreach ($torneo->listarDuelos() as $duelo){
 					
-				}
-			}
+			// 	}
+			// }
 			break;
 		case '10':
 			// Mostrar el ranking de personajes ordenado por cantidad de victorias.
