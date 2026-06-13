@@ -1,14 +1,14 @@
 <?php
 
 class Arma {
-	private int $id;
-	private string $nombre;
-	private string $tipo;
-	private int $danioBase;
-	private int $nivelMinimo;
-	private string $estado;
+	private $id;
+	private $nombre;
+	private $tipo;
+	private $danioBase;
+	private $nivelMinimo;
+	private $estado;
 
-	public function __construct($nombre, $tipo, $danioBase, $nivelMinimo, $estado = "disponible", $id = null ){
+	public function __construct($id, $nombre, $tipo, $danioBase, $nivelMinimo, $estado = "disponible"){
 		$this->id = $id;
 		$this->nombre = $nombre;
 		$this->tipo = $tipo;
