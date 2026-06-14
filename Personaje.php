@@ -138,7 +138,7 @@
 
         public function puedeDuelar(){
             $puede = false;
-            if( $this->getEstado() != "lesionado"){
+            if( $this->getEstado() == "disponible"){
                 $puede = true;
             }
             return $puede;
@@ -151,6 +151,9 @@
             return $poderTotal;
         }
 
+        public function duelos(){ //HACER UNA FUNCION QUE SIRVA PARA EL CASE '9', Y PARA MOSTRAR TODOS LOS DUELOS 
+
+        }
 
         abstract public function calcularPoderBase();
 
