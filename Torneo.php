@@ -136,18 +136,42 @@
 		}
 
 
-		public function rankingPersonajes(){
-			$ranking = "";
-			$colPersonajes = $this->getPersonaje();
-			foreach($this->getPersonaje() as $personaje){
-				foreach($colPersonajes as $personajes){
-					if($personaje->getDuelosGanados() >= $personajes->getDuelosGanados()){
-						$ranking .= $personaje . "\n";
-					}else{
-						$ranking .= $personajes . "\n";
-					}
-				}
+		//FUNCION PARA IMPLEMENTAR CON EL UASORT()
+		private function cmpVictorias($a, $b) {
+			// Comparamos los duelos ganados de dos objetos personaje
+			if ($a->getDuelosGanados() == $b->getDuelosGanados()) {
+				$orden = 0;
+			} elseif ($a->getDuelosGanados() < $b->getDuelosGanados()) {
+				// Ponemos el menor abajo para que el ranking quede DESCENDENTE
+				$orden = 1; 
+			} else {
+				$orden = -1;
 			}
+			return $orden;
+		}
+
+		public function rankingPersonajes() {
+			// 1. Armamos el arreglo asociativo de objetos usando el ID de la base de datos como índice
+			$arregloPersonajes = [];
+			foreach ($this->listarPersonajes() as $personaje) {
+				$arregloPersonajes[$personaje->getId()] = $personaje;
+			}
+
+			// 2. Usamos uasort llamando a nuestra función 'cmpVictorias' tal cual el ejemplo
+			uasort($arregloPersonajes, [$this, 'cmpVictorias']);
+
+			// 3. Ya con el arreglo ordenado, armamos el string para el menú
+			$ranking = "--- RANKING DE PERSONAJES ---\n";
+			$puesto = 1;
+			
+			foreach ($arregloPersonajes as $personaje) {
+				//reemplaza el código por el número real que tiene guardado "{$puesto}° - " y queda asi "1° - "
+				$ranking .= "{$puesto}° - " . $personaje->getNombre() . " (" . $personaje->getDuelosGanados() . " victorias)\n";
+				$puesto++;
+			}
+
+			// 4. retornamos
 			return $ranking;
-		}	
+		}
 	}
+	
