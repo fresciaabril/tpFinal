@@ -1,9 +1,12 @@
 <?php
 
+// 1. Indicamos el uso del namespace de Medoo
 use Medoo\Medoo;
 
+// 2. Incluimos el framework Medoo que ya tenés hecho
 require_once 'Medoo.php';
 
+// 3. Inicializamos la conexión a la base de datos con tus parámetros
 $database = new Medoo([
     'type' => 'mariadb',
     'host' => 'localhost',
@@ -12,15 +15,57 @@ $database = new Medoo([
     'password' => ''
 ]);
 
-$personaje = new Guerrero("milo", 1, 100, 50, 0, 0, "espada", 50, 100);
-$data = ["nombre" => $personaje->getNombre(), 
-    "nivel" => $personaje->getNivel(),
-    "puntosVida"  => $personaje->getPuntosVida(),
-    "energia" => $personaje->getEnergia(),
-    "duelosGanados" => $personaje->getDuelosGanados(),
-    "duelosPerdidos" => $personaje->getDuelosPerdidos(),
-    "arma" => $personaje->getArma(),
-    "fuerza" => $personaje->getFuerza(),
-    "armadura" => $personaje->getArmadura()];
+/**
+ * =========================================================================
+ * EJEMPLO DE INSERCIÓN COMPATIBLE
+ * =========================================================================
+ 
+/*
+// Ejemplo con un Guerrero:
+$personaje = new Guerrero("milo", 1, 100, 50, 0, 0, "disponible", 50, 100);
 
+// Para cumplir con tu columna "arma" (que guarda un identificador entero o string),
+// verificamos si tiene un objeto Arma asignado. Si no, va como null.
+$armaValor = ($personaje->getArma() !== null) ? $personaje->getArma()->getId() : null;
+
+$data = [
+    "nombre"         => $personaje->getNombre(), 
+    "nivel"          => $personaje->getNivel(),
+    "puntosVida"     => $personaje->getPuntosVida(),
+    "energia"        => $personaje->getEnergia(),
+    "duelosGanados"  => $personaje->getDuelosGanados(),
+    "duelosPerdidos" => $personaje->getDuelosPerdidos(),
+    "estado"         => $personaje->getEstado(),
+    "arma"           => $armaValor, // Se inserta el ID o NULL en tu columna exacta
+    
+    // Columnas del Guerrero
+    "fuerza"         => $personaje->getFuerza(),
+    "armadura"       => $personaje->getArmadura(),
+    
+    // Al ser un Guerrero, el resto de las columnas específicas van explícitamente en NULL
+    "mana"           => null,
+    "inteligencia"   => null,
+    "precision"      => null,
+    "velocidad"      => null
+];
+
+// Medoo procesará la inserción respetando tu tabla tal cual está en la captura
 $database->insert("personajes", $data);
+*/
+
+// ... (Abajo de la conexión a la base de datos)
+
+try {
+    // Intentamos traer todas las arenas de tu tabla
+    // Medoo hace un "SELECT * FROM arenas" automáticamente
+    $probarConexion = $database->select("arenas", "*");
+    
+    if ($probarConexion !== false) {
+        echo "¡Conexión exitosa! Medoo se conectó a phpMyAdmin correctamente.\n";
+        echo "Cantidad de arenas encontradas: " . count($probarConexion) . "\n";
+    } else {
+        echo "Hubo un problema con la consulta, revisá el nombre de la tabla.\n";
+    }
+} catch (Exception $e) {
+    echo "Error crítico de conexión: " . $e->getMessage() . "\n";
+}
