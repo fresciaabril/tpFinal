@@ -15,7 +15,7 @@ $database = new Medoo([
     'password' => ''
 ]);
 
-/**
+/*
  * =========================================================================
  * EJEMPLO DE INSERCIÓN COMPATIBLE
  * =========================================================================
@@ -50,22 +50,5 @@ $data = [
 ];
 
 // Medoo procesará la inserción respetando tu tabla tal cual está en la captura
-$database->insert("personajes", $data);
-*/
+$database->insert("personajes", $data*/
 
-// ... (Abajo de la conexión a la base de datos)
-
-try {
-    // Intentamos traer todas las arenas de tu tabla
-    // Medoo hace un "SELECT * FROM arenas" automáticamente
-    $probarConexion = $database->select("arenas", "*");
-    
-    if ($probarConexion !== false) {
-        echo "¡Conexión exitosa! Medoo se conectó a phpMyAdmin correctamente.\n";
-        echo "Cantidad de arenas encontradas: " . count($probarConexion) . "\n";
-    } else {
-        echo "Hubo un problema con la consulta, revisá el nombre de la tabla.\n";
-    }
-} catch (Exception $e) {
-    echo "Error crítico de conexión: " . $e->getMessage() . "\n";
-}
