@@ -176,4 +176,91 @@
             "\n Arma equipada: \n" . $this->getArma();
         }
 
+        //METODOS QUE VAN EN TODAS LAS CLASES QUE TIENEN UNA TABLA, SIRVE PARA HACER LAS CONSULTAS 
+        //DEPENDIENDO EL ENUNCIADO
+
+        public function guardar($database){}
+
+        /**EJEMPLO DE GUARDAR
+         * 
+         *public function guardar() {
+        if ($this->id) {
+            $database->update("libros", [
+                "titulo" => $this->getTitulo(),
+                "anio" => $this->getAnio(),
+                "autor" => $this->getAutor()->id,
+            ], ["id" => $this->id]);
+        } else {
+            
+            $database->insert("libros", [
+                "titulo" => $this->getTitulo(),
+                "anio" => $this->getAnio(),
+                "autor" => $this->getAutor()->getId(),
+            ]);
+            $this->id = $this->db->id();
+        }
+    }
+         */
+
+
+        /**LISTAR PERSONAJE */
+        public function listarPersonajes($database){}
+        /**EJEMPLO DE LISTAR 
+         * public static function listarConAutor($database) {
+        $filas = $database->select("libros", [
+            "[><]autores" => ["idAutor" => "id"]
+        ], [
+            "libros.id",
+            "libros.titulo",
+            "libros.anio",
+            "autores.id(autor_id)",
+            "autores.nombre(autor_nombre)"
+        ]);
+
+        $libros = [];
+
+        foreach ($filas as $fila) {
+            $autor = new Autor(
+                $fila["autor_nombre"],
+                $fila["autor_id"]
+            );
+
+            $libros[] = new Libro(
+                $fila["titulo"],
+                $fila["anio"],
+                $autor,
+                $fila["id"]
+            );
+        }
+
+        return $libros;
+    }
+         */
+
+
+    /**EJEMPLO AGREGAR
+     * public function agregarAlumno($alumno) {
+        $alumno->setCursoId($this->id);
+        $alumno->guardar();
+    }
+     * 
+     */
+
+    /**EJEMPLO OBTENER
+     * public function obtenerAlumnos() {
+        return Alumno::obtenerPorCurso($this->db, $this->id);
+    }
+     */
+
+    /**EJEMPLO MOSTRAR
+     * 
+     *  public function mostrar() {
+        echo "Curso: {$this->nombre}\n";
+        $alumnos = $this->obtenerAlumnos();
+        foreach ($alumnos as $alumno) {
+            $alumno->mostrar();
+        }
+        echo "\n";
+    }
+     */
     }

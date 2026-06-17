@@ -137,7 +137,7 @@
 
 
 		//FUNCION PARA IMPLEMENTAR CON EL UASORT()
-		private function cmpVictorias($a, $b) {
+		private function cmpDuelos($a, $b) {
 			// Comparamos los duelos ganados de dos objetos personaje
 			if ($a->getDuelosGanados() == $b->getDuelosGanados()) {
 				$orden = 0;
@@ -157,8 +157,8 @@
 				$arregloPersonajes[$personaje->getId()] = $personaje;
 			}
 
-			// 2. Usamos uasort llamando a nuestra función 'cmpVictorias' tal cual el ejemplo
-			uasort($arregloPersonajes, [$this, 'cmpVictorias']);
+			// 2. Usamos uasort llamando a nuestra función 'cmpDuelos' tal cual el ejemplo
+			uasort($arregloPersonajes, [$this, 'cmpDuelos']);
 
 			// 3. Ya con el arreglo ordenado, armamos el string para el menú
 			$ranking = "--- RANKING DE PERSONAJES ---\n";
