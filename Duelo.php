@@ -104,7 +104,7 @@ class Duelo {
 		$nivel = $personaje->getNivel() + 1;
 		$personaje->setNivel($nivel);
 
-		$energia = $personaje->getEnergia(); + 5;
+		$energia = $personaje->getEnergia() + 5;
 		$personaje->setEnergia($energia);
 
 		$cant = $personaje->getDuelosGanados() + 1;
@@ -121,7 +121,7 @@ class Duelo {
 
 		$personaje2 = $this->getPersonaje2();
 		$modArena2 = $this->getArena()->calcularModificadorArena($personaje2);
-		$poder2 = $personaje1->calcularPoderTotal($modArena2);
+		$poder2 = $personaje2->calcularPoderTotal($modArena2);
 
 		if($poder1 > $poder2){
 			$ganador = $personaje1;
