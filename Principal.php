@@ -6,23 +6,7 @@
 
 	
 
-	echo"
----------------------------------------------------------------------------
-MENU:
-1. Listar todos los personajes
-2. Listar personajes disponibles para duelar
-3. Listar personajes lesionados
-4. Listar personajes retirados
-5. Listar armas disponibles
-6. Mostrar el arma equipada por cada personaje
-7. Mostrar todos los duelos realizados
-8. Mostrar todos los duelos pendientes
-9. Mostrar el historial de duelos de un personaje
-10. Mostrar el ranking de personajes ordenado por cantidad de victorias
-11. Mostrar el personaje con mayor cantidad de victorias
-12. Mostrar el porcentaje de victorias de cada personaje.
-13. Mostrar la arena donde más duelos se realizaron
---------------------------------------------------------------------------- \n";
+
 // Poder hacer:
 // Registrar personajes.
 // Registrar armas.
@@ -47,8 +31,23 @@ MENU:
 			return $numero;
 		}
 		*/
-		
-		
+	echo"
+---------------------------------------------------------------------------
+MENU:
+1. Listar todos los personajes
+2. Listar personajes disponibles para duelar
+3. Listar personajes lesionados
+4. Listar personajes retirados
+5. Listar armas disponibles
+6. Mostrar el arma equipada por cada personaje
+7. Mostrar todos los duelos realizados
+8. Mostrar todos los duelos pendientes
+9. Mostrar el historial de duelos de un personaje
+10. Mostrar el ranking de personajes ordenado por cantidad de victorias
+11. Mostrar el personaje con mayor cantidad de victorias
+12. Mostrar el porcentaje de victorias de cada personaje.
+13. Mostrar la arena donde más duelos se realizaron
+--------------------------------------------------------------------------- \n";
 		echo"Ingrese opcion: ";
 		(int)$Variable = trim(fgets(STDIN));
 		switch($Variable){
