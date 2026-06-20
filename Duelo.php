@@ -152,4 +152,8 @@ class Duelo {
 		return $ganador;
 	}
 
+	// public function __toString(){
+		
+	// }
+
 }

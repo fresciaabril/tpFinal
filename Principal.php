@@ -54,7 +54,7 @@ MENU:
 			case '1':
 				// Listar todos los personajes.
 				$lista = "" ;
-				foreach ($torneo->listarPersonajes() as $personaje ){
+				foreach ($torneo->listarPersonajes($database) as $personaje ){
 					$lista .= $personaje;
 				}
 					echo "Los personajes son: \n" . $lista;
@@ -62,7 +62,7 @@ MENU:
 			case '2':
 				// Listar personajes disponibles para duelar.
 				$disponibles = "";
-				foreach($torneo->listarPersonajes() as $personaje){
+				foreach($torneo->listarPersonajes($database) as $personaje){
 					if($personaje->puedeDuelar() == true){
 						$disponibles .= $personaje;
 					}
@@ -72,7 +72,7 @@ MENU:
 			case '3':
 				// Listar personajes lesionados.
 				$lesionados = "";
-				foreach($torneo->listarPersonajes() as $personaje){
+				foreach($torneo->listarPersonajes($database) as $personaje){
 					if($personaje->getEstado() == "lesionado"){
 						$lesionados .= $personaje;
 					}
@@ -82,7 +82,7 @@ MENU:
 			case '4':
 				// Listar personajes retirados.
 				$retirado = "";
-				foreach($torneo->listarPersonajes() as $personaje){
+				foreach($torneo->listarPersonajes($database) as $personaje){
 					if($personaje->getEstado() == "retirado"){
 						$retirado .= $personaje;
 					}
@@ -91,7 +91,12 @@ MENU:
 				break;
 			case '5':
 				// Listar armas disponibles.
-					echo "Las armas disponibles son: \n" . $torneo->listarArmas();
+					$listarArmas = " ";
+					foreach($torneo->listarArmas($database) as $armas){
+						$listarArmas .= $armas;
+					}
+					
+					echo "Las armas disponibles son: \n" . $listarArmas;
 				break;
 			case '6':
 				// Mostrar el arma equipada por cada personaje.
@@ -99,9 +104,9 @@ MENU:
 			case '7':
 				// Mostrar todos los duelos realizados.
 				$realizados = "";
-				foreach($torneo->listarDuelos() as $duelo){
+				foreach($torneo->listarDuelos($database) as $duelo){
 					if ($duelo->getEstado() == "realizado"){
-						$realizados .= $duelo;
+						// $realizados .= $duelo;
 					}
 				}
 				echo "Los duelos realizados son: \n" .	$realizados;
@@ -109,9 +114,9 @@ MENU:
 			case '8':
 				// Mostrar todos los duelos pendientes.
 				$pendientes = "";
-				foreach($torneo->listarDuelos() as $duelo){
+				foreach($torneo->listarDuelos($database) as $duelo){
 					if ($duelo->getEstado() == "pendiente"){
-						$pendientes .= $duelo;
+						// $pendientes .= $duelo->__toString();
 					}
 				}
 				echo "Los duelos realizados son: \n" .	$pendientes;
