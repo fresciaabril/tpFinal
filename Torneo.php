@@ -86,20 +86,15 @@
 
 
 		public function equiparArma(){
-			
+			foreach($this->getArmas as $arma){
+				$estado = $arma->getEstado();
+				if($estado == "disponible"){
+					foreach ($this->getPersonaje() as $personaje){
+						$personaje->setArma($arma);
+					}
+				}
+			}
 		}
-
-
-		public function registrarDuelo(){
-			
-		}
-
-
-		public function realizarDuelo(){
-			
-		}
-
-
 		public function listarPersonajes(){
 			$cadena = [];
 			foreach($this->getPersonaje() as $personaje){
@@ -173,5 +168,17 @@
 			// 4. retornamos
 			return $ranking;
 		}
+
+
+
+		public function realizarDuelo(){
+			
+		}
+
+		public function registrarDuelo(){
+			
+		}
+
+
 	}
 	
