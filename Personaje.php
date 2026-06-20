@@ -251,16 +251,13 @@
         return Alumno::obtenerPorCurso($this->db, $this->id);
     }
      */
-
-    /**EJEMPLO MOSTRAR
-     * 
-     *  public function mostrar() {
-        echo "Curso: {$this->nombre}\n";
-        $alumnos = $this->obtenerAlumnos();
-        foreach ($alumnos as $alumno) {
-            $alumno->mostrar();
-        }
-        echo "\n";
-    }
-     */
+/*        public function mostrar() {
+            echo "Curso: {$this->nombre}\n";
+            $alumnos = $this->obtenerAlumnos();
+            foreach ($alumnos as $alumno) {
+                $alumno->mostrar();
+            }
+            echo "\n";
+        }*/
+         
     }

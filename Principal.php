@@ -4,7 +4,7 @@
 
 	$torneo = new torneo();
 
-	
+
 
 
 // Poder hacer:
@@ -145,7 +145,5 @@ MENU:
 			default:
 				echo "\n".$Variable." no es una opcion\n";
 				$Variable = "Error";
-		
-		echo"\n";
 	}
 }

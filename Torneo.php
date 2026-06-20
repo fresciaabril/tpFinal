@@ -86,17 +86,14 @@
 
 
 		public function equiparArma(){
-			
-		}
-
-
-		public function registrarDuelo(){
-			
-		}
-
-
-		public function realizarDuelo(){
-			
+			foreach($this->getArmas as $arma){
+				$estado = $arma->getEstado();
+				if($estado == "disponible"){
+					foreach ($this->getPersonaje() as $personaje){
+						$personaje->setArma($arma);
+					}
+				}
+			}
 		}
 
 
