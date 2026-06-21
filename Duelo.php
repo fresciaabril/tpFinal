@@ -97,7 +97,15 @@ class Duelo {
 	}
 
 	public function realizarDuelo(){
-		return ;
+		$realizado = false;
+		if($this->puedeRealizarse()){
+			$ganador = $this->obtenerGanador();
+			$this->setGanador($ganador);
+			$estado = "realizado";
+			$this->setEstado($estado);
+			$realizado = true;
+		}
+		return $realizado;
 	}
 
 	public function ganador($personaje){
@@ -152,8 +160,13 @@ class Duelo {
 		return $ganador;
 	}
 
-	// public function __toString(){
-		
-	// }
+	public function __toString(){
+		return "Personaje 1: " . $this->getPersonaje1().
+		"Personaje 2: " . $this->getPersonaje2().
+		"Arena: " . $this->getArena().
+		"Fecha: " . $this->getFecha().
+		"Ganador: " . $this->getGanador().
+		"Estado: " . $this->getEstado();
+	}
 
 }
