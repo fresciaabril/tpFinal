@@ -66,18 +66,6 @@ if ($algoFallo){
 // Ejecutar duelos pendientes.
 $Variable="a";
 while(!is_numeric($Variable)){
-		/* Inspiracion
-		function solicitarNumeroEntre($min, $max) {
-			//int $numero
-			$numero = trim(fgets(STDIN));
-			while (!(is_numeric($numero) && is_int($numero + 0) && ($numero >= $min && $numero <= $max))) {
-				echo "Debe ingresar un número entre " . $min . " y " . $max . ": ";
-				$numero = trim(fgets(STDIN));
-			}
-		
-			return $numero;
-		}
-		*/
 		do{		
 echo"---------------------------------------------------------------------------
 MENU:
@@ -188,15 +176,18 @@ MENU:
 				break;
 			case '9':
 				// Mostrar el historial de duelos de un personaje.
-				// $historial = "";
-				// foreach($torneo->listarPersonajes() as $personaje){
-				// 	foreach ($torneo->listarDuelos() as $duelo){
-						
-				// 	}
-				// }
+				$historial = "";
+				foreach($torneo->listarPersonajes($database) as $personaje){
+					foreach ($torneo->listarDuelos($database) as $duelo){
+						$historial.= $duelo;
+				 	}
+				}
+				// echo "El historial de un pesronaje es: \n" . $historial;
+				print_r($historial);
 				break;
 			case '10':
 				// Mostrar el ranking de personajes ordenado por cantidad de victorias.
+				// uasort
 				break;
 			case '11':
 				// Mostrar el personaje con mayor cantidad de victorias.
@@ -216,15 +207,15 @@ MENU:
 		}
 		}while(repetir());
 	}
-	function repetir(){
-		echo"\n";
-		echo"Quiere volver a repetir? (si/no) ";
-		$respuesta=trim(fgets(STDIN));
-		if($respuesta == "si"){
-			$respuesta = true;
-		}else{
-			$respuesta = false;
-		}
-		return $respuesta;
+}
+function repetir(){
+	echo"\n";
+	echo"Quiere volver a repetir? (si/no) ";
+	$respuesta=trim(fgets(STDIN));
+	if($respuesta == "si"){
+		$respuesta = true;
+	}else{
+		$respuesta = false;
 	}
-	}
+	return $respuesta;
+}
