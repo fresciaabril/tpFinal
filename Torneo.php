@@ -86,7 +86,7 @@
 
 
 		public function equiparArma(){
-			foreach($this->getArmas as $arma){
+			foreach($this->getArmas() as $arma){
 				$estado = $arma->getEstado();
 				if($estado == "disponible"){
 					foreach ($this->getPersonaje() as $personaje){
