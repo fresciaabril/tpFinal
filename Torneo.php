@@ -319,8 +319,33 @@
             return $colDuelos;
         }
 
+
+        /**
+         * FUNCIÓN AUXILIAR PARA EL UASORT()
+         * Compara la cantidad de duelos ganados entre dos objetos personaje.
+         * Ponemos al menor abajo (devuelve 1) para que el ranking quede descendente
+         */
+
+        private function cmpDuelos($a, $b) {
+            $orden = 0;
+
+            if ($a->getDuelosGanados() == $b->getDuelosGanados()) {
+                // Si tienen las mismas victorias, quedan en la misma posición
+                $orden = 0;
+            } elseif ($a->getDuelosGanados() < $b->getDuelosGanados()) {
+                // Si el primero tiene MENOS victorias que el segundo, lo manda para abajo
+                $orden = 1; 
+            } else {
+                // Si el primero tiene MÁS victorias, lo sube en el ranking
+                $orden = -1;
+            }
+
+            // Un solo return al final con el resultado de la comparación (-1, 0 o 1)
+            return $orden;
+        }
+
+
 		public function rankingPersonajes($database) {
-            // 1. CORREGIDO: Recibe $database y llama a la nueva función listar() pasándole la conexión
             $arregloPersonajes = [];
             
             // Usamos $this->listar($database) que es tu función unificada
@@ -328,21 +353,34 @@
                 $arregloPersonajes[$personaje->getId()] = $personaje;
             }
 
-            // 2. Usamos uasort llamando a nuestra función 'cmpDuelos' tal cual el ejemplo
+            // Usamos uasort llamando a nuestra función 'cmpDuelos' tal cual el ejemplo
             uasort($arregloPersonajes, [$this, 'cmpDuelos']);
-
-            // 3. Ya con el arreglo ordenado, armamos el string para el menú
             $ranking = "--- RANKING DE PERSONAJES ---\n";
             $puesto = 1;
-            
             foreach ($arregloPersonajes as $personaje) {
                 // Reemplaza el código por el número real que tiene guardado
                 $ranking .= "{$puesto}° - " . $personaje->getNombre() . " (" . $personaje->getDuelosGanados() . " victorias)\n";
                 $puesto++;
             }
-
-            // 4. UN SOLO return al final de todo el método principal
             return $ranking;
         }
+
+
+        public function registrarDuelo($duelo){
+            $colDuelos = $this->getDuelos();
+            array_push($colDuelos, $duelo);
+            $this->setDuelos($colDuelos);
+        }
+
+
+        public function realizarDuelo(){
+            foreach($this->getDuelos() as $duelo){
+                if($duelo->getEstado() == true){
+                    $this->registrarDuelo($duelo);
+                }
+            }
+        }
+        
+        
 	}
 	
