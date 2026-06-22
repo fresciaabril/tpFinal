@@ -192,13 +192,13 @@
             "duelosGanados"  => $this->getDuelosGanados(),
             "duelosPerdidos" => $this->getDuelosPerdidos(),
             "estado"         => $this->getEstado(),
-            "arma"           => $armaValor,
+            // "arma"           => $armaValor,
             // Inicializamos por defecto en null
             "fuerza"         => null,
             "armadura"       => null,
             "mana"           => null,
             "inteligencia"   => null,
-            "precision"      => null,
+            "precisionPersonaje"=> null,
             "velocidad"      => null
         ];
 
@@ -210,19 +210,19 @@
             $data["mana"]         = $this->getMana();
             $data["inteligencia"] = $this->getInteligencia();
         } elseif ($this instanceof Arquero) {
-            $data["precision"] = $this->getPrecision();
+            $data["precisionPersonaje"] = $this->getPrecision();
             $data["velocidad"] = $this->getVelocidad();
         }
 
         if ($this->getId()) {
             $database->update("personajes", $personaje, ["id" => $this->getId()]);
-            echo "\n Personaje" .$this->getNombre() . "actualizado con éxito \n";
+            echo "\nPersonaje " .$this->getNombre() . " actualizado con éxito \n";
         } else {
             // Si no tiene ID, es un alta nueva
             $database->insert("personajes", $personaje);
             // Guardamos el ID autogenerado que nos devuelve Medoo en el atributo de la clase
             $this->setId($database->id());
-            echo "\n Personaje" .$this->getNombre() . "registrado \n";
+            echo "\nPersonaje " .$this->getNombre() . " registrado \n";
         }
     }
         

@@ -6,24 +6,20 @@
 
 	$torneo = new torneo();
 
+	// echo" El nombre del juego ;( que queria:
 	// echo" _____ _            _____ _     _             _____                _ _     \n";
 	// echo"|_   _| |          |  ___| |   | |           /  ___|              | | |    \n";
 	// echo"  | | | |__   ___  | |__ | | __| | ___ _ __  \ `--.  ___ _ __ ___ | | |___ \n";
 	// echo"  | | | '_ \ / _ \ |  __|| |/ _` |/ _ \ '__|  `--. \/ __| '__/ _ \| | / __|\n";
 	// echo"  | | | | | |  __/ | |___| | (_| |  __/ |    /\__/ / (__| | | (_) | | \__\ \n";
 	// echo"  \_/ |_| |_|\___| \____/|_|\____|\___|_|    \____/ \___|_|  \___/|_|_|__/ \n";
-	
-	
 
-	
-	$Variable="a";
-	while(!is_numeric($Variable)){
 			do{		
 echo"---------------------------------------------------------------------------
 MENU:
 1. Registrar personajes
 2. Registrar armas
-3. Registrar armas
+3. Registrar arenas
 4. Equipar armas
 5. Registrar duelos
 6. Ejecutar duelos pendientes
@@ -41,8 +37,7 @@ MENU:
 				echo "Ingrese nombre: ";
 				$nombre = trim(fgets(STDIN));
 				
-				echo "Seleccione tipo de personaje \n 
-				1: Guerrero \n 2: Mago /n 3: Arquero \n ";
+				echo"Seleccione tipo de personaje:\n 1: Guerrero \n 2: Mago \n 3: Arquero \n ";
 				$tipo = trim(fgets(STDIN));
 
 				switch($tipo) {
@@ -52,6 +47,9 @@ MENU:
 						echo "Ingrese Armadura: ";
 						$armadura = (int)trim(fgets(STDIN));
 						$objPersonaje = new Guerrero($nombre, 1, 100, 100, 0, 0, null, $fuerza, $armadura);
+						if ($objPersonaje instanceof Guerrero){// Prueba accediendo a sus métodos
+							echo "creado: " . $objPersonaje->getNombre()."\nFuerza: " . $objPersonaje->getFuerza() . ", Armadura: " . $objPersonaje->getArmadura() . "\n";
+						}else{echo "\n [ERROR] No se pudo crear el personaje.\n";}
 						break;
 
 					case '2':
@@ -60,14 +58,22 @@ MENU:
 						echo "Ingrese Inteligencia: ";
 						$inteligencia = (int)trim(fgets(STDIN));
 						$objPersonaje = new Mago($nombre, 1, 100, 100, 0, 0, null, $mana, $inteligencia);
+						if ($objPersonaje instanceof Mago){// Prueba accediendo a sus métodos
+							echo "creado: " . $objPersonaje->getNombre()."\n Mana: " . $objPersonaje->getMana() . ", Inteligencia: " . $objPersonaje->getInteligencia() . "\n";
+						}else{echo "\n [ERROR] No se pudo crear el personaje.\n";}
+
 						break;
 
 					case '3':
 						echo "Ingrese Precisión: ";
-						$precision = (int)trim(fgets(STDIN));
+						$precisionPersonaje = (int)trim(fgets(STDIN));
 						echo "Ingrese Velocidad: ";
 						$velocidad = (int)trim(fgets(STDIN));
-						$objPersonaje = new Arquero($nombre, 1, 100, 100, 0, 0, null, $precision, $velocidad);
+						$objPersonaje = new Arquero($nombre, 1, 100, 100, 0, 0, null, $precisionPersonaje, $velocidad);
+						if ($objPersonaje instanceof Arquero){// Prueba accediendo a sus métodos
+							echo "creado: " . $objPersonaje->getNombre()."\n Precision: " . $objPersonaje->getPrecision() . ", Velocidad: " . $objPersonaje->getVelocidad() . "\n";
+						}else{echo "\n [ERROR] No se pudo crear el personaje.\n";}
+
 						break;
 
 					default:
@@ -75,9 +81,8 @@ MENU:
 						$objPersonaje = null;
 						break;
 				}
-
 				// Si se creó llamamos a guardar
-				if ($objPersonaje !== null) {
+				if ($objPersonaje !== null){
 					$objPersonaje->guardar($database);
 				}
 				break;
@@ -89,6 +94,13 @@ MENU:
 				
 				echo "Ingrese tipo de arma (Espada, Baston, Arco): ";
 				$tipoArma = trim(fgets(STDIN));
+				if($tipoArma == "1"){
+					$tipoArma = "espada";
+				}if($tipoArma == "2"){
+					$tipoArma = "baston";
+				}if($tipoArma == "3"){
+					$tipoArma = "arco";
+				}
 
 				echo "Ingrese daño base: ";
 				$danio = (int)trim(fgets(STDIN));
@@ -113,7 +125,7 @@ MENU:
 				echo "Ingrese capacidad de público: ";
 				$capacidad = (int)trim(fgets(STDIN));
 
-				echo "Seleccione clima (1: normal /n 2: lluvia /n 3: tormenta /n 4: niebla): ";
+				echo "Seleccione clima con un numero:\n1: normal \n2: lluvia \n3: tormenta \n4: niebla \n";
 				$Clima = trim(fgets(STDIN));
 
 				switch($Clima) {
@@ -145,12 +157,13 @@ MENU:
 			case '4':
 				// Equipar armas
 				$listaArmas = $database->select("armas", ["id", "nombre", "nivelMinimo", "estado"]);
-				echo "\n[ Armas registradas ]:\n";
+				echo "---------------------------------------------------\n";
+				echo "[ Armas registradas ]:\n";
 				foreach ($listaArmas as $arma) {
 					echo "ID: ". $arma['id'] .
 					 "| Arma: " . $arma['nombre'] .
-					  "Nivel Mín: " . $arma['nivelMinimo'] . 
-					  "Estado: " . $arma['estado'] . "\n";
+					  " Nivel Mín: " . $arma['nivelMinimo'] . 
+					  " Estado: " . $arma['estado'] . "\n";
 				}
 				echo "---------------------------------------------------\n";
 
@@ -180,22 +193,32 @@ MENU:
 
 			case '8':
 				// Consultar rankings
+				$ranking=$torneo->rankingPersonajes($database);
+				echo$ranking;
 				echo "funciona";
 				break;
 			case '9':
 				// Consultar historial de personajes
+				// como lo ideé, no estoy seguro
+				/*foreach($torneo->listarDuelos($database) as $duelo){
+					if ($duelo->getPersonaje1() == $mensaje){
+						$historialPersonaje.=$duelo;
+					}
+					if ($duelo->getPersonaje2() == $mensaje){
+						$historialPersonaje.=$duelo;
+					}
+				}
+				print_r($historialPersonaje); */
 				echo "funciona";
 				break;
 			default:
 				echo "\n".$Variable." no es una opcion\n";
 				$Variable = "Error";
 		}
-		}while(repetir());
-	}
-
+	}while(repetir());
 	function repetir(){
 		echo"\n";
-		echo"Quiere volver al menu? (si/no) \n ";
+		echo"Quiere volver al menu? (si/no) \n";
 		$respuesta=trim(fgets(STDIN));
 		if($respuesta == "si"){
 			$respuesta = true;
