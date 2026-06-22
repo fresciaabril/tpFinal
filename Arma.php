@@ -8,7 +8,7 @@ class Arma {
 	private $nivelMinimo;
 	private $estado;
 
-	public function __construct($id, $nombre, $tipo, $danioBase, $nivelMinimo, $estado = "disponible"){
+	public function __construct($nombre, $tipo, $danioBase, $nivelMinimo, $estado = "disponible", $id = null){
 		$this->id = $id;
 		$this->nombre = $nombre;
 		$this->tipo = $tipo;
@@ -97,5 +97,32 @@ class Arma {
 		"\n Estado: " . $this->getEstado() . 
 		"\n ---------------------------------------------------" ;
 	}
+
+
+	// METODO PARA GUARDAR O ACTUALIZAR EL ARMA EN LA BD
+    public function guardar($database)
+    {
+        
+        $arma = [
+            "nombre"      => $this->getNombre(),
+            "tipo"        => $this->getTipo(),
+            "danioBase"   => $this->getDanioBase(),
+            "nivelMinimo" => $this->getNivelMinimo(),
+            "estado"      => $this->getEstado()
+        ];
+
+        if ($this->getId()) {
+            // Si ya tiene id, actualizamos el registro
+            $database->update("armas", $arma, ["id" => $this->getId()]);
+            echo "\n Arma ". $this->getNombre(). "actualizada con éxito \n";
+        } else {
+            // Si no la insertamos
+            $database->insert("armas", $arma);
+            // Seteamos el ID autogenerado en el objeto
+            $this->setId($database->id());
+            echo "\n Arma ". $this->getNombre(). "registrada con éxito \n";
+        }
+    }
+
 
 }
