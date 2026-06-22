@@ -216,13 +216,13 @@
 
         if ($this->getId()) {
             $database->update("personajes", $personaje, ["id" => $this->getId()]);
-            echo "\n Personaje" .$this->getNombre() . "actualizado con éxito \n";
+            echo "\nPersonaje " .$this->getNombre() . " actualizado con éxito \n";
         } else {
             // Si no tiene ID, es un alta nueva
             $database->insert("personajes", $personaje);
             // Guardamos el ID autogenerado que nos devuelve Medoo en el atributo de la clase
             $this->setId($database->id());
-            echo "\n Personaje" .$this->getNombre() . "registrado \n";
+            echo "\nPersonaje " .$this->getNombre() . " registrado \n";
         }
     }
         

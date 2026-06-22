@@ -23,7 +23,7 @@ echo"---------------------------------------------------------------------------
 MENU:
 1. Registrar personajes
 2. Registrar armas
-3. Registrar armas
+3. Registrar arenas
 4. Equipar armas
 5. Registrar duelos
 6. Ejecutar duelos pendientes
@@ -98,6 +98,13 @@ MENU:
 				
 				echo "Ingrese tipo de arma (Espada, Baston, Arco): ";
 				$tipoArma = trim(fgets(STDIN));
+				if($tipoArma == "1"){
+					$tipoArma = "espada";
+				}if($tipoArma == "2"){
+					$tipoArma = "baston";
+				}if($tipoArma == "3"){
+					$tipoArma = "arco";
+				}
 
 				echo "Ingrese daño base: ";
 				$danio = (int)trim(fgets(STDIN));
@@ -122,7 +129,7 @@ MENU:
 				echo "Ingrese capacidad de público: ";
 				$capacidad = (int)trim(fgets(STDIN));
 
-				echo "Seleccione clima (1: normal /n 2: lluvia /n 3: tormenta /n 4: niebla): ";
+				echo "Seleccione clima con un numero:\n1: normal \n2: lluvia \n3: tormenta \n4: niebla \n";
 				$Clima = trim(fgets(STDIN));
 
 				switch($Clima) {

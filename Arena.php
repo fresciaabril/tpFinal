@@ -127,11 +127,11 @@ class Arena
 
                 if ($this->getId()) {
                         $database->update("arenas", $arena, ["id" => $this->getId()]);
-                        echo "\n Arena" . $this->getNombre() . "actualizada con éxito \n";
+                        echo "\nArena " . $this->getNombre() . " actualizada con éxito \n";
                 } else {
                         $database->insert("arenas", $arena);
                         $this->setId($database->id());
-                        echo "\n Arena" . $this->getNombre() . "registrada \n";
+                        echo "\nArena " . $this->getNombre() . " registrada \n";
                 }
         }
 }
