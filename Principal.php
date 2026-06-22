@@ -14,7 +14,11 @@
 	// echo"  | | | | | |  __/ | |___| | (_| |  __/ |    /\__/ / (__| | | (_) | | \__\ \n";
 	// echo"  \_/ |_| |_|\___| \____/|_|\____|\___|_|    \____/ \___|_|  \___/|_|_|__/ \n";
 
-			do{		
+
+
+
+	
+do{		
 echo"---------------------------------------------------------------------------
 MENU:
 1. Registrar personajes
@@ -46,9 +50,9 @@ MENU:
 						$fuerza = (int)trim(fgets(STDIN));
 						echo "Ingrese Armadura: ";
 						$armadura = (int)trim(fgets(STDIN));
-						$objPersonaje = new Guerrero($nombre, 1, 100, 100, 0, 0, null, $fuerza, $armadura);
+						$objPersonaje = new Guerrero($nombre, 1, 100, 100, 0, 0, "disponible",  $fuerza, $armadura);
 						if ($objPersonaje instanceof Guerrero){// Prueba accediendo a sus métodos
-							echo "creado: " . $objPersonaje->getNombre()."\nFuerza: " . $objPersonaje->getFuerza() . ", Armadura: " . $objPersonaje->getArmadura() . "\n";
+							echo $objPersonaje;
 						}else{echo "\n [ERROR] No se pudo crear el personaje.\n";}
 						break;
 
@@ -59,7 +63,7 @@ MENU:
 						$inteligencia = (int)trim(fgets(STDIN));
 						$objPersonaje = new Mago($nombre, 1, 100, 100, 0, 0, null, $mana, $inteligencia);
 						if ($objPersonaje instanceof Mago){// Prueba accediendo a sus métodos
-							echo "creado: " . $objPersonaje->getNombre()."\n Mana: " . $objPersonaje->getMana() . ", Inteligencia: " . $objPersonaje->getInteligencia() . "\n";
+							echo $objPersonaje;
 						}else{echo "\n [ERROR] No se pudo crear el personaje.\n";}
 
 						break;
@@ -71,7 +75,7 @@ MENU:
 						$velocidad = (int)trim(fgets(STDIN));
 						$objPersonaje = new Arquero($nombre, 1, 100, 100, 0, 0, null, $precisionPersonaje, $velocidad);
 						if ($objPersonaje instanceof Arquero){// Prueba accediendo a sus métodos
-							echo "creado: " . $objPersonaje->getNombre()."\n Precision: " . $objPersonaje->getPrecision() . ", Velocidad: " . $objPersonaje->getVelocidad() . "\n";
+							echo $objPersonaje;
 						}else{echo "\n [ERROR] No se pudo crear el personaje.\n";}
 
 						break;

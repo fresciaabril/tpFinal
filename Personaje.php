@@ -10,7 +10,7 @@
         private $estado;       // disponible / lesionado / retirado //
         private $objArmaEquipada;
 
-        public function __construct($nombre, $nivel, $puntosVida, $energia, $duelosGanados, $duelosPerdidos, $armaEquipada, $id = null,  $estado = "disponible"){
+        public function __construct($nombre, $nivel, $puntosVida, $energia, $duelosGanados, $duelosPerdidos, $armaEquipada, $id = null,  $estado = "Disponible"){
             $this->id = $id;
             $this->nombre = $nombre;
             $this->nivel = $nivel;
@@ -154,9 +154,6 @@
             return $poderTotal;
         }
 
-        public function duelos(){ //HACER UNA FUNCION QUE SIRVA PARA EL CASE '9', Y PARA MOSTRAR TODOS LOS DUELOS 
-
-        }
 
         abstract public function calcularPoderBase();
 
@@ -184,6 +181,7 @@
         // El arma puede ser un objeto o null, guardamos su ID si existe
         $armaValor = ($this->getArma() !== null) ? $this->getArma()->getId() : null;
 
+
         $personaje = [
             "nombre"         => $this->getNombre(),
             "nivel"          => $this->getNivel(),
@@ -192,7 +190,7 @@
             "duelosGanados"  => $this->getDuelosGanados(),
             "duelosPerdidos" => $this->getDuelosPerdidos(),
             "estado"         => $this->getEstado(),
-            // "arma"           => $armaValor,
+            "idArmaEquipada" => $armaValor,
             // Inicializamos por defecto en null
             "fuerza"         => null,
             "armadura"       => null,

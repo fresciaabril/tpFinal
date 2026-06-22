@@ -3,8 +3,8 @@
         private $fuerza;
         private $armadura;
 
-        public function __construct($nombre, $nivel, $puntosVida, $energia, $duelosGanados, $duelosPerdidos, $estado, $fuerza,$armadura, $id = null ){
-            parent::__construct($nombre, $nivel, $puntosVida, $energia, $duelosGanados, $duelosPerdidos, $estado, $id);
+        public function __construct($nombre, $nivel, $puntosVida, $energia, $duelosGanados, $duelosPerdidos, $estado = "disponible", $fuerza = 0, $armadura = 0, $id = null){
+            parent::__construct($nombre, $nivel, $puntosVida, $energia, $duelosGanados, $duelosPerdidos, null, $id, $estado);
             $this->fuerza = $fuerza;
             $this->armadura = $armadura;
         }

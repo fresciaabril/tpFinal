@@ -4,8 +4,8 @@
         private $precision;
         private $velocidad;
 
-        public function __construct($nombre, $nivel, $puntosVida, $energia, $duelosGanados, $duelosPerdidos, $estado, $precision, $velocidad, $id = null){
-            parent::__construct($nombre, $nivel, $puntosVida, $energia, $duelosGanados, $duelosPerdidos, $estado, $id);
+        public function __construct($nombre, $nivel, $puntosVida, $energia, $duelosGanados, $duelosPerdidos, $estado = "Disponible", $precision = 0, $velocidad = 0, $id = null){
+            parent::__construct($nombre, $nivel, $puntosVida, $energia, $duelosGanados, $duelosPerdidos, null, $id, $estado);
             $this->precision = $precision;
             $this->velocidad = $velocidad;
         }
