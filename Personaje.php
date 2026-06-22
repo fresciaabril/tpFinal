@@ -160,7 +160,6 @@
 
         abstract public function calcularPoderBase();
 
-
         abstract public function calcularPoderEspecial();
 
         public function __toString(){
@@ -183,14 +182,14 @@
 
         /**EJEMPLO DE GUARDAR
          * 
-         *public function guardar() {
-        if ($this->id) {
+         *public function guardar(){
+        if($this->id){
             $database->update("libros", [
                 "titulo" => $this->getTitulo(),
                 "anio" => $this->getAnio(),
                 "autor" => $this->getAutor()->id,
             ], ["id" => $this->id]);
-        } else {
+        }else{
             
             $database->insert("libros", [
                 "titulo" => $this->getTitulo(),
@@ -198,11 +197,9 @@
                 "autor" => $this->getAutor()->getId(),
             ]);
             $this->id = $this->db->id();
+            }
         }
-    }
          */
-
-
         /**LISTAR PERSONAJE */
         public function listarPersonajes($database){}
         /**EJEMPLO DE LISTAR 
@@ -258,6 +255,5 @@
                 $alumno->mostrar();
             }
             echo "\n";
-        }*/
-         
-    }
+        }*/  
+}
