@@ -62,8 +62,11 @@ if ($algoFallo){
 }else{
     echo "\n ¡Todo correcto!\n";
 }
-// Falta Registrar duelos.
+// Registrar duelos.
+	$guardar1=$torneo->registrarDuelo();//METER DUELOS POR PARAMETRO ACA
+	// es solo un array_push
 // Ejecutar duelos pendientes.
+	$guardar2=$torneo->realizarDuelo();
 $Variable="a";
 while(!is_numeric($Variable)){
 		do{		
@@ -169,25 +172,31 @@ MENU:
 				$pendientes = "";
 				foreach($torneo->listarDuelos($database) as $duelo){
 					if ($duelo->getEstado() == "pendiente"){
-						// $pendientes .= $duelo->__toString();
+						$pendientes .= $duelo->__toString();
 					}
 				}
 				echo "Los duelos realizados son: \n" .	$pendientes;
 				break;
 			case '9':
 				// Mostrar el historial de duelos de un personaje.
-				$historial = "";
-				foreach($torneo->listarPersonajes($database) as $personaje){
-					foreach ($torneo->listarDuelos($database) as $duelo){
-						$historial.= $duelo;
-				 	}
+				$historialPersonaje = "";
+				echo"Como se llama el personaje? ";
+				$mensaje=trim(fgets(STDIN));
+				foreach($torneo->listarDuelos($database) as $duelo){
+					if ($duelo->getPersonaje1() == $mensaje){
+						$historialPersonaje.=$duelo;
+					}
+					if ($duelo->getPersonaje2() == $mensaje){
+						$historialPersonaje.=$duelo;
+					}
 				}
-				// echo "El historial de un pesronaje es: \n" . $historial;
-				print_r($historial);
+				print_r($historialPersonaje);
 				break;
 			case '10':
 				// Mostrar el ranking de personajes ordenado por cantidad de victorias.
 				// uasort
+				$probando=$torneo->rankingPersonajes($database);
+				echo$probando;
 				break;
 			case '11':
 				// Mostrar el personaje con mayor cantidad de victorias.
