@@ -1,219 +1,190 @@
 <?php
-include_once "Torneo.php";
-$torneo = new torneo();
-// echo" _____ _            _____ _     _             _____                _ _     \n";
-// echo"|_   _| |          |  ___| |   | |           /  ___|              | | |    \n";
-// echo"  | | | |__   ___  | |__ | | __| | ___ _ __  \ `--.  ___ _ __ ___ | | |___ \n";
-// echo"  | | | '_ \ / _ \ |  __|| |/ _` |/ _ \ '__|  `--. \/ __| '__/ _ \| | / __|\n";
-// echo"  | | | | | |  __/ | |___| | (_| |  __/ |    /\__/ / (__| | | (_) | | \__\ \n";
-// echo"  \_/ |_| |_|\___| \____/|_|\____|\___|_|    \____/ \___|_|  \___/|_|_|__/ \n";
-// echo"Quiere registrar armas, personajes y arenas del juego? (si/no) ";
-// $inicio = trim(fgets(STDIN));
-$inicio="si";
-if($inicio == "no"){
-	echo"Todavia no diseñamos el juego para que construyas los personajes (etc) a tu manera.";
-	}else{
-// Poder hacer:
-// Registrar personajes. /
-// Registrar armas. /
-// Registrar arenas. /
-// Equipar armas. /
-$torneo->equiparArma();
-$datosPorTabla = [
-    'armas' => [
-        ['nombre' => 'Espada de Hierro', 'tipo' => 'espada', 'danioBase' => 20, 'nivelMinimo' => 1, 'estado' => 'disponible'],
-        ['nombre' => 'Báculo Arcano', 'tipo' => 'baculo', 'danioBase' => 25, 'nivelMinimo' => 2, 'estado' => 'disponible'],
-        ['nombre' => 'Arco Élfico', 'tipo' => 'arco', 'danioBase' => 18, 'nivelMinimo' => 1, 'estado' => 'disponible'],
-        ['nombre' => 'Hacha Pesada', 'tipo' => 'hacha', 'danioBase' => 30, 'nivelMinimo' => 3, 'estado' => 'disponible'],
-        ['nombre' => 'Daga Rápida', 'tipo' => 'daga', 'danioBase' => 12, 'nivelMinimo' => 1, 'estado' => 'disponible']
-    ],
-    'arenas' => [
-        ['nombre' => 'Coliseo Central', 'dificultad' => 3, 'capacidadPublico' => 5000, 'clima' => 'normal'],
-        ['nombre' => 'Bosque Nublado', 'dificultad' => 4, 'capacidadPublico' => 1200, 'clima' => 'niebla'],
-        ['nombre' => 'Templo de la Tormenta', 'dificultad' => 5, 'capacidadPublico' => 2000, 'clima' => 'tormenta'],
-        ['nombre' => 'Puerto Bajo la Lluvia', 'dificultad' => 2, 'capacidadPublico' => 800, 'clima' => 'lluvia']
-    ],
-	'personajes' => [
-		['nombre' => 'Thorgar', 'tipoPersonaje' => 'guerrero', 'nivel' => 3, 'puntosVida' => 100, 'energia' => 90, 'fuerza' => 18, 'armadura' => 12, 'mana' => null, 'inteligencia' => null, 'precisionPersonaje' => null, 'velocidad' => null],
-		['nombre' => 'Elandra', 'tipoPersonaje' => 'mago', 'nivel' => 4, 'puntosVida' => 80, 'energia' => 100, 'mana' => 35, 'inteligencia' => 20, 'fuerza' => null, 'armadura' => null, 'precisionPersonaje' => null, 'velocidad' => null],
-		['nombre' => 'Lorian', 'tipoPersonaje' => 'arquero', 'nivel' => 2, 'puntosVida' => 90, 'energia' => 95, 'precisionPersonaje' => 22, 'velocidad' => 18, 'fuerza' => null, 'armadura' => null, 'mana' => null, 'inteligencia' => null],
-		['nombre' => 'Brakka', 'tipoPersonaje' => 'guerrero', 'nivel' => 1, 'puntosVida' => 100, 'energia' => 80, 'fuerza' => 14, 'armadura' => 8, 'mana' => null, 'inteligencia' => null, 'precisionPersonaje' => null, 'velocidad' => null]
-    ]
-];
+	include_once "Torneo.php";
 
-$algoFallo = false;
-$mensajeError = "";
+	// DECLARACIÓN GLOBAL AL PRINCIPIO
+	global $database;
 
-foreach ($datosPorTabla as $tabla => $registros){
-    // Medoo insert(). Devuelve true si funciona, false o lanza warning si falla.
-    
-    if(!$database->insert($tabla, $registros)){
-        $algoFallo = true;
-        $mensajeError = "Error al insertar en: $tabla";
-        break; 
-    }
-    
-    echo "Tabla '$tabla': Datos insertados.\n";
-}
+	$torneo = new torneo();
 
-if ($algoFallo){
-    echo "\n Error: ".$mensajeError;
-    echo "\n El script se detuvo. Revisa la tabla ".$tabla;
-}else{
-    echo "\n ¡Todo funciona!\n";
-}
-// Registrar duelos.
-	// $guardar1=$torneo->registrarDuelo();//METER UN DUELO POR PARAMETRO ACA
-	// es solo un array_push
-// Ejecutar duelos pendientes.
-	$guardar2=$torneo->realizarDuelo();
-$Variable="a";
-while(!is_numeric($Variable)){
-		do{		
+	// echo" _____ _            _____ _     _             _____                _ _     \n";
+	// echo"|_   _| |          |  ___| |   | |           /  ___|              | | |    \n";
+	// echo"  | | | |__   ___  | |__ | | __| | ___ _ __  \ `--.  ___ _ __ ___ | | |___ \n";
+	// echo"  | | | '_ \ / _ \ |  __|| |/ _` |/ _ \ '__|  `--. \/ __| '__/ _ \| | / __|\n";
+	// echo"  | | | | | |  __/ | |___| | (_| |  __/ |    /\__/ / (__| | | (_) | | \__\ \n";
+	// echo"  \_/ |_| |_|\___| \____/|_|\____|\___|_|    \____/ \___|_|  \___/|_|_|__/ \n";
+	
+	
+
+	
+	$Variable="a";
+	while(!is_numeric($Variable)){
+			do{		
 echo"---------------------------------------------------------------------------
 MENU:
-1. Listar todos los personajes
-2. Listar personajes disponibles para duelar
-3. Listar personajes lesionados
-4. Listar personajes retirados
-5. Listar armas disponibles
-6. Mostrar el arma equipada por cada personaje
-7. Mostrar todos los duelos realizados
-8. Mostrar todos los duelos pendientes
-9. Mostrar el historial de duelos de un personaje
-10. Mostrar el ranking de personajes ordenado por cantidad de victorias
-11. Mostrar el personaje con mayor cantidad de victorias
-12. Mostrar el porcentaje de victorias de cada personaje.
-13. Mostrar la arena donde más duelos se realizaron
-14. Recuperar personajes lesionados.
+1. Registrar personajes
+2. Registrar armas
+3. Registrar armas
+4. Equipar armas
+5. Registrar duelos
+6. Ejecutar duelos pendientes
+7. Recuperar personajes lesionados
+8. Consultar rankings
+9. Consultar historial de personajes
 --------------------------------------------------------------------------- \n";
+
 		echo"Ingrese opcion: ";
 		(int)$Variable = trim(fgets(STDIN));
+
 		switch($Variable){
 			case '1':
-				// Listar todos los personajes.
-				$lista = "" ;
-				foreach ($torneo->listarPersonajes($database) as $personaje ){
-					$lista .= $personaje;
+				// Registrar personajes
+				echo "Ingrese nombre: ";
+				$nombre = trim(fgets(STDIN));
+				
+				echo "Seleccione tipo de personaje \n 
+				1: Guerrero \n 2: Mago /n 3: Arquero \n ";
+				$tipo = trim(fgets(STDIN));
+
+				switch($tipo) {
+					case '1':
+						echo "Ingrese Fuerza: ";
+						$fuerza = (int)trim(fgets(STDIN));
+						echo "Ingrese Armadura: ";
+						$armadura = (int)trim(fgets(STDIN));
+						$objPersonaje = new Guerrero($nombre, 1, 100, 100, 0, 0, null, $fuerza, $armadura);
+						break;
+
+					case '2':
+						echo "Ingrese Mana: ";
+						$mana = (int)trim(fgets(STDIN));
+						echo "Ingrese Inteligencia: ";
+						$inteligencia = (int)trim(fgets(STDIN));
+						$objPersonaje = new Mago($nombre, 1, 100, 100, 0, 0, null, $mana, $inteligencia);
+						break;
+
+					case '3':
+						echo "Ingrese Precisión: ";
+						$precision = (int)trim(fgets(STDIN));
+						echo "Ingrese Velocidad: ";
+						$velocidad = (int)trim(fgets(STDIN));
+						$objPersonaje = new Arquero($nombre, 1, 100, 100, 0, 0, null, $precision, $velocidad);
+						break;
+
+					default:
+						echo "Tipo no válido. \n";
+						$objPersonaje = null;
+						break;
 				}
-					echo "Los personajes son: \n" . $lista;
+
+				// Si se creó llamamos a guardar
+				if ($objPersonaje !== null) {
+					$objPersonaje->guardar($database);
+				}
 				break;
+
 			case '2':
-				// Listar personajes disponibles para duelar.
-				$disponibles = "";
-				foreach($torneo->listarPersonajes($database) as $personaje){
-					if($personaje->puedeDuelar() == true){
-						$disponibles .= $personaje;
-					}
+				// Registrar armas
+				echo "Ingrese nombre del arma: ";
+				$nomArma = trim(fgets(STDIN));
+				
+				echo "Ingrese tipo de arma (Espada, Baston, Arco): ";
+				$tipoArma = trim(fgets(STDIN));
+
+				echo "Ingrese daño base: ";
+				$danio = (int)trim(fgets(STDIN));
+
+				echo "Ingrese nivel mínimo requerido: ";
+				$nivelMin = (int)trim(fgets(STDIN));
+				$objArma = new Arma($nomArma, $tipoArma, $danio, $nivelMin,);
+
+				if ($objArma !== null) {
+					$objArma->guardar($database);
 				}
-				echo "Los personajes disponibles para poder duelar son: \n" . $disponibles;
 				break;
+
 			case '3':
-				// Listar personajes lesionados.
-				$lesionados = "";
-				foreach($torneo->listarPersonajes($database) as $personaje){
-					if($personaje->getEstado() == "lesionado"){
-						$lesionados .= $personaje;
-					}
+				// Registrar arenas
+				echo "Ingrese nombre de la arena: ";
+				$nomArena = trim(fgets(STDIN));
+				
+				echo "Ingrese dificultad: ";
+				$dificultad = trim(fgets(STDIN));
+
+				echo "Ingrese capacidad de público: ";
+				$capacidad = (int)trim(fgets(STDIN));
+
+				echo "Seleccione clima (1: normal /n 2: lluvia /n 3: tormenta /n 4: niebla): ";
+				$Clima = trim(fgets(STDIN));
+
+				switch($Clima) {
+					case '1': 
+						$clima = "normal"; 
+						break;
+					case '2': 
+						$clima = "lluvia"; 
+						break;
+					case '3': 
+						$clima = "tormenta"; 
+						break;
+					case '4': 
+						$clima = "niebla"; 
+						break; 
+					default:
+						echo "Opción no válida. Se asignará clima 'normal' por defecto.\n";
+						$clima = "normal";
+						break;
 				}
-				echo "Los personajes lesionados son: \n" . $lesionados;
+
+				$objArena = new Arena($nomArena, $dificultad, $capacidad, $clima);
+
+				if ($objArena !== null) {
+					$objArena->guardar($database);
+				}
 				break;
+
 			case '4':
-				// Listar personajes retirados.
-				$retirado = "";
-				foreach($torneo->listarPersonajes($database) as $personaje){
-					if($personaje->getEstado() == "retirado"){
-						$retirado .= $personaje;
-					}
+				// Equipar armas
+				$listaArmas = $database->select("armas", ["id", "nombre", "nivelMinimo", "estado"]);
+				echo "\n[ Armas registradas ]:\n";
+				foreach ($listaArmas as $arma) {
+					echo "ID: ". $arma['id'] .
+					 "| Arma: " . $arma['nombre'] .
+					  "Nivel Mín: " . $arma['nivelMinimo'] . 
+					  "Estado: " . $arma['estado'] . "\n";
 				}
-				echo "Los personajes retirados son: \n" . $retirado;
+				echo "---------------------------------------------------\n";
+
+				echo "Ingrese el ID del Personaje: ";
+				$personaje = (int)trim(fgets(STDIN));
+
+				echo "Ingrese el ID del Arma a equipar: ";
+				$arma = (int)trim(fgets(STDIN));
+
+				$torneo->equiparArma($personaje, $arma);
 				break;
+
 			case '5':
-				// Listar armas disponibles.
-					$listarArmas = " ";
-					foreach($torneo->listarArmas($database) as $armas){
-						$listarArmas .= $armas;
-					}
-					
-					echo "Las armas disponibles son: \n" . $listarArmas;
+				// Registrar duelos
+					echo "funciona";
 				break;
-			case '6':
-				//  Mostrar el arma equipada por cada personaje				
-					// 1. Obtener todos los personajes (sin filtro)
-					$personajes = $database->select('personajes', ['id', 'nombre', 'idArmaEquipada']);
-					foreach ($personajes as $personaje){
-						$nombrePersonaje = $personaje['nombre'];
-						// Verificamos si tienen un ID de arma guardado
-						if(($personaje['idArmaEquipada'])){
-							// 2. Buscar solo esa arma usando su ID
-							$arma = $database->get('armas', '*', ['id' => $personaje['idArmaEquipada']]);
-							if ($arma){
-								echo $nombrePersonaje." lleva equipada: [{$arma['nombre']}]\n";
-							}
-						}else{
-							echo $nombrePersonaje.": Desarmado (sin arma)\n";
-						}
-					}
+
+			case '6':			
+				// Ejecutar duelos pendientes
+					echo "funciona";
 				break;
+
 			case '7':
-				// Mostrar todos los duelos realizados.
-				$realizados = "";
-				foreach($torneo->listarDuelos($database) as $duelo){
-					if ($duelo->getEstado() == "realizado"){
-						// $realizados .= $duelo;
-					}
-				}
-				echo "Los duelos realizados son: \n" .	$realizados;
+				// Recuperar personajes lesionados
+				echo "funciona";
 				break;
+
 			case '8':
-				// Mostrar todos los duelos pendientes.
-				$pendientes = "";
-				foreach($torneo->listarDuelos($database) as $duelo){
-					if ($duelo->getEstado() == "pendiente"){
-						$pendientes .= $duelo->__toString();
-					}
-				}
-				echo "Los duelos realizados son: \n" .	$pendientes;
+				// Consultar rankings
+				echo "funciona";
 				break;
 			case '9':
-				// Mostrar el historial de duelos de un personaje.
-				$historialPersonaje = "";
-				echo"Como se llama el personaje? ";
-				$mensaje=trim(fgets(STDIN));
-				foreach($torneo->listarDuelos($database) as $duelo){
-					if ($duelo->getPersonaje1() == $mensaje){
-						$historialPersonaje.=$duelo;
-					}
-					if ($duelo->getPersonaje2() == $mensaje){
-						$historialPersonaje.=$duelo;
-					}
-				}
-				print_r($historialPersonaje);
-				break;
-			case '10':
-				// Mostrar el ranking de personajes ordenado por cantidad de victorias.
-				// uasort
-				$probando=$torneo->rankingPersonajes($database);
-				echo$probando;
-				break;
-			case '11':
-				// Mostrar el personaje con mayor cantidad de victorias.
-				break;
-			case '12':
-				// Mostrar el porcentaje de victorias de cada personaje.
-				break;
-			case '13':
-				// Mostrar la arena donde más duelos se realizaron.
-				break;
-			case '14';
-				// Recuperar personajes lesionados.
-				$lesionados = "";
-				foreach($torneo->listarPersonajes($database) as $personaje){
-					if($personaje->getEstado() == "lesionado"){
-						// $personaje->setEstado()
-						// Estoy pensando que se modifica la base de datos con un update de medoo
-					}
-				}
+				// Consultar historial de personajes
+				echo "funciona";
 				break;
 			default:
 				echo "\n".$Variable." no es una opcion\n";
@@ -221,15 +192,15 @@ MENU:
 		}
 		}while(repetir());
 	}
-}
-function repetir(){
-	echo"\n";
-	echo"Quiere volver a repetir? (si/no) ";
-	$respuesta=trim(fgets(STDIN));
-	if($respuesta == "si"){
-		$respuesta = true;
-	}else{
-		$respuesta = false;
+
+	function repetir(){
+		echo"\n";
+		echo"Quiere volver al menu? (si/no) \n ";
+		$respuesta=trim(fgets(STDIN));
+		if($respuesta == "si"){
+			$respuesta = true;
+		}else{
+			$respuesta = false;
+		}
+		return $respuesta;
 	}
-	return $respuesta;
-}

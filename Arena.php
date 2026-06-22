@@ -116,4 +116,22 @@ class Arena
 
                 return $modificador;
         }
+
+        public function guardar($database){
+                $arena = [
+                "nombre"           => $this->getNombre(),
+                "dificultad"       => $this->getDificultad(),
+                "capacidadPublico" => $this->getCapacidadPublico(),
+                "clima"            => $this->getClima()
+                ];
+
+                if ($this->getId()) {
+                        $database->update("arenas", $arena, ["id" => $this->getId()]);
+                        echo "\n Arena" . $this->getNombre() . "actualizada con éxito \n";
+                } else {
+                        $database->insert("arenas", $arena);
+                        $this->setId($database->id());
+                        echo "\n Arena" . $this->getNombre() . "registrada \n";
+                }
+        }
 }

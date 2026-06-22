@@ -178,82 +178,56 @@
         //METODOS QUE VAN EN TODAS LAS CLASES QUE TIENEN UNA TABLA, SIRVE PARA HACER LAS CONSULTAS 
         //DEPENDIENDO EL ENUNCIADO
 
-        public function guardar($database){}
+        // METODO PARA GUARDAR O ACTUALIZAR EL PERSONAJE EN LA BD
 
-        /**EJEMPLO DE GUARDAR
-         * 
-         *public function guardar(){
-        if($this->id){
-            $database->update("libros", [
-                "titulo" => $this->getTitulo(),
-                "anio" => $this->getAnio(),
-                "autor" => $this->getAutor()->id,
-            ], ["id" => $this->id]);
-        }else{
-            
-            $database->insert("libros", [
-                "titulo" => $this->getTitulo(),
-                "anio" => $this->getAnio(),
-                "autor" => $this->getAutor()->getId(),
-            ]);
-            $this->id = $this->db->id();
-            }
-        }
-         */
-        /**LISTAR PERSONAJE */
-        public function listarPersonajes($database){}
-        /**EJEMPLO DE LISTAR 
-         * public static function listarConAutor($database) {
-        $filas = $database->select("libros", [
-            "[><]autores" => ["idAutor" => "id"]
-        ], [
-            "libros.id",
-            "libros.titulo",
-            "libros.anio",
-            "autores.id(autor_id)",
-            "autores.nombre(autor_nombre)"
-        ]);
+    public function guardar($database){
+        // El arma puede ser un objeto o null, guardamos su ID si existe
+        $armaValor = ($this->getArma() !== null) ? $this->getArma()->getId() : null;
 
-        $libros = [];
+        $personaje = [
+            "nombre"         => $this->getNombre(),
+            "nivel"          => $this->getNivel(),
+            "puntosVida"     => $this->getPuntosVida(),
+            "energia"        => $this->getEnergia(),
+            "duelosGanados"  => $this->getDuelosGanados(),
+            "duelosPerdidos" => $this->getDuelosPerdidos(),
+            "estado"         => $this->getEstado(),
+            "arma"           => $armaValor,
+            // Inicializamos por defecto en null
+            "fuerza"         => null,
+            "armadura"       => null,
+            "mana"           => null,
+            "inteligencia"   => null,
+            "precision"      => null,
+            "velocidad"      => null
+        ];
 
-        foreach ($filas as $fila) {
-            $autor = new Autor(
-                $fila["autor_nombre"],
-                $fila["autor_id"]
-            );
-
-            $libros[] = new Libro(
-                $fila["titulo"],
-                $fila["anio"],
-                $autor,
-                $fila["id"]
-            );
+        // instanceof sirve para verificar que pertenesca a una clase
+        if ($this instanceof Guerrero) {
+            $data["fuerza"]   = $this->getFuerza();
+            $data["armadura"] = $this->getArmadura();
+        } elseif ($this instanceof Mago) {
+            $data["mana"]         = $this->getMana();
+            $data["inteligencia"] = $this->getInteligencia();
+        } elseif ($this instanceof Arquero) {
+            $data["precision"] = $this->getPrecision();
+            $data["velocidad"] = $this->getVelocidad();
         }
 
-        return $libros;
+        if ($this->getId()) {
+            $database->update("personajes", $personaje, ["id" => $this->getId()]);
+            echo "\n Personaje" .$this->getNombre() . "actualizado con éxito \n";
+        } else {
+            // Si no tiene ID, es un alta nueva
+            $database->insert("personajes", $personaje);
+            // Guardamos el ID autogenerado que nos devuelve Medoo en el atributo de la clase
+            $this->setId($database->id());
+            echo "\n Personaje" .$this->getNombre() . "registrado \n";
+        }
     }
-         */
+        
 
+    
 
-    /**EJEMPLO AGREGAR
-     * public function agregarAlumno($alumno) {
-        $alumno->setCursoId($this->id);
-        $alumno->guardar();
-    }
-     * 
-     */
-
-    /**EJEMPLO OBTENER
-     * public function obtenerAlumnos() {
-        return Alumno::obtenerPorCurso($this->db, $this->id);
-    }
-     */
-/*        public function mostrar() {
-            echo "Curso: {$this->nombre}\n";
-            $alumnos = $this->obtenerAlumnos();
-            foreach ($alumnos as $alumno) {
-                $alumno->mostrar();
-            }
-            echo "\n";
-        }*/  
+    
 }

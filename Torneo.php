@@ -1,5 +1,4 @@
 <?php
-	require_once 'config.php';
 	include_once 'Arma.php';
 	include_once 'Arena.php';
 	include_once 'Guerrero.php';
@@ -13,13 +12,16 @@
 		private $armas = [];
 		private $arenas = [];
 		private $duelos = [];
+        private $db;
 		
 
 		public function __construct() {
+            global $database;
 			$this->personajes = [];
 			$this->armas = [];
 			$this->arenas = [];
 			$this->duelos = [];
+            $this->db = $database;
 		}
 
 
@@ -84,17 +86,112 @@
 			array_push($this->arenas, $arena);
 		}
 
+        
+        // BUSCAR UN PERSONAJE POR ID Y TRANSFORMARLO EN OBJETO
+        public function obtenerPersonajePorId($id) {
+            $personaje = $this->db->get("personajes", "*", ["id" => $id]);
+            $obj = null;
 
-		public function equiparArma(){
-			foreach($this->getArmas() as $arma){
-				$estado = $arma->getEstado();
-				if($estado == "disponible"){
-					foreach ($this->getPersonaje() as $personaje){
-						$personaje->setArma($arma);
-					}
-				}
-			}
-		}
+            if ($personaje) {
+                $objArma = null;
+                if (!empty($personaje["arma"])) {
+                    $objArma = $this->obtenerArmaPorId($personaje["arma"]);
+                }
+
+                //DEPENDE EL TIPO DE PERSONAJE
+                if ($personaje["fuerza"] !== null) {
+                    // Es un Guerrero
+                    $obj = new Guerrero(
+                        $personaje["nombre"], 
+                        $personaje["nivel"], 
+                        $personaje["puntosVida"], 
+                        $personaje["energia"], 
+                        $personaje["duelosGanados"], 
+                        $personaje["duelosPerdidos"], 
+                        $objArma, 
+                        $personaje["id"], 
+                        $personaje["estado"]
+                    );
+                    $obj->setFuerza($personaje["fuerza"]);
+                    $obj->setArmadura($personaje["armadura"]);
+
+                } elseif ($personaje["mana"] !== null) {
+                    // Es un Mago
+                    $obj = new Mago(
+                        $personaje["nombre"], 
+                        $personaje["nivel"], 
+                        $personaje["puntosVida"], 
+                        $personaje["energia"], 
+                        $personaje["duelosGanados"], 
+                        $personaje["duelosPerdidos"], 
+                        $objArma, 
+                        $personaje["id"], 
+                        $personaje["estado"]
+                    );
+                    $obj->setMana($personaje["mana"]);
+                    $obj->setInteligencia($personaje["inteligencia"]);
+
+                } else {
+                    // Es un Arquero
+                    $obj = new Arquero(
+                        $personaje["nombre"], 
+                        $personaje["nivel"], 
+                        $personaje["puntosVida"], 
+                        $personaje["energia"], 
+                        $personaje["duelosGanados"], 
+                        $personaje["duelosPerdidos"], 
+                        $objArma, 
+                        $personaje["id"], 
+                        $personaje["estado"]
+                    );
+                    $obj->setPrecision($personaje["precision"]);
+                    $obj->setVelocidad($personaje["velocidad"]);
+                }
+            }
+            return $obj;
+        }
+
+        
+        // BUSCAR UN ARMA POR ID Y TRANSFORMARLA EN OBJETO
+        public function obtenerArmaPorId($id) {
+            $arma = $this->db->get("armas", "*", ["id" => $id]);
+            $objArma = null;
+            if ($arma) {
+                $objArma = new Arma(
+                    $arma["id"], 
+                    $arma["nombre"], 
+                    $arma["tipo"], 
+                    $arma["danioBase"], 
+                    $arma["nivelMinimo"], 
+                    $arma["estado"]
+                );
+            }
+            return $objArma;
+        }
+
+
+        public function equiparArma($personaje, $arma) {
+            $resultado = [
+                "exito"   => false,
+                "mensaje" => ""
+            ];
+
+            if (!$personaje->puedeDuelar()) {
+                $resultado["mensaje"] = "El personaje no está disponible.\n";
+            } elseif (!$arma->puedeSerEquipadaPor($personaje)) {
+                $resultado["mensaje"] = "\n❌ El arma no puede ser equipada (no cumple nivel o está rota/ocupada).\n";
+              }else {
+                if ($personaje->getArma() !== null) {
+                    $personaje->getArma()->setEstado("disponible");
+                }
+                $personaje->setArma($arma);
+                $arma->setEstado("equipada");
+
+                $resultado["mensaje"] = $personaje->getNombre() . "equipó " . $arma->getNombre(). "\n";
+                $resultado["exito"]   = true;
+            }
+            return $resultado;
+        }
 
 
     
