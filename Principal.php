@@ -161,12 +161,13 @@ MENU:
 			case '4':
 				// Equipar armas
 				$listaArmas = $database->select("armas", ["id", "nombre", "nivelMinimo", "estado"]);
-				echo "\n[ Armas registradas ]:\n";
+				echo "---------------------------------------------------\n";
+				echo "[ Armas registradas ]:\n";
 				foreach ($listaArmas as $arma) {
 					echo "ID: ". $arma['id'] .
 					 "| Arma: " . $arma['nombre'] .
-					  "Nivel Mín: " . $arma['nivelMinimo'] . 
-					  "Estado: " . $arma['estado'] . "\n";
+					  " Nivel Mín: " . $arma['nivelMinimo'] . 
+					  " Estado: " . $arma['estado'] . "\n";
 				}
 				echo "---------------------------------------------------\n";
 
