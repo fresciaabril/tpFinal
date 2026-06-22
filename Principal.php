@@ -6,18 +6,14 @@
 
 	$torneo = new torneo();
 
+	// echo" El nombre del juego ;( que queria:
 	// echo" _____ _            _____ _     _             _____                _ _     \n";
 	// echo"|_   _| |          |  ___| |   | |           /  ___|              | | |    \n";
 	// echo"  | | | |__   ___  | |__ | | __| | ___ _ __  \ `--.  ___ _ __ ___ | | |___ \n";
 	// echo"  | | | '_ \ / _ \ |  __|| |/ _` |/ _ \ '__|  `--. \/ __| '__/ _ \| | / __|\n";
 	// echo"  | | | | | |  __/ | |___| | (_| |  __/ |    /\__/ / (__| | | (_) | | \__\ \n";
 	// echo"  \_/ |_| |_|\___| \____/|_|\____|\___|_|    \____/ \___|_|  \___/|_|_|__/ \n";
-	
-	
 
-	
-	$Variable="a";
-	while(!is_numeric($Variable)){
 			do{		
 echo"---------------------------------------------------------------------------
 MENU:
@@ -197,22 +193,32 @@ MENU:
 
 			case '8':
 				// Consultar rankings
+				$ranking=$torneo->rankingPersonajes($database);
+				echo$ranking;
 				echo "funciona";
 				break;
 			case '9':
 				// Consultar historial de personajes
+				// como lo ideé, no estoy seguro
+				/*foreach($torneo->listarDuelos($database) as $duelo){
+					if ($duelo->getPersonaje1() == $mensaje){
+						$historialPersonaje.=$duelo;
+					}
+					if ($duelo->getPersonaje2() == $mensaje){
+						$historialPersonaje.=$duelo;
+					}
+				}
+				print_r($historialPersonaje); */
 				echo "funciona";
 				break;
 			default:
 				echo "\n".$Variable." no es una opcion\n";
 				$Variable = "Error";
 		}
-		}while(repetir());
-	}
-
+	}while(repetir());
 	function repetir(){
 		echo"\n";
-		echo"Quiere volver al menu? (si/no) \n ";
+		echo"Quiere volver al menu? (si/no) \n";
 		$respuesta=trim(fgets(STDIN));
 		if($respuesta == "si"){
 			$respuesta = true;
