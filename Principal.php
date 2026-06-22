@@ -60,10 +60,10 @@ if ($algoFallo){
     echo "\n Error: ".$mensajeError;
     echo "\n El script se detuvo. Revisa la tabla ".$tabla;
 }else{
-    echo "\n ¡Todo correcto!\n";
+    echo "\n ¡Todo funciona!\n";
 }
 // Registrar duelos.
-	$guardar1=$torneo->registrarDuelo();//METER DUELOS POR PARAMETRO ACA
+	// $guardar1=$torneo->registrarDuelo();//METER UN DUELO POR PARAMETRO ACA
 	// es solo un array_push
 // Ejecutar duelos pendientes.
 	$guardar2=$torneo->realizarDuelo();
@@ -139,23 +139,21 @@ MENU:
 				break;
 			case '6':
 				//  Mostrar el arma equipada por cada personaje				
-					$listarArmas = " ";
-					foreach($torneo->listarArmas($database) as $armas){
-						$listarArmas .= $armas;
-					}
-					$arma = $listarArmas[0];
-					// echo "Las armas equipadas son: \n";
-					print_r($arma);
-					/*public function equiparArma(){
-						foreach($this->getArmas() as $arma){
-							$estado = $arma->getEstado();
-							if($estado == "disponible"){
-								foreach ($this->getPersonaje() as $personaje){
-									$personaje->setArma($arma);
-								}
+					// 1. Obtener todos los personajes (sin filtro)
+					$personajes = $database->select('personajes', ['id', 'nombre', 'idArmaEquipada']);
+					foreach ($personajes as $personaje){
+						$nombrePersonaje = $personaje['nombre'];
+						// Verificamos si tienen un ID de arma guardado
+						if(($personaje['idArmaEquipada'])){
+							// 2. Buscar solo esa arma usando su ID
+							$arma = $database->get('armas', '*', ['id' => $personaje['idArmaEquipada']]);
+							if ($arma){
+								echo $nombrePersonaje." lleva equipada: [{$arma['nombre']}]\n";
 							}
+						}else{
+							echo $nombrePersonaje.": Desarmado (sin arma)\n";
 						}
-					}*/
+					}
 				break;
 			case '7':
 				// Mostrar todos los duelos realizados.
@@ -209,6 +207,13 @@ MENU:
 				break;
 			case '14';
 				// Recuperar personajes lesionados.
+				$lesionados = "";
+				foreach($torneo->listarPersonajes($database) as $personaje){
+					if($personaje->getEstado() == "lesionado"){
+						// $personaje->setEstado()
+						// Estoy pensando que se modifica la base de datos con un update de medoo
+					}
+				}
 				break;
 			default:
 				echo "\n".$Variable." no es una opcion\n";
