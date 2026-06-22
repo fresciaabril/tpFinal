@@ -1,6 +1,7 @@
 <?php
 	include_once 'Arma.php';
 	include_once 'Arena.php';
+    include_once 'config.php';
 	include_once 'Guerrero.php';
 	include_once 'Mago.php';
 	include_once 'Arquero.php';

@@ -192,13 +192,13 @@
             "duelosGanados"  => $this->getDuelosGanados(),
             "duelosPerdidos" => $this->getDuelosPerdidos(),
             "estado"         => $this->getEstado(),
-            "arma"           => $armaValor,
+            // "arma"           => $armaValor,
             // Inicializamos por defecto en null
             "fuerza"         => null,
             "armadura"       => null,
             "mana"           => null,
             "inteligencia"   => null,
-            "precision"      => null,
+            "precisionPersonaje"=> null,
             "velocidad"      => null
         ];
 
@@ -210,7 +210,7 @@
             $data["mana"]         = $this->getMana();
             $data["inteligencia"] = $this->getInteligencia();
         } elseif ($this instanceof Arquero) {
-            $data["precision"] = $this->getPrecision();
+            $data["precisionPersonaje"] = $this->getPrecision();
             $data["velocidad"] = $this->getVelocidad();
         }
 

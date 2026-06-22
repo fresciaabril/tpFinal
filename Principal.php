@@ -41,8 +41,7 @@ MENU:
 				echo "Ingrese nombre: ";
 				$nombre = trim(fgets(STDIN));
 				
-				echo "Seleccione tipo de personaje \n 
-				1: Guerrero \n 2: Mago /n 3: Arquero \n ";
+				echo"Seleccione tipo de personaje:\n 1: Guerrero \n 2: Mago \n 3: Arquero \n ";
 				$tipo = trim(fgets(STDIN));
 
 				switch($tipo) {
@@ -52,6 +51,9 @@ MENU:
 						echo "Ingrese Armadura: ";
 						$armadura = (int)trim(fgets(STDIN));
 						$objPersonaje = new Guerrero($nombre, 1, 100, 100, 0, 0, null, $fuerza, $armadura);
+						if ($objPersonaje instanceof Guerrero){// Prueba accediendo a sus métodos
+							echo "creado: " . $objPersonaje->getNombre()."\nFuerza: " . $objPersonaje->getFuerza() . ", Armadura: " . $objPersonaje->getArmadura() . "\n";
+						}else{echo "\n [ERROR] No se pudo crear el personaje.\n";}
 						break;
 
 					case '2':
@@ -60,14 +62,22 @@ MENU:
 						echo "Ingrese Inteligencia: ";
 						$inteligencia = (int)trim(fgets(STDIN));
 						$objPersonaje = new Mago($nombre, 1, 100, 100, 0, 0, null, $mana, $inteligencia);
+						if ($objPersonaje instanceof Mago){// Prueba accediendo a sus métodos
+							echo "creado: " . $objPersonaje->getNombre()."\n Mana: " . $objPersonaje->getMana() . ", Inteligencia: " . $objPersonaje->getInteligencia() . "\n";
+						}else{echo "\n [ERROR] No se pudo crear el personaje.\n";}
+
 						break;
 
 					case '3':
 						echo "Ingrese Precisión: ";
-						$precision = (int)trim(fgets(STDIN));
+						$precisionPersonaje = (int)trim(fgets(STDIN));
 						echo "Ingrese Velocidad: ";
 						$velocidad = (int)trim(fgets(STDIN));
-						$objPersonaje = new Arquero($nombre, 1, 100, 100, 0, 0, null, $precision, $velocidad);
+						$objPersonaje = new Arquero($nombre, 1, 100, 100, 0, 0, null, $precisionPersonaje, $velocidad);
+						if ($objPersonaje instanceof Arquero){// Prueba accediendo a sus métodos
+							echo "creado: " . $objPersonaje->getNombre()."\n Precision: " . $objPersonaje->getPrecision() . ", Velocidad: " . $objPersonaje->getVelocidad() . "\n";
+						}else{echo "\n [ERROR] No se pudo crear el personaje.\n";}
+
 						break;
 
 					default:
@@ -75,9 +85,8 @@ MENU:
 						$objPersonaje = null;
 						break;
 				}
-
 				// Si se creó llamamos a guardar
-				if ($objPersonaje !== null) {
+				if ($objPersonaje !== null){
 					$objPersonaje->guardar($database);
 				}
 				break;
