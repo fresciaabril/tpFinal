@@ -229,17 +229,5 @@
 
     
 
-    /**EJEMPLO OBTENER
-     * public function obtenerAlumnos() {
-        return Alumno::obtenerPorCurso($this->db, $this->id);
-    }
-     */
-/*        public function mostrar() {
-            echo "Curso: {$this->nombre}\n";
-            $alumnos = $this->obtenerAlumnos();
-            foreach ($alumnos as $alumno) {
-                $alumno->mostrar();
-            }
-            echo "\n";
-        }*/  
+    
 }
