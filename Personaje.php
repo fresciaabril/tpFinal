@@ -181,56 +181,50 @@
             "\n ID es: " . $this->getId();
         }
 
-        //METODOS QUE VAN EN TODAS LAS CLASES QUE TIENEN UNA TABLA, SIRVE PARA HACER LAS CONSULTAS 
-        //DEPENDIENDO EL ENUNCIADO
 
         // METODO PARA GUARDAR O ACTUALIZAR EL PERSONAJE EN LA BD
+        public function guardar($database){
+            $idArma = (int) $this->getArma()?->getId();
+            $armaValor = ($idArma > 0) ? $idArma : null;
+            $personaje = [
+                "nombre"            => $this->getNombre(),
+                "nivel"             => $this->getNivel(),
+                "puntosVida"        => $this->getPuntosVida(),
+                "energia"           => $this->getEnergia(),
+                "duelosGanados"     => $this->getDuelosGanados(),
+                "duelosPerdidos"    => $this->getDuelosPerdidos(),
+                "estado"            => $this->getEstado(),
+                "idArmaEquipada"    => $armaValor, 
+                "fuerza"            => null,
+                "armadura"          => null,
+                "mana"              => null,
+                "inteligencia"      => null,
+                "precisionPersonaje"=> null,
+                "velocidad"         => null
+            ];
 
-    public function guardar($database){
-        // El arma puede ser un objeto o null, guardamos su ID si existe
-        $armaValor = ($this->getArma() !== null) ? $this->getArma()->getId() : null;
+            // instanceof sirve para verificar que pertenezca a una clase
+            if ($this instanceof Guerrero) {
+                $personaje["fuerza"]   = $this->getFuerza();
+                $personaje["armadura"] = $this->getArmadura();
+            } elseif ($this instanceof Mago) {
+                $personaje["mana"]         = $this->getMana();
+                $personaje["inteligencia"] = $this->getInteligencia();
+            } elseif ($this instanceof Arquero) {
+                $personaje["precisionPersonaje"] = $this->getPrecision();
+                $personaje["velocidad"]          = $this->getVelocidad();
+            }
 
-
-        $personaje = [
-            "nombre"         => $this->getNombre(),
-            "nivel"          => $this->getNivel(),
-            "puntosVida"     => $this->getPuntosVida(),
-            "energia"        => $this->getEnergia(),
-            "duelosGanados"  => $this->getDuelosGanados(),
-            "duelosPerdidos" => $this->getDuelosPerdidos(),
-            "estado"         => $this->getEstado(),
-            "idArmaEquipada" => $armaValor,
-            // Inicializamos por defecto en null
-            "fuerza"         => null,
-            "armadura"       => null,
-            "mana"           => null,
-            "inteligencia"   => null,
-            "precisionPersonaje"=> null,
-            "velocidad"      => null
-        ];
-
-        // instanceof sirve para verificar que pertenesca a una clase
-        if ($this instanceof Guerrero) {
-            $personaje["fuerza"]   = $this->getFuerza();
-            $personaje["armadura"] = $this->getArmadura();
-        } elseif ($this instanceof Mago) {
-            $personaje["mana"]         = $this->getMana();
-            $personaje["inteligencia"] = $this->getInteligencia();
-        } elseif ($this instanceof Arquero) {
-            $personaje["precisionPersonaje"] = $this->getPrecision();
-            $personaje["velocidad"]          = $this->getVelocidad();
+            if ($this->getId()) {
+                $database->update("personajes", $personaje, ["id" => $this->getId()]);
+                echo "\nPersonaje " .$this->getNombre() . " actualizado con éxito \n";
+            } else {
+                $database->insert("personajes", $personaje);
+                // Guardamos el ID autogenerado que nos devuelve Medoo en el atributo de la clase
+                $this->setId($database->id());
+                echo "\nPersonaje " .$this->getNombre() . " registrado \n";
+            }
         }
-
-        if ($this->getId()) {
-            $database->update("personajes", $personaje, ["id" => $this->getId()]);
-            echo "\nPersonaje " .$this->getNombre() . " actualizado con éxito \n";
-        } else {
-            $database->insert("personajes", $personaje);
-            // Guardamos el ID autogenerado que nos devuelve Medoo en el atributo de la clase
-            $this->setId($database->id());
-            echo "\nPersonaje " .$this->getNombre() . " registrado \n";
-        }
-    }
         
 
     

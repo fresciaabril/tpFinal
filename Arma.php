@@ -101,8 +101,7 @@ class Arma {
 
 
 	// METODO PARA GUARDAR O ACTUALIZAR EL ARMA EN LA BD
-    public function guardar($database)
-    {
+    public function guardar($database){
         
         $arma = [
             "nombre"      => $this->getNombre(),
@@ -115,7 +114,7 @@ class Arma {
         if ($this->getId()) {
             // Si ya tiene id, actualizamos el registro
             $database->update("armas", $arma, ["id" => $this->getId()]);
-            echo "\n Arma ". $this->getNombre(). "actualizada con éxito \n";
+            echo "\n Arma ". $this->getNombre(). " actualizada con exito \n";
         } else {
             // Si no la insertamos
             $database->insert("armas", $arma);

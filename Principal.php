@@ -358,11 +358,6 @@ MENU:
 
                 $porcentajes = $torneo->calcularPorcentajeVictorias($database);
                 echo $porcentajes . "\n";
-
-                $arenaTop = $torneo->arenaMasPopular($database);
-                if ($arenaTop !== null) {
-                    echo "Arena mas popular: " . $arenaTop->getNombre() . " (Clima: " . $arenaTop->getClima() . ")\n";
-                }
                 echo "---------------------------------------------------\n";
 				break;
 			case '9':
