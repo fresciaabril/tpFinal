@@ -25,7 +25,6 @@
             $this->db = $database;
 		}
 
-
 		public function getPersonaje(){
 			return $this->personajes;
 		}
@@ -33,7 +32,6 @@
 		public function setPersonaje($personajes){
 			$this->personajes = $personajes;
 		}
-
 
 		public function getArmas(){
 			return $this->armas;
@@ -52,7 +50,6 @@
 			$this->arenas = $arenas;
 		}
 
-
 		public function getDuelos(){
 			return $this->duelos;
 		}
@@ -70,9 +67,7 @@
 			$this->personajes = $personajes;
 		}
 
-
 		// metodos
-
 		public function agregarPersonaje($personaje){
 			array_push($this->personajes, $personaje);
 		}
@@ -148,7 +143,6 @@
             }
             return $obj;
         }
-
         
         // BUSCAR UN ARMA POR ID Y TRANSFORMARLA EN OBJETO
         public function obtenerArmaPorId($id) {
@@ -167,15 +161,13 @@
             return $objArma;
         }
 
-
         public function obtenerArenaPorId($id, $database) {
         // 1. Buscamos todas las columnas que necesitemos en la tabla arenas
         $resultado = $database->get("arenas", 
                 ["id", "nombre", "dificultad", "capacidadPublico", "clima"], 
                 ["id" => $id]
         );
-
-        if ($resultado) {
+        if ($resultado){
                 $objArena = new Arena(
                         $resultado['nombre'], 
                         $resultado['dificultad'], 
@@ -183,20 +175,17 @@
                         $resultado['clima'],
                         $resultado['id']
                 );
-        } else {
+        }else{
                 $objArena = null;
         }
-
         return $objArena;
     }
-
 
         public function equiparArma($personaje, $arma) {
             $resultado = [
                 "exito"   => false,
                 "mensaje" => ""
             ];
-
             if (!$personaje->puedeDuelar()) {
                 $resultado["mensaje"] = "El personaje no está disponible.\n";
             } elseif (!$arma->puedeSerEquipadaPor($personaje)) {
@@ -208,15 +197,11 @@
                 $personaje->setArma($arma);
                 $arma->setEstado("equipada");
 
-                $resultado["mensaje"] = $personaje->getNombre() . "equipó " . $arma->getNombre(). "\n";
+                $resultado["mensaje"] = "\n".$personaje->getNombre() . " equipó " . $arma->getNombre();
                 $resultado["exito"]   = true;
             }
             return $resultado;
         }
-
-
-    
-
     /**
      * Lista los personajes aplicando filtros variables.
      * $database Conexión a la base de datos
@@ -314,8 +299,6 @@
             }
             return $colPersonajes;
         }
-
-
     /**
      * Trae todas las armas desde la base de datos y las convierte en objetos.
      * $database Conexión activa del ORM.
@@ -344,8 +327,6 @@
             }
             return $colArmas;
         }
-
-
     /**
      * Trae todas las arenas desde la base de datos y las convierte en objetos.
      * $database Conexión activa del ORM.
@@ -376,9 +357,6 @@
             }
             return $colArenas;
         }
-
-
-
     /**
      * Trae todos los duelos vinculando los objetos reales de personajes y arenas por su ID.
      * $database Conexión activa del ORM.
@@ -469,7 +447,7 @@
             $puesto = 1;
             foreach ($arregloPersonajes as $personaje) {
                 // Reemplaza el código por el número real que tiene guardado
-                $ranking .= $puesto . $personaje->getNombre() . " (" . $personaje->getDuelosGanados() . " victorias)\n";
+                $ranking .= "Puesto ".$puesto.": Nombre: ". $personaje->getNombre() . " (" . $personaje->getDuelosGanados() . " victorias)\n";
                 $puesto++;
             }
             return $ranking;

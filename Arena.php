@@ -66,16 +66,9 @@ class Arena
         }
 
         //Too string
-        public function __toString()
-        {
-                $respuesta =
-                        "--------------------------------------------------- \n
-                Nombre de arena = {$this->getNombre()} \n 
-                Dificultad de arena = {$this->getDificultad()} \n 
-                Capacidad = {$this->getCapacidadPublico()} \n 
-                Clima = {$this->getClima()} \n
-                ID = {$this->getId()} \n
-                --------------------------------------------------- \n";
+        public function __toString(){
+                $linea = "--------------------------------------------------- \n";
+                $respuesta = $linea."Nombre de arena = {$this->getNombre()} \nDificultad de arena = {$this->getDificultad()} \nCapacidad = {$this->getCapacidadPublico()} \nClima = {$this->getClima()} \nID = {$this->getId()} \n";
                 return $respuesta;
         }
 

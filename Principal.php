@@ -33,7 +33,8 @@ MENU:
 
 		echo"Ingrese opcion: ";
 		(int)$Variable = trim(fgets(STDIN));
-
+		// Linea de separacion
+		$linea="---------------------------------------------------\n";
 		switch($Variable){
 			case '1':
 				// Registrar personajes
@@ -153,7 +154,7 @@ MENU:
 				// Equipar armas
 				// 1. Mostrar los personajes registrados para ver sus ids
 				$listaPersonajes = $database->select("personajes", ["id", "nombre", "nivel", "estado"]);
-				echo "---------------------------------------------------\n";
+				echo $linea;
 				echo "--Personajes registrados-- \n";
 				foreach ($listaPersonajes as $personaje) {
                     $objPersonaje = $torneo->obtenerPersonajePorId($personaje['id']);
@@ -163,7 +164,7 @@ MENU:
                 }
 
 				$listaArmas = $database->select("armas", ["id"]);
-				echo "---------------------------------------------------\n";
+				echo $linea;
 				echo "--Armas registradas-- \n";
 				foreach ($listaArmas as $arma) {
 					// Convertimos el registro en un Objeto Arma
@@ -172,7 +173,7 @@ MENU:
 						echo $objArma; 
 					}
 				}
-				echo "---------------------------------------------------\n";
+				echo $linea;
 
 				echo "Ingrese el ID del Personaje: ";
 				$idPersonaje = (int)trim(fgets(STDIN));
@@ -200,7 +201,7 @@ MENU:
 			case '5':
 				// Registrar duelos
                 $listaPersonajes = $database->select("personajes", ["id"]);
-                echo "---------------------------------------------------\n";
+                echo $linea;
                 echo "--Personajes disponibles para el Duelo-- \n";
                 foreach ($listaPersonajes as $personaje) {
                     $objPersonaje = $torneo->obtenerPersonajePorId($personaje['id']);
@@ -210,15 +211,14 @@ MENU:
                 }
 
                 $listaArenas = $database->select("arenas", ["id"]);
-                echo "---------------------------------------------------\n";
-                echo "--Arenas disponibles-- \n";
+                echo "\n--Arenas disponibles-- \n";
                 foreach ($listaArenas as $arenaItem) {
                     $objArena = $torneo->obtenerArenaPorId($arenaItem['id'], $database);
                     if ($objArena !== null) {
                         echo $objArena; 
                     }
                 }
-                echo "---------------------------------------------------\n";
+                echo $linea;
 
                 echo "Ingrese ID del Personaje 1: ";
                 $idP1 = (int)trim(fgets(STDIN));
@@ -242,7 +242,7 @@ MENU:
                     }
 
                 } else {
-                    echo "\n Alguno de los personajes o la arena elegida no existen en el sistema.\n";
+                    echo "\nAlguno de los personajes o la arena elegida no existen en el sistema.\n";
                 }
 				break;
 
@@ -251,7 +251,7 @@ MENU:
                 $todosLosDuelos = $torneo->listarDuelos($database);
                 $hayPendientes = false;
 
-                echo "---------------------------------------------------\n";
+                echo $linea;
                 echo "-- DUELOS PENDIENTES DE EJECUCIÓN --\n";
                 
                 //  muestra solo los que están pendientes
@@ -267,7 +267,7 @@ MENU:
                 }
 
                 if ($hayPendientes) {
-                    echo "---------------------------------------------------\n";
+                    echo $linea;
                     echo "Ingrese el ID del duelo que desea ejecutar: ";
                     $idDueloElegido = (int)trim(fgets(STDIN));
 
@@ -298,7 +298,7 @@ MENU:
                 $lesionados = $database->select("personajes", ["id"], ["estado" => "lesionado"]);
                 $hayLesionados = false;
 
-                echo "---------------------------------------------------\n";
+                echo $linea;
                 echo "-- PERSONAJES LESIONADOS --\n";
 
                 foreach ($lesionados as $personLesionado) {
@@ -311,7 +311,7 @@ MENU:
                 }
 
                 if ($hayLesionados) {
-                    echo "---------------------------------------------------\n";
+                    echo $linea;
                     echo "Ingrese el ID del personaje que desea curar: ";
                     $idCurar = (int)trim(fgets(STDIN));
 
@@ -332,20 +332,20 @@ MENU:
 
 			case '8':
 				// Consultar rankings
-				echo "---------------------------------------------------\n";
+				echo $linea;
                 $ranking = $torneo->rankingPersonajes($database);
                 echo $ranking;
-                echo "---------------------------------------------------\n";
+                echo $linea;
 				break;
 			case '9':
 				// Consultar historial de personajes
                 $listaPersonajes = $database->select("personajes", ["id", "nombre"]);
-                echo "---------------------------------------------------\n";
+                echo $linea;
                 echo "-- PERSONAJES REGISTRADOS --\n";
                 foreach ($listaPersonajes as $personaje) {
                     echo "ID: " . $personaje['id'] . " Nombre: " . $personaje['nombre'] . "\n";
                 }
-                echo "---------------------------------------------------\n";
+                echo $linea;
 
                 echo "Ingrese el ID del personaje para ver su historial de duelos: ";
                 $idBuscar = (int)trim(fgets(STDIN));
@@ -358,19 +358,19 @@ MENU:
                 if ($colDuelos !== null) {
                     foreach ($colDuelos as $duelo) {
                         if ($duelo->getPersonaje1()->getId() === $idBuscar || $duelo->getPersonaje2()->getId() === $idBuscar) {
-                            $historialPersonaje .= $duelo . "\n---------------------------------------------------\n";
+                            $historialPersonaje .= $duelo . $linea;
                             $encontroDuelos = true;
                         }
                     }
                 }
-                echo "---------------------------------------------------\n";
+                echo $linea;
                 echo "HISTORIAL DE DUELOS: \n";
                 if ($encontroDuelos) {
                     echo $historialPersonaje;
                 } else {
                     echo "Este personaje no tiene duelos registrados o el ID no existe.\n";
                 }
-                echo "---------------------------------------------------\n";
+                echo $linea;
                 break;
 				
 			default:
