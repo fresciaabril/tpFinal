@@ -5,11 +5,11 @@ class Duelo {
 	private $personaje1;
 	private $personaje2;
 	private $arena;
-	private int $fecha;
-	private string $estado; // pendiente, realizado, cancelado
-	private string $ganador;
+	private $fecha;
+	private $estado; // pendiente, realizado, cancelado
+	private $ganador;
 
-	public function __construct( $personaje1, $personaje2, $arena, $fecha, $ganador, $estado, $id = null) {
+	public function __construct( $personaje1, $personaje2, $arena, $fecha, $ganador = null, $estado = "pendiente", $id = null) {
 		$this->id = $id;
 		$this->personaje1 = $personaje1;
 		$this->personaje2 = $personaje2;
@@ -171,12 +171,13 @@ class Duelo {
 	}
 
 	public function guardar($database) {
-        $datosDuelo = [
-            "estado"  => $this->getEstado(),
-            "ganador" => $this->getGanador() 
-        ];
+        // Si hay un ganador guardamos el id, sino lo dejamos en null 
+        $idGanadorValor = ($this->getGanador() !== null && is_object($this->getGanador())) ? $this->getGanador()->getId() : null;
 
-        // Si el duelo ya existe, lo actualizamos
+        $datosDuelo = [
+            "estado"    => $this->getEstado(),
+            "idGanador" => $idGanadorValor 
+        ];
         if ($this->getId()) {
             $database->update("duelos", $datosDuelo, ["id" => $this->getId()]);
         }

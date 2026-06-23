@@ -148,9 +148,9 @@
         public function calcularPoderTotal($modArena){ // Hacer en programa principal con la arena creada / EJ: $modArena = $arena->calcularModificarArena($personaje)
             $dañoArma = 0;
             if( $this->getArma() != null){
-                $dañoArma = $this->getArma()->calcularDanio(); //con el $modArena tenemos que devuelve un int para sumar en calcularPoderTotal  
+                $dañoArma = (int)$this->getArma()->calcularDanio(); //con el $modArena tenemos que devuelve un int para sumar en calcularPoderTotal  
             }
-            $poderTotal = $this->calcularPoderBase() + $this->calcularPoderEspecial() + $dañoArma + $modArena;
+            $poderTotal = (int)$this->calcularPoderBase() + (int)$this->calcularPoderEspecial() + $dañoArma + (int)$modArena;
             return $poderTotal;
         }
 

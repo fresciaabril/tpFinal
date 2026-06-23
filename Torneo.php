@@ -95,13 +95,12 @@
 
             if ($personaje) {
                 $objArma = null;
-                if (!empty($personaje["arma"])) {
-                    $objArma = $this->obtenerArmaPorId($personaje["arma"]);
+                if (!empty($personaje["idArmaEquipada"])) {
+                    $objArma = $this->obtenerArmaPorId($personaje["idArmaEquipada"]);
                 }
 
-                //DEPENDE EL TIPO DE PERSONAJE
-                if ($personaje["fuerza"] !== null) {
-                    // Es un Guerrero
+                // DEPENDE DEL TIPO DE PERSONAJE 
+                if ($personaje["tipoPersonaje"] == 'guerrero') {
                     $obj = new Guerrero(
                         $personaje["nombre"], 
                         $personaje["nivel"], 
@@ -109,15 +108,14 @@
                         $personaje["energia"], 
                         $personaje["duelosGanados"], 
                         $personaje["duelosPerdidos"], 
-                        $objArma, 
-                        $personaje["id"], 
-                        $personaje["estado"]
+                        $personaje["estado"], 
+                        $personaje["fuerza"], 
+                        $personaje["armadura"], 
+                        $personaje["id"]     
                     );
-                    $obj->setFuerza($personaje["fuerza"]);
-                    $obj->setArmadura($personaje["armadura"]);
+                    $obj->setArma($objArma);
 
-                } elseif ($personaje["mana"] !== null) {
-                    // Es un Mago
+                } elseif ($personaje["tipoPersonaje"] == 'mago') {
                     $obj = new Mago(
                         $personaje["nombre"], 
                         $personaje["nivel"], 
@@ -125,15 +123,14 @@
                         $personaje["energia"], 
                         $personaje["duelosGanados"], 
                         $personaje["duelosPerdidos"], 
-                        $objArma, 
-                        $personaje["id"], 
-                        $personaje["estado"]
+                        $personaje["estado"], 
+                        $personaje["mana"], 
+                        $personaje["inteligencia"], 
+                        $personaje["id"]     
                     );
-                    $obj->setMana($personaje["mana"]);
-                    $obj->setInteligencia($personaje["inteligencia"]);
+                    $obj->setArma($objArma);
 
-                } else {
-                    // Es un Arquero
+                } elseif ($personaje["tipoPersonaje"] == 'arquero') {
                     $obj = new Arquero(
                         $personaje["nombre"], 
                         $personaje["nivel"], 
@@ -141,12 +138,12 @@
                         $personaje["energia"], 
                         $personaje["duelosGanados"], 
                         $personaje["duelosPerdidos"], 
-                        $objArma, 
-                        $personaje["id"], 
-                        $personaje["estado"]
+                        $personaje["estado"], 
+                        $personaje["precisionPersonaje"], 
+                        $personaje["velocidad"], 
+                        $personaje["id"]     
                     );
-                    $obj->setPrecision($personaje["precision"]);
-                    $obj->setVelocidad($personaje["velocidad"]);
+                    $obj->setArma($objArma);
                 }
             }
             return $obj;
@@ -159,16 +156,17 @@
             $objArma = null;
             if ($arma) {
                 $objArma = new Arma(
-                    $arma["id"], 
                     $arma["nombre"], 
                     $arma["tipo"], 
                     $arma["danioBase"], 
                     $arma["nivelMinimo"], 
-                    $arma["estado"]
+                    $arma["estado"],
+                    $arma["id"] 
                 );
             }
             return $objArma;
         }
+
 
         public function obtenerArenaPorId($id, $database) {
         // 1. Buscamos todas las columnas que necesitemos en la tabla arenas
@@ -244,7 +242,7 @@
                     $objPersonaje = null;
 
                     // verificamos el tipo de clase hija 
-                    if ($datoPersonaje['tipoPersonaje'] === 'guerrero') {
+                    if ($datoPersonaje['tipoPersonaje'] == 'guerrero') {
                         $objPersonaje = new Guerrero(
                             $datoPersonaje['nombre'], 
                             $datoPersonaje['nivel'], 
@@ -389,36 +387,28 @@
         
         public function listarDuelos($database) {
             $colDuelos = null;
-
-            // 1. EFICIENCIA EN MEMORIA: Traemos todos los personajes y arenas ya convertidos en objetos
             $todosLosPersonajes = $this->listarPersonajes($database);
             $todasLasArenas = $this->listarArenas($database);
 
-            // 2. Creamos un diccionario asociativo para buscar personajes al toque por su ID
-            $personajesDic = [];
-            foreach ($todosLosPersonajes as $p) {
-                $personajesDic[$p->getId()] = $p;
+            $personajesCol = [];
+            foreach ($todosLosPersonajes as $personaje) {
+                $personajesCol[$personaje->getId()] = $personaje;
             }
 
-            // 3. Creamos un diccionario asociativo para buscar arenas al toque por su ID
-            $arenasDic = [];
-            foreach ($todasLasArenas as $a) {
-                $arenasDic[$a->getId()] = $a;
+            $arenasCol = [];
+            foreach ($todasLasArenas as $arena) {
+                $arenasCol[$arena->getId()] = $arena;
             }
 
-            // 4. Le pedimos a Medoo los registros puros de la tabla: SELECT * FROM duelos
             $filas = $database->select("duelos", "*");
 
-            // Validamos el estado de la query
             if ($filas !== false) {
                 $colDuelos = [];
 
-                // Recorremos cada fila de la tabla duelos
                 foreach ($filas as $fila) {
-                    // si esta el id de ese personaje/arena le pasa todos sus datos, sino lo deja en nulo
-                    $persona1 = $personajesDic[$fila['personaje1_id']] ?? null;
-                    $persona2 = $personajesDic[$fila['personaje2_id']] ?? null;
-                    $arena = $arenasDic[$fila['arena_id']] ?? null;
+                    $persona1 = $personajesCol[$fila['idPersonaje1']] ?? null;
+                    $persona2 = $personajesCol[$fila['idPersonaje2']] ?? null;
+                    $arena = $arenasCol[$fila['idArena']] ?? null;
 
                     if ($persona1 !== null && $persona2 !== null && $arena !== null) {
                         $objDuelo = new Duelo(
@@ -426,7 +416,7 @@
                             $persona2,     
                             $arena,  
                             $fila['fecha'],
-                            $fila['ganador'] ?? "", //esto es por si no tiene un valor lo dejamos en vacio
+                            $fila['ganador'] ?? "", 
                             $fila['estado'],
                             $fila['id']
                         );
@@ -479,7 +469,7 @@
             $puesto = 1;
             foreach ($arregloPersonajes as $personaje) {
                 // Reemplaza el código por el número real que tiene guardado
-                $ranking .= "{$puesto}° - " . $personaje->getNombre() . " (" . $personaje->getDuelosGanados() . " victorias)\n";
+                $ranking .= $puesto . $personaje->getNombre() . " (" . $personaje->getDuelosGanados() . " victorias)\n";
                 $puesto++;
             }
             return $ranking;
@@ -505,13 +495,14 @@
                 array_push($colDuelos, $objDuelo);
                 $this->setDuelos($colDuelos);
 
+                // Inserción limpia en Medoo sin corchetes colgados
                 $this->db->insert("duelos", [
-                    "personaje1_id" => $objDuelo->getPersonaje1()->getId(),
-                    "personaje2_id" => $objDuelo->getPersonaje2()->getId(),
-                    "arena_id"      => $objDuelo->getArena()->getId(),
-                    "fecha"         => $objDuelo->getFecha(),
-                    "estado"        => $objDuelo->getEstado(),
-                    "ganador_id"    => null
+                    "idPersonaje1" => $objDuelo->getPersonaje1()->getId(),
+                    "idPersonaje2" => $objDuelo->getPersonaje2()->getId(),
+                    "idArena"      => $objDuelo->getArena()->getId(),
+                    "fecha"        => $objDuelo->getFecha(),
+                    "estado"       => $objDuelo->getEstado(),
+                    "idGanador"    => null
                 ]);
             }
             return $exito;

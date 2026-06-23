@@ -95,6 +95,7 @@ class Arma {
 		"\n Daño base: " . $this->getDanioBase().
 		"\n Nivel minimo: " . $this->getNivelMinimo().
 		"\n Estado: " . $this->getEstado() . 
+		"\n ID: " . $this->getId() . 
 		"\n ---------------------------------------------------" ;
 	}
 
@@ -120,7 +121,7 @@ class Arma {
             $database->insert("armas", $arma);
             // Seteamos el ID autogenerado en el objeto
             $this->setId($database->id());
-            echo "\n Arma ". $this->getNombre(). "registrada con éxito \n";
+            echo "\n Arma ". $this->getNombre(). " registrada con éxito \n";
         }
     }
 
