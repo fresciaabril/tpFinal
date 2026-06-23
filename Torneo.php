@@ -170,6 +170,28 @@
             return $objArma;
         }
 
+        public function obtenerArenaPorId($id, $database) {
+        // 1. Buscamos todas las columnas que necesitemos en la tabla arenas
+        $resultado = $database->get("arenas", 
+                ["id", "nombre", "dificultad", "capacidadPublico", "clima"], 
+                ["id" => $id]
+        );
+
+        if ($resultado) {
+                $objArena = new Arena(
+                        $resultado['nombre'], 
+                        $resultado['dificultad'], 
+                        $resultado['capacidadPublico'], 
+                        $resultado['clima'],
+                        $resultado['id']
+                );
+        } else {
+                $objArena = null;
+        }
+
+        return $objArena;
+    }
+
 
         public function equiparArma($personaje, $arma) {
             $resultado = [
@@ -180,7 +202,7 @@
             if (!$personaje->puedeDuelar()) {
                 $resultado["mensaje"] = "El personaje no está disponible.\n";
             } elseif (!$arma->puedeSerEquipadaPor($personaje)) {
-                $resultado["mensaje"] = "\n❌ El arma no puede ser equipada (no cumple nivel o está rota/ocupada).\n";
+                $resultado["mensaje"] = "\n El arma no puede ser equipada.\n";
               }else {
                 if ($personaje->getArma() !== null) {
                     $personaje->getArma()->setEstado("disponible");
@@ -464,21 +486,57 @@
         }
 
 
-        public function registrarDuelo($duelo){
-            $colDuelos = $this->getDuelos();
-            array_push($colDuelos, $duelo);
-            $this->setDuelos($colDuelos);
-        }
+        public function registrarDuelo($personaje1, $personaje2, $arena) {
+            $exito = true;
 
-
-        public function realizarDuelo(){
-            foreach($this->getDuelos() as $duelo){
-                if($duelo->getEstado() == true){
-                    $this->registrarDuelo($duelo);
-                }
+            if ($personaje1->getId() === $personaje2->getId()) {
+                $exito = false; 
+            } elseif (!$personaje1->puedeDuelar()) {
+                $exito = false;
+            } elseif (!$personaje2->puedeDuelar()) {
+                $exito = false;
             }
+
+            if ($exito) {
+                $fechaTexto = date('Y-m-d H:i:s');
+                $objDuelo = new Duelo($personaje1, $personaje2, $arena, $fechaTexto, null, "pendiente");
+                
+                $colDuelos = $this->getDuelos();
+                array_push($colDuelos, $objDuelo);
+                $this->setDuelos($colDuelos);
+
+                $this->db->insert("duelos", [
+                    "personaje1_id" => $objDuelo->getPersonaje1()->getId(),
+                    "personaje2_id" => $objDuelo->getPersonaje2()->getId(),
+                    "arena_id"      => $objDuelo->getArena()->getId(),
+                    "fecha"         => $objDuelo->getFecha(),
+                    "estado"        => $objDuelo->getEstado(),
+                    "ganador_id"    => null
+                ]);
+            }
+            return $exito;
         }
-        
-        
-	}
-	
+
+        public function ejecutarDuelo($objDuelo) {
+            $objDuelo->realizarDuelo();
+            
+            $personaje1 = $objDuelo->getPersonaje1();
+            $personaje2 = $objDuelo->getPersonaje2();
+            $ganador = $objDuelo->getGanador(); 
+
+            // Cada personaje se guarda en la BD
+            $personaje1->guardar($this->db);
+            $personaje2->guardar($this->db);
+
+            $objDuelo->guardar($this->db);
+            $nombreGanador = $ganador->getNombre();
+            return $nombreGanador;
+        }
+
+        public function recuperarPersonaje($objPersonaje) {
+            $objPersonaje->recuperarVida(50);
+            $objPersonaje->guardar($this->db);
+            $operacionExitosa = true;
+            return $operacionExitosa;
+        }
+    }

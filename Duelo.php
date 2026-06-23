@@ -166,7 +166,19 @@ class Duelo {
 		"Arena: " . $this->getArena().
 		"Fecha: " . $this->getFecha().
 		"Ganador: " . $this->getGanador().
-		"Estado: " . $this->getEstado();
+		"Estado: " . $this->getEstado() . 
+		"ID: " . $this->getId();
 	}
 
+	public function guardar($database) {
+        $datosDuelo = [
+            "estado"  => $this->getEstado(),
+            "ganador" => $this->getGanador() 
+        ];
+
+        // Si el duelo ya existe, lo actualizamos
+        if ($this->getId()) {
+            $database->update("duelos", $datosDuelo, ["id" => $this->getId()]);
+        }
+    }
 }
