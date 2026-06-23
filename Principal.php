@@ -33,7 +33,7 @@ MENU:
 
 		echo"Ingrese opcion: ";
 		(int)$Variable = trim(fgets(STDIN));
-
+  
 		switch($Variable){
 			case '1':
 				// Registrar personajes
