@@ -97,46 +97,31 @@
                 // DEPENDE DEL TIPO DE PERSONAJE 
                 if ($personaje["tipoPersonaje"] == 'guerrero') {
                     $obj = new Guerrero(
-                        $personaje["nombre"], 
-                        $personaje["nivel"], 
-                        $personaje["puntosVida"], 
-                        $personaje["energia"], 
-                        $personaje["duelosGanados"], 
-                        $personaje["duelosPerdidos"], 
-                        $personaje["estado"], 
-                        $personaje["fuerza"], 
-                        $personaje["armadura"], 
-                        $personaje["id"]     
+                        $personaje["nombre"], $personaje["nivel"], 
+                        $personaje["puntosVida"], $personaje["energia"], 
+                        $personaje["duelosGanados"], $personaje["duelosPerdidos"], 
+                        $personaje["estado"], $personaje["fuerza"], 
+                        $personaje["armadura"], $personaje["id"]   
                     );
                     $obj->setArma($objArma);
 
                 } elseif ($personaje["tipoPersonaje"] == 'mago') {
                     $obj = new Mago(
-                        $personaje["nombre"], 
-                        $personaje["nivel"], 
-                        $personaje["puntosVida"], 
-                        $personaje["energia"], 
-                        $personaje["duelosGanados"], 
-                        $personaje["duelosPerdidos"], 
-                        $personaje["estado"], 
-                        $personaje["mana"], 
-                        $personaje["inteligencia"], 
-                        $personaje["id"]     
+                        $personaje["nombre"], $personaje["nivel"], 
+                        $personaje["puntosVida"], $personaje["energia"], 
+                        $personaje["duelosGanados"], $personaje["duelosPerdidos"], 
+                        $personaje["estado"], $personaje["mana"], 
+                        $personaje["inteligencia"], $personaje["id"]   
                     );
                     $obj->setArma($objArma);
 
                 } elseif ($personaje["tipoPersonaje"] == 'arquero') {
                     $obj = new Arquero(
-                        $personaje["nombre"], 
-                        $personaje["nivel"], 
-                        $personaje["puntosVida"], 
-                        $personaje["energia"], 
-                        $personaje["duelosGanados"], 
-                        $personaje["duelosPerdidos"], 
-                        $personaje["estado"], 
-                        $personaje["precisionPersonaje"], 
-                        $personaje["velocidad"], 
-                        $personaje["id"]     
+                        $personaje["nombre"], $personaje["nivel"], 
+                        $personaje["puntosVida"], $personaje["energia"], 
+                        $personaje["duelosGanados"], $personaje["duelosPerdidos"], 
+                        $personaje["estado"], $personaje["precisionPersonaje"], 
+                        $personaje["velocidad"], $personaje["id"]    
                     );
                     $obj->setArma($objArma);
                 }
@@ -150,12 +135,9 @@
             $objArma = null;
             if ($arma) {
                 $objArma = new Arma(
-                    $arma["nombre"], 
-                    $arma["tipo"], 
-                    $arma["danioBase"], 
-                    $arma["nivelMinimo"], 
-                    $arma["estado"],
-                    $arma["id"] 
+                    $arma["nombre"], $arma["tipo"], 
+                    $arma["danioBase"], $arma["nivelMinimo"], 
+                    $arma["estado"], $arma["id"] 
                 );
             }
             return $objArma;
@@ -169,11 +151,9 @@
         );
         if ($resultado){
                 $objArena = new Arena(
-                        $resultado['nombre'], 
-                        $resultado['dificultad'], 
-                        $resultado['capacidadPublico'], 
-                        $resultado['clima'],
-                        $resultado['id']
+                    $resultado['nombre'], $resultado['dificultad'], 
+                    $resultado['capacidadPublico'], $resultado['clima'],
+                    $resultado['id']
                 );
         }else{
                 $objArena = null;
@@ -197,16 +177,15 @@
                 $personaje->setArma($arma);
                 $arma->setEstado("equipada");
 
-                $resultado["mensaje"] = "\n".$personaje->getNombre() . " equipó " . $arma->getNombre();
+                $resultado["mensaje"] = "\n".$personaje->getNombre()." equipó ".$arma->getNombre();
                 $resultado["exito"]   = true;
             }
             return $resultado;
         }
-    /**
-     * Lista los personajes aplicando filtros variables.
-     * $database Conexión a la base de datos
-     * $filtros Filtros asociativos opcionales para el WHERE
-     * Colección de objetos Personaje*/
+    /*  Lista los personajes aplicando filtros variables.
+        $database Conexión a la base de datos
+        $filtros Filtros asociativos opcionales para el WHERE
+        Colección de objetos Personaje */
 
         public function listarPersonajes($database, $filtros = []) {
             $colPersonajes = null;
@@ -229,42 +208,28 @@
                     // verificamos el tipo de clase hija 
                     if ($datoPersonaje['tipoPersonaje'] == 'guerrero') {
                         $objPersonaje = new Guerrero(
-                            $datoPersonaje['nombre'], 
-                            $datoPersonaje['nivel'], 
-                            $datoPersonaje['puntosVida'], 
-                            $datoPersonaje['energia'],
-                            $datoPersonaje['duelosGanados'], 
-                            $datoPersonaje['duelosPerdidos'], 
-                            $datoPersonaje['estado'],
-                            $datoPersonaje['fuerza'], 
-                            $datoPersonaje['armadura'], 
-                            $datoPersonaje['id']
+                            $datoPersonaje['nombre'], $datoPersonaje['nivel'], 
+                            $datoPersonaje['puntosVida'], $datoPersonaje['energia'],
+                            $datoPersonaje['duelosGanados'], $datoPersonaje['duelosPerdidos'], 
+                            $datoPersonaje['estado'], $datoPersonaje['fuerza'], 
+                            $datoPersonaje['armadura'], $datoPersonaje['id']
                         );
                     } elseif ($datoPersonaje['tipoPersonaje'] === 'mago') {
                         $objPersonaje = new Mago(
-                            $datoPersonaje['nombre'], 
-                            $datoPersonaje['nivel'], 
-                            $datoPersonaje['puntosVida'], 
-                            $datoPersonaje['energia'],
-                            $datoPersonaje['duelosGanados'], 
-                            $datoPersonaje['duelosPerdidos'], 
-                            $datoPersonaje['estado'],
-                            $datoPersonaje['mana'], 
-                            $datoPersonaje['inteligencia'], 
-                            $datoPersonaje['id']
+                            $datoPersonaje['nombre'], $datoPersonaje['nivel'], 
+                            $datoPersonaje['puntosVida'], $datoPersonaje['energia'],
+                            $datoPersonaje['duelosGanados'], $datoPersonaje['duelosPerdidos'], 
+                            $datoPersonaje['estado'], $datoPersonaje['mana'], 
+                            $datoPersonaje['inteligencia'], $datoPersonaje['id']
                         );
+
                     } elseif ($datoPersonaje['tipoPersonaje'] === 'arquero') {
                         $objPersonaje = new Arquero(
-                            $datoPersonaje['nombre'], 
-                            $datoPersonaje['nivel'], 
-                            $datoPersonaje['puntosVida'], 
-                            $datoPersonaje['energia'],
-                            $datoPersonaje['duelosGanados'], 
-                            $datoPersonaje['duelosPerdidos'], 
-                            $datoPersonaje['estado'],
-                            $datoPersonaje['precisionPersonaje'], 
-                            $datoPersonaje['velocidad'], 
-                            $datoPersonaje['id']
+                            $datoPersonaje['nombre'], $datoPersonaje['nivel'], 
+                            $datoPersonaje['puntosVida'], $datoPersonaje['energia'], 
+                            $datoPersonaje['duelosGanados'], $datoPersonaje['duelosPerdidos'], 
+                            $datoPersonaje['estado'], $datoPersonaje['precisionPersonaje'], 
+                            $datoPersonaje['velocidad'], $datoPersonaje['id']
                         );
                     }
 
@@ -275,12 +240,9 @@
                         if ($datosArma) {
                             // Creamos el objeto Arma
                             $objArma = new Arma(
-                                $datosArma['id'], 
-                                $datosArma['nombre'], 
-                                $datosArma['tipo'],
-                                $datosArma['danioBase'], 
-                                $datosArma['nivelMinimo'], 
-                                $datosArma['estado']
+                                $datosArma['id'], $datosArma['nombre'], 
+                                $datosArma['tipo'], $datosArma['danioBase'], 
+                                $datosArma['nivelMinimo'], $datosArma['estado']
                             );
                             // seteamos el arma 
                             $objPersonaje->setArma($objArma); 
@@ -299,11 +261,9 @@
             }
             return $colPersonajes;
         }
-    /**
-     * Trae todas las armas desde la base de datos y las convierte en objetos.
-     * $database Conexión activa del ORM.
-     *  Colección de objetos Arma.
-     */
+    /*  Trae todas las armas desde la base de datos y las convierte en objetos.
+        $database Conexión activa del ORM.
+        Colección de objetos Arma. */
 
         public function listarArmas($database) {
             $colArmas = null;
@@ -312,12 +272,9 @@
                 $colArmas = []; 
                 foreach ($datosArmas as $datoArma) {
                     $objArma = new Arma(
-                        $datoArma['id'], 
-                        $datoArma['nombre'], 
-                        $datoArma['tipo'], 
-                        $datoArma['danioBase'], 
-                        $datoArma['nivelMinimo'], 
-                        $datoArma['estado']
+                        $datoArma['id'], $datoArma['nombre'], 
+                        $datoArma['tipo'], $datoArma['danioBase'], 
+                        $datoArma['nivelMinimo'], $datoArma['estado']
                     );
                     array_push($colArmas, $objArma);
                 }
@@ -327,11 +284,9 @@
             }
             return $colArmas;
         }
-    /**
-     * Trae todas las arenas desde la base de datos y las convierte en objetos.
-     * $database Conexión activa del ORM.
-     * Colección de objetos Arena.
-     */
+    /*  Trae todas las arenas desde la base de datos y las convierte en objetos.
+        $database Conexión activa del ORM.
+        Colección de objetos Arena. */
 
         public function listarArenas($database) {
             $colArenas = null;
@@ -344,10 +299,8 @@
                 $colArenas = []; 
                 foreach ($datosArenas as $datosArena) {
                     $objArena = new Arena(
-                        $datosArena['nombre'],
-                        $datosArena['dificultad'],
-                        $datosArena['capacidadPublico'],
-                        $datosArena['clima'],
+                        $datosArena['nombre'], $datosArena['dificultad'],
+                        $datosArena['capacidadPublico'], $datosArena['clima'],
                         $datosArena['id']
                     );
                     array_push($colArenas, $objArena);
@@ -357,11 +310,9 @@
             }
             return $colArenas;
         }
-    /**
-     * Trae todos los duelos vinculando los objetos reales de personajes y arenas por su ID.
-     * $database Conexión activa del ORM.
-     * Colección de objetos Duelo completos.
-     */
+    /*  Trae todos los duelos vinculando los objetos reales de personajes y arenas por su ID.
+        $database Conexión activa del ORM.
+        Colección de objetos Duelo completos. */
         
         public function listarDuelos($database) {
             $colDuelos = null;
@@ -408,11 +359,9 @@
         }
 
 
-        /**
-         * FUNCIÓN AUXILIAR PARA EL UASORT()
-         * Compara la cantidad de duelos ganados entre dos objetos personaje.
-         * Ponemos al menor abajo (devuelve 1) para que el ranking quede descendente
-         */
+    /*  FUNCIÓN AUXILIAR PARA EL UASORT()
+        Compara la cantidad de duelos ganados entre dos objetos personaje.
+        Ponemos al menor abajo (devuelve 1) para que el ranking quede descendente */
 
         private function cmpDuelos($a, $b) {
             $orden = 0;
@@ -420,14 +369,13 @@
             if ($a->getDuelosGanados() == $b->getDuelosGanados()) {
                 // Si tienen las mismas victorias, quedan en la misma posición
                 $orden = 0;
-            } elseif ($a->getDuelosGanados() < $b->getDuelosGanados()) {
+            } elseif ($a->getDuelosGanados() < $b->getDuelosGanados()){
                 // Si el primero tiene MENOS victorias que el segundo, lo manda para abajo
                 $orden = 1; 
             } else {
                 // Si el primero tiene MÁS victorias, lo sube en el ranking
                 $orden = -1;
             }
-
             // Un solo return al final con el resultado de la comparación (-1, 0 o 1)
             return $orden;
         }
@@ -447,7 +395,7 @@
             $puesto = 1;
             foreach ($arregloPersonajes as $personaje) {
                 // Reemplaza el código por el número real que tiene guardado
-                $ranking .= "Puesto ".$puesto.": Nombre: ". $personaje->getNombre() . " (" . $personaje->getDuelosGanados() . " victorias)\n";
+                $ranking .= "Puesto ".$puesto.": Nombre: ". $personaje->getNombre()." (".$personaje->getDuelosGanados()." victorias)\n";
                 $puesto++;
             }
             return $ranking;

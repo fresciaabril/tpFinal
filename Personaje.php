@@ -30,7 +30,6 @@
         public function setId($id){
             $this->id = $id;
         }
-
          
         public function getNombre(){
             return $this->nombre;
@@ -40,7 +39,6 @@
             $this->nombre = $nombre;
         }
 
-         
         public function getNivel(){
             return $this->nivel;
         }
@@ -48,7 +46,6 @@
         public function setNivel($nivel){
             $this->nivel = $nivel;
         }
-
         
         public function getPuntosVida(){
             return $this->puntosVida;
@@ -57,7 +54,6 @@
         public function setPuntosVida($puntosVida){
             $this->puntosVida = $puntosVida;
         }
-
          
         public function getEnergia(){
             return $this->energia;
@@ -66,7 +62,6 @@
         public function setEnergia($energia){
             $this->energia = $energia;
         }
-
          
         public function getDuelosGanados(){
             return $this->duelosGanados;
@@ -75,7 +70,6 @@
         public function setDuelosGanados($duelosGanados){
             $this->duelosGanados = $duelosGanados;
         }
-
         
         public function getDuelosPerdidos(){
             return $this->duelosPerdidos;
@@ -84,7 +78,6 @@
         public function setDuelosPerdidos($duelosPerdidos){
             $this->duelosPerdidos = $duelosPerdidos;
         }
-
         
         public function getEstado(){
             return $this->estado;
@@ -115,7 +108,6 @@
             }
         }
 
-
         public function recuperarVida($cantidad){
             $vida = $this->getPuntosVida() + $cantidad;
             $this->setPuntosVida($vida);
@@ -128,13 +120,11 @@
             }
         }
 
-
         public function recuperarEnergia($cantidad){
             $energia = $this->getEnergia() + $cantidad;
             $this->setEnergia($energia);
             return "Energia cargada";
         }
-
 
         public function puedeDuelar(){
             $puede = false;
@@ -144,7 +134,6 @@
             return $puede;
         }
 
-
         public function calcularPoderTotal($modArena){ // Hacer en programa principal con la arena creada / EJ: $modArena = $arena->calcularModificarArena($personaje)
             $dañoArma = 0;
             if( $this->getArma() != null){
@@ -153,7 +142,6 @@
             $poderTotal = (int)$this->calcularPoderBase() + (int)$this->calcularPoderEspecial() + $dañoArma + (int)$modArena;
             return $poderTotal;
         }
-
 
         abstract public function calcularPoderBase();
 
@@ -166,15 +154,15 @@
             }
             return 
             "--------------------------------------------------- \n" .
-            "Nombre: " . $this->getNombre().
-            "\n Nivel: " . $this->getNivel().
-            "\n Vida: "  . $this->getPuntosVida().
-            "\n Energia: " . $this->getEnergia().
-            "\n Duelos ganados: " . $this->getDuelosGanados().
-            "\n Duelos perdidos: " . $this->getDuelosPerdidos().
-            "\n Estado: " . $this->getEstado().
-            "\n" . $mensaje . $this->getArma().
-            "\n ID es: " . $this->getId();
+            "Nombre: ".$this->getNombre().
+            "\n Nivel: ".$this->getNivel().
+            "\n Vida: " .$this->getPuntosVida().
+            "\n Energia: ".$this->getEnergia().
+            "\n Duelos ganados: ".$this->getDuelosGanados().
+            "\n Duelos perdidos: ".$this->getDuelosPerdidos().
+            "\n Estado: ".$this->getEstado().
+            "\n".$mensaje.$this->getArma().
+            "\n ID es: ".$this->getId();
         }
 
         //METODOS QUE VAN EN TODAS LAS CLASES QUE TIENEN UNA TABLA, SIRVE PARA HACER LAS CONSULTAS 
@@ -219,17 +207,12 @@
 
         if ($this->getId()) {
             $database->update("personajes", $personaje, ["id" => $this->getId()]);
-            echo "\nPersonaje " .$this->getNombre() . " actualizado con éxito \n";
+            echo "\nPersonaje " .$this->getNombre()." actualizado con éxito \n";
         } else {
             $database->insert("personajes", $personaje);
             // Guardamos el ID autogenerado que nos devuelve Medoo en el atributo de la clase
             $this->setId($database->id());
-            echo "\nPersonaje " .$this->getNombre() . " registrado \n";
+            echo "\nPersonaje " .$this->getNombre()." registrado \n";
         }
-    }
-        
-
-    
-
-    
+    }  
 }

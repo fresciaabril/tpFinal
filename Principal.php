@@ -13,9 +13,6 @@
 	// echo"  | | | '_ \ / _ \ |  __|| |/ _` |/ _ \ '__|  `--. \/ __| '__/ _ \| | / __|\n";
 	// echo"  | | | | | |  __/ | |___| | (_| |  __/ |    /\__/ / (__| | | (_) | | \__\ \n";
 	// echo"  \_/ |_| |_|\___| \____/|_|\____|\___|_|    \____/ \___|_|  \___/|_|_|__/ \n";
-
-
-
 	
 do{		
 echo"---------------------------------------------------------------------------
@@ -236,7 +233,7 @@ MENU:
                 if ($personaje1 !== null && $personaje2 !== null && $arena !== null) {
                     $exito = $torneo->registrarDuelo($personaje1, $personaje2, $arena);
                     if ($exito) {
-                        echo "Duelo agendado en la arena " . $arena->getNombre() . "\n";
+                        echo "Duelo agendado en la arena ".$arena->getNombre()."\n";
                     } else {
                         echo "No se pudo agendar el duelo. Revisá los personajes.\n";
                     }
@@ -258,10 +255,10 @@ MENU:
                 foreach ($todosLosDuelos as $duelo) {
                     if ($duelo->getEstado() === 'pendiente') {
                         // Mostramos el id, nombres de los personajes y la arena
-                        echo "ID DUELO: " . $duelo->getId() . "\n" . 
-                             $duelo->getPersonaje1()->getNombre() . "\n" . 
-                             $duelo->getPersonaje2()->getNombre() . " [Arena: " . 
-                             $duelo->getArena()->getNombre() . "]\n";
+                        echo "ID DUELO: ".$duelo->getId()."\n".
+                             $duelo->getPersonaje1()->getNombre()."\n".
+                             $duelo->getPersonaje2()->getNombre()." [Arena: ".
+                             $duelo->getArena()->getNombre()."]\n";
                         $hayPendientes = true;
                     }
                 }
@@ -283,7 +280,7 @@ MENU:
                         $nombreGanador = $torneo->ejecutarDuelo($dueloApelear);
                         
                         echo "\n COMBATE TERMINADO \n";
-                        echo "Ganador: " . $nombreGanador . "\n";
+                        echo "Ganador: ".$nombreGanador."\n";
                     } else {
                         echo "\n El ID ingresado no corresponde a un duelo pendiente.\n";
                     }
@@ -304,8 +301,8 @@ MENU:
                 foreach ($lesionados as $personLesionado) {
                     $objPersonaje = $torneo->obtenerPersonajePorId($personLesionado['id']);
                     if ($objPersonaje !== null) {
-                        echo "ID: " . $objPersonaje->getId() . "\n Nombre: " . $objPersonaje->getNombre() . 
-                             "\n Vida actual: " . $objPersonaje->getPuntosVida() . "\n";
+                        echo "ID: ".$objPersonaje->getId()."\n Nombre: ".$objPersonaje->getNombre().
+                             "\n Vida actual: ".$objPersonaje->getPuntosVida()."\n";
                         $hayLesionados = true;
                     }
                 }
@@ -321,7 +318,7 @@ MENU:
         
                         $torneo->recuperarPersonaje($personajeAcurar);
                         
-                        echo "\n" . $personajeAcurar->getNombre() . " ha sido curado \n";
+                        echo "\n".$personajeAcurar->getNombre()." ha sido curado \n";
                     } else {
                         echo "\nEl ID ingresado no corresponde a un personaje lesionado \n";
                     }
@@ -343,7 +340,7 @@ MENU:
                 echo $linea;
                 echo "-- PERSONAJES REGISTRADOS --\n";
                 foreach ($listaPersonajes as $personaje) {
-                    echo "ID: " . $personaje['id'] . " Nombre: " . $personaje['nombre'] . "\n";
+                    echo "ID: ".$personaje['id']." Nombre: ".$personaje['nombre']."\n";
                 }
                 echo $linea;
 
@@ -358,7 +355,7 @@ MENU:
                 if ($colDuelos !== null) {
                     foreach ($colDuelos as $duelo) {
                         if ($duelo->getPersonaje1()->getId() === $idBuscar || $duelo->getPersonaje2()->getId() === $idBuscar) {
-                            $historialPersonaje .= $duelo . $linea;
+                            $historialPersonaje .= $duelo.$linea;
                             $encontroDuelos = true;
                         }
                     }
@@ -377,15 +374,15 @@ MENU:
 				echo "\n".$Variable." no es una opcion\n";
 				$Variable = "Error";
 		}
-	}while(repetir());
-	function repetir(){
-		echo"\n";
-		echo"Quiere volver al menu? (si/no) \n";
-		$respuesta=trim(fgets(STDIN));
-		if($respuesta == "si"){
-			$respuesta = true;
-		}else{
-			$respuesta = false;
-		}
-		return $respuesta;
+}while(repetir());
+function repetir(){
+	echo"\n";
+	echo"Quiere volver al menu? (si/no) \n";
+	$respuesta=trim(fgets(STDIN));
+	if($respuesta == "si"){
+		$respuesta = true;
+	}else{
+		$respuesta = false;
 	}
+	return $respuesta;
+}
