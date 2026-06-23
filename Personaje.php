@@ -105,26 +105,30 @@
 
         public function recibirDanio($cantidad){
             $vida = $this->getPuntosVida() - $cantidad;
+            if ($vida < 0) {
+                $vida = 0;
+            }
             $this->setPuntosVida($vida);
+            
             if($this->getPuntosVida() <= 0){
-                $estado = "retirado";
-                $this->setEstado($estado);
-            } else if ($this->getPuntosVida() > 0 && $this->getPuntosVida() < 30 ){
-                $estado = "lesionado";
-                $this->setEstado($estado);
+                $this->setEstado("retirado");
+            } else if ($this->getPuntosVida() > 0 && $this->getPuntosVida() <= 30 ){
+                $this->setEstado("lesionado");
             }
         }
 
 
         public function recuperarVida($cantidad){
             $vida = $this->getPuntosVida() + $cantidad;
+            if ($vida > 100) {
+                $vida = 100;
+            }
             $this->setPuntosVida($vida);
-            if ($this->getPuntosVida() > 0  && $this->getPuntosVida() < 30 ){
-                $estado = "retirado";
-                $this->setEstado($estado);
-            } else{
-                $estado = "disponible";
-                $this->setEstado($estado);
+            
+            if ($this->getPuntosVida() > 30){
+                $this->setEstado("disponible");
+            } else if ($this->getPuntosVida() > 0 && $this->getPuntosVida() <= 30) {
+                $this->setEstado("lesionado");
             }
         }
 

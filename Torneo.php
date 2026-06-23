@@ -223,6 +223,7 @@
      * $filtros Filtros asociativos opcionales para el WHERE
      * Colección de objetos Personaje*/
 
+        //1. Listar todos los personajes
         public function listarPersonajes($database, $filtros = []) {
             $colPersonajes = null;
             
@@ -429,6 +430,80 @@
             return $colDuelos;
         }
 
+        // 5. LISTAR ARMAS DISPONIBLES
+        public function listarArmasDisponibles($database) {
+            $colArmas = null;
+            $datosArmas = $database->select("armas", "*", [
+                "estado" => "disponible",
+                "ORDER" => ["nombre" => "ASC"]
+            ]);
+            if ($datosArmas != false) {
+                $colArmas = []; 
+                foreach ($datosArmas as $datoArma) {
+                    $objArma = new Arma(
+                        $datoArma['nombre'], 
+                        $datoArma['tipo'], 
+                        $datoArma['danioBase'], 
+                        $datoArma['nivelMinimo'], 
+                        $datoArma['estado'],
+                        $datoArma['id']
+                    );
+                    array_push($colArmas, $objArma);
+                }
+            }
+            return $colArmas;
+        }
+
+        // 11. MOSTRAR EL PERSONAJE CON MAYOR CANTIDAD DE VICTORIAS
+        public function personajeConMasVictorias($database) {
+            // Traemos el que tenga más victorias ordenando de forma descendente y pidiendo límite 1
+            $datos = $database->select("personajes", "id", [
+                "ORDER" => ["duelosGanados" => "DESC"],
+                //trae solo la primer fila, que al argregarlo de forma desc queda primero el que tiene mas victorias
+                "LIMIT" => 1
+            ]);
+            
+            $objPersonaje = null;
+            if (count($datos) > 0) {
+                $objPersonaje = $this->obtenerPersonajePorId($datos[0]);
+            }
+            return $objPersonaje;
+        }
+
+        // 12. MOSTRAR EL PORCENTAJE DE VICTORIAS DE CADA PERSONAJE
+        public function calcularPorcentajeVictorias($database) {
+            $lista = $this->listarPersonajes($database);
+            $mensaje = "--- PORCENTAJE DE VICTORIAS ---\n";
+            
+            foreach ($lista as $personaje) {
+                $totales = $personaje->getDuelosGanados() + $personaje->getDuelosPerdidos();
+                $porcentaje = 0;
+                if ($totales > 0) {
+                    $porcentaje = ($personaje->getDuelosGanados() / $totales) * 100;
+                }                                         //round sirve para redondear decimales,y que queden los primeros 2 num
+                $mensaje .= $personaje->getNombre() . ": " . round($porcentaje, 2) . "% de victorias \n Jugados: " . $totales . "\n";
+            }
+            return $mensaje;
+        }
+
+        // 13. MOSTRAR LA ARENA DONDE MÁS DUELOS SE REALIZARON
+        public function arenaMasPopular($database) {
+            // select agrupado y ordenando por el conteo de filas
+            $resultado = $database->select("duelos", "idArena", [
+                "GROUP" => "idArena",
+                "ORDER" => [ "idArena" => "DESC" ],
+                "LIMIT" => 1
+            ]);
+
+            $objArena = null;
+            
+            if (count($resultado) > 0) {
+                $objArena = $this->obtenerArenaPorId($resultado[0], $database);
+            }
+            
+            return $objArena;
+        }
+
 
         /**
          * FUNCIÓN AUXILIAR PARA EL UASORT()
@@ -469,7 +544,7 @@
             $puesto = 1;
             foreach ($arregloPersonajes as $personaje) {
                 // Reemplaza el código por el número real que tiene guardado
-                $ranking .= $puesto . $personaje->getNombre() . " (" . $personaje->getDuelosGanados() . " victorias)\n";
+                $ranking .= $puesto . ") " . $personaje->getNombre() . " '" . $personaje->getDuelosGanados() . " victorias' \n";
                 $puesto++;
             }
             return $ranking;
@@ -509,19 +584,18 @@
         }
 
         public function ejecutarDuelo($objDuelo) {
-            $objDuelo->realizarDuelo();
-            
-            $personaje1 = $objDuelo->getPersonaje1();
-            $personaje2 = $objDuelo->getPersonaje2();
-            $ganador = $objDuelo->getGanador(); 
-
-            // Cada personaje se guarda en la BD
-            $personaje1->guardar($this->db);
-            $personaje2->guardar($this->db);
-
-            $objDuelo->guardar($this->db);
-            $nombreGanador = $ganador->getNombre();
-            return $nombreGanador;
+            $mensajeRetorno = "No se pudo realizar el duelo";
+            if ($objDuelo->realizarDuelo()) {
+                $personaje1 = $objDuelo->getPersonaje1();
+                $personaje2 = $objDuelo->getPersonaje2();
+                $personaje1->guardar($this->db);
+                $personaje2->guardar($this->db);
+                
+                // Guardamos el estado y el ID en la tabla duelos
+                $objDuelo->guardar($this->db);
+                $mensajeRetorno = $objDuelo->getGanador()->getNombre();
+            }
+            return $mensajeRetorno;
         }
 
         public function recuperarPersonaje($objPersonaje) {
