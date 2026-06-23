@@ -148,9 +148,9 @@
         public function calcularPoderTotal($modArena){ // Hacer en programa principal con la arena creada / EJ: $modArena = $arena->calcularModificarArena($personaje)
             $dañoArma = 0;
             if( $this->getArma() != null){
-                $dañoArma = $this->getArma()->calcularDanio(); //con el $modArena tenemos que devuelve un int para sumar en calcularPoderTotal  
+                $dañoArma = (int)$this->getArma()->calcularDanio(); //con el $modArena tenemos que devuelve un int para sumar en calcularPoderTotal  
             }
-            $poderTotal = $this->calcularPoderBase() + $this->calcularPoderEspecial() + $dañoArma + $modArena;
+            $poderTotal = (int)$this->calcularPoderBase() + (int)$this->calcularPoderEspecial() + $dañoArma + (int)$modArena;
             return $poderTotal;
         }
 
@@ -160,6 +160,10 @@
         abstract public function calcularPoderEspecial();
 
         public function __toString(){
+            $mensaje = "No tiene arma equipada";
+            if($this->getArma()){
+                $mensaje = "Arma equipada: ";
+            }
             return 
             "--------------------------------------------------- \n" .
             "Nombre: " . $this->getNombre().
@@ -169,7 +173,8 @@
             "\n Duelos ganados: " . $this->getDuelosGanados().
             "\n Duelos perdidos: " . $this->getDuelosPerdidos().
             "\n Estado: " . $this->getEstado().
-            "\n Arma equipada: \n" . $this->getArma();
+            "\n" . $mensaje . $this->getArma().
+            "\n ID es: " . $this->getId();
         }
 
         //METODOS QUE VAN EN TODAS LAS CLASES QUE TIENEN UNA TABLA, SIRVE PARA HACER LAS CONSULTAS 
@@ -202,21 +207,20 @@
 
         // instanceof sirve para verificar que pertenesca a una clase
         if ($this instanceof Guerrero) {
-            $data["fuerza"]   = $this->getFuerza();
-            $data["armadura"] = $this->getArmadura();
+            $personaje["fuerza"]   = $this->getFuerza();
+            $personaje["armadura"] = $this->getArmadura();
         } elseif ($this instanceof Mago) {
-            $data["mana"]         = $this->getMana();
-            $data["inteligencia"] = $this->getInteligencia();
+            $personaje["mana"]         = $this->getMana();
+            $personaje["inteligencia"] = $this->getInteligencia();
         } elseif ($this instanceof Arquero) {
-            $data["precisionPersonaje"] = $this->getPrecision();
-            $data["velocidad"] = $this->getVelocidad();
+            $personaje["precisionPersonaje"] = $this->getPrecision();
+            $personaje["velocidad"]          = $this->getVelocidad();
         }
 
         if ($this->getId()) {
             $database->update("personajes", $personaje, ["id" => $this->getId()]);
             echo "\nPersonaje " .$this->getNombre() . " actualizado con éxito \n";
         } else {
-            // Si no tiene ID, es un alta nueva
             $database->insert("personajes", $personaje);
             // Guardamos el ID autogenerado que nos devuelve Medoo en el atributo de la clase
             $this->setId($database->id());

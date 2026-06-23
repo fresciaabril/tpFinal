@@ -1,5 +1,6 @@
 <?php
 include "Personaje.php";
+
 class Arena
 {
 
@@ -73,6 +74,7 @@ class Arena
                 Dificultad de arena = {$this->getDificultad()} \n 
                 Capacidad = {$this->getCapacidadPublico()} \n 
                 Clima = {$this->getClima()} \n
+                ID = {$this->getId()} \n
                 --------------------------------------------------- \n";
                 return $respuesta;
         }
@@ -117,6 +119,7 @@ class Arena
                 return $modificador;
         }
 
+        
         public function guardar($database){
                 $arena = [
                 "nombre"           => $this->getNombre(),
