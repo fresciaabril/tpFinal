@@ -16,7 +16,7 @@
 
 
 
-	
+
 do{		
 echo"---------------------------------------------------------------------------
 MENU:
@@ -387,7 +387,7 @@ MENU:
 
                     if ($colDuelos !== null) {
                         foreach ($colDuelos as $duelo) {
-                            if ($duelo->getPersonaje1()->getId() === $idBuscar || $duelo->getPersonaje2()->getId() === $idBuscar) {
+                            if ($duelo->getPersonaje1()->getId() == $idBuscar || $duelo->getPersonaje2()->getId() == $idBuscar) {
                                 if ($duelo->getEstado() === 'realizado') {
                                     $realizadosTexto .= $duelo . "\n";
                                 } else {
@@ -401,8 +401,8 @@ MENU:
                     echo "---------------------------------------------------\n";
                     echo " HISTORIAL DE COMBATES:\n";
                     if ($encontroDuelos) {
-                        echo "\n[Duelos Realizados]:\n" . (count($colDuelos) > 0 && $realizadosTexto != "" ? $realizadosTexto : "Ninguno.\n");
-                        echo "\n[Duelos Pendientes]:\n" . (count($colDuelos) > 0 && $pendientesTexto != "" ? $pendientesTexto : "Ninguno.\n");
+                        echo "\n[Duelos Realizados] \n" . (count($colDuelos) > 0 && $realizadosTexto != "" ? $realizadosTexto : "Ninguno.\n");
+                        echo "\n[Duelos Pendientes] \n" . (count($colDuelos) > 0 && $pendientesTexto != "" ? $pendientesTexto : "Ninguno.\n");
                     } else {
                         echo "Este personaje no posee enfrentamientos agendados en el sistema.\n";
                     }
