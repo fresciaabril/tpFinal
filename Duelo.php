@@ -172,7 +172,7 @@ class Duelo {
 
 	public function guardar($database) {
         // Si hay un ganador guardamos el id, sino lo dejamos en null 
-        $idGanadorValor = ($this->getGanador() !== null && is_object($this->getGanador())) ? $this->getGanador()->getId() : null;
+        $idGanadorValor = ($this->getGanador() != null && is_object($this->getGanador())) ? $this->getGanador()->getId() : null;
 
         $datosDuelo = [
             "estado"    => $this->getEstado(),

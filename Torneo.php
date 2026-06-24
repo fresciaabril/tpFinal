@@ -202,7 +202,7 @@
             } elseif (!$arma->puedeSerEquipadaPor($personaje)) {
                 $resultado["mensaje"] = "\n El arma no puede ser equipada.\n";
               }else {
-                if ($personaje->getArma() !== null) {
+                if ($personaje->getArma() != null) {
                     $personaje->getArma()->setEstado("disponible");
                 }
                 $personaje->setArma($arma);
@@ -235,7 +235,7 @@
             $datosPersonajes = $database->select("personajes", "*");
 
             // si se pudo hacer la consulta es true
-            if ($datosPersonajes !== false) {
+            if ($datosPersonajes != false) {
                 $colPersonajes = []; 
 
                 // Recorremos los registros que nos pasa  la base de datos 
@@ -285,7 +285,7 @@
                     }
 
                     //Si el idArmaEquipada esta en la bd
-                    if ($objPersonaje !== null && $datoPersonaje['idArmaEquipada'] !== null) {
+                    if ($objPersonaje != null && $datoPersonaje['idArmaEquipada'] != null) {
                         // buscamos los datos por su id
                         $datosArma = $database->get("armas", "*", ["id" => $datoPersonaje['idArmaEquipada']]);
                         if ($datosArma) {
@@ -304,7 +304,7 @@
                     }
 
                     // Si el objeto personaje se armó lo agregamos a la coleccion
-                    if ($objPersonaje !== null) {
+                    if ($objPersonaje != null) {
                         array_push($colPersonajes, $objPersonaje);
                     }
                 }
@@ -326,7 +326,7 @@
         public function listarArmas($database) {
             $colArmas = null;
             $datosArmas = $database->select("armas", "*", ["ORDER" => ["nombre" => "ASC"]]);
-            if ($datosArmas !== false) {
+            if ($datosArmas != false) {
                 $colArmas = []; 
                 foreach ($datosArmas as $datoArma) {
                     $objArma = new Arma(
@@ -360,7 +360,7 @@
             $datosArenas = $database->select("arenas", "*", ["ORDER" => ["nombre" => "ASC"]]);
 
             // Controlamos que la comunicación con phpMyAdmin haya funcionado
-            if ($datosArenas !== false) {
+            if ($datosArenas != false) {
                 $colArenas = []; 
                 foreach ($datosArenas as $datosArena) {
                     $objArena = new Arena(
@@ -403,7 +403,7 @@
 
             $filas = $database->select("duelos", "*");
 
-            if ($filas !== false) {
+            if ($filas != false) {
                 $colDuelos = [];
 
                 foreach ($filas as $fila) {
@@ -411,7 +411,7 @@
                     $persona2 = $personajesCol[$fila['idPersonaje2']] ?? null;
                     $arena = $arenasCol[$fila['idArena']] ?? null;
 
-                    if ($persona1 !== null && $persona2 !== null && $arena !== null) {
+                    if ($persona1 != null && $persona2 != null && $arena != null) {
                         $objDuelo = new Duelo(
                             $persona1,     
                             $persona2,     
