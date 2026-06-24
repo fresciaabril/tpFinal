@@ -40,7 +40,7 @@ MENU:
 				echo "Ingrese nombre: ";
 				$nombre = trim(fgets(STDIN));
 				
-				echo"Seleccione tipo de personaje:\n 1: Guerrero \n 2: Mago \n 3: Arquero \n ";
+				echo"Seleccione tipo de personaje:\n1:Guerrero \n2: Mago \n3: Arquero \n";
 				$tipo = trim(fgets(STDIN));
 
 				switch($tipo) {
@@ -75,9 +75,9 @@ MENU:
 				}
 
 				
-				// Si se creó llamamos a guardar
-				if ($objPersonaje != null){
-					$objPersonaje->guardar($database);
+				// Si se creó llamamos a agregar personaje que ahi adentro llama a guardar
+                if ($objPersonaje != null){
+					$torneo->agregarPersonaje($objPersonaje, $database);
 					echo $objPersonaje; 
 				}
 				break;
@@ -104,8 +104,8 @@ MENU:
 				$nivelMin = (int)trim(fgets(STDIN));
 				$objArma = new Arma($nomArma, $tipoArma, $danio, $nivelMin,);
 
-				if ($objArma !== null) {
-					$objArma->guardar($database);
+				if ($objArma != null) {
+					$torneo->agregarArma($objArma, $database);
 				}
 				break;
 
@@ -115,8 +115,8 @@ MENU:
                 echo "-- Registro de Nueva Arena de Combate --\n";
                 
                 $topArena = $torneo->arenaMasPopular($database);
-                if ($topArena !== null) {
-                    echo "La arena más popular actualmente es: '" . $topArena->getNombre() . "-Clima: " . $topArena->getClima() . "-\n";
+                if ($topArena != null) {
+                    echo "La arena más popular actualmente es: '" . $topArena->getNombre() . "con Clima: " . $topArena->getClima() . "\n";
                     echo "Considerá crear una arena distinta \n";
                 }
                 echo "---------------------------------------------------\n";
@@ -130,7 +130,7 @@ MENU:
                 echo "Ingrese capacidad de público: ";
                 $capacidad = (int)trim(fgets(STDIN));
 
-                echo "Seleccione clima con un numero:\n 1: normal \n 2: lluvia \n 3: tormenta \n 4: niebla \n";
+                echo "Seleccione clima con un numero: \n1: normal \n2: lluvia \n3: tormenta \n4: niebla \n";
                 $Clima = trim(fgets(STDIN));
 
                 switch($Clima) {
@@ -154,8 +154,8 @@ MENU:
 
                 $objArena = new Arena($nomArena, $dificultad, $capacidad, $clima);
 
-                if ($objArena !== null) {
-                    $objArena->guardar($database);
+                if ($objArena != null) {
+                    $torneo->agregarArena($objArena, $database);
                 }
 
 				break;
@@ -168,7 +168,7 @@ MENU:
                 echo "--Personajes registrados-- \n";
                 foreach ($listaPersonajes as $personaje) {
                     $objPersonaje = $torneo->obtenerPersonajePorId($personaje['id']);
-                    if ($objPersonaje !== null) {
+                    if ($objPersonaje != null) {
                         echo $objPersonaje; 
                     }
                 }
@@ -183,7 +183,7 @@ MENU:
                         echo $objArma; 
                     }
                 } else {
-                    echo "\n No hay armas disponibles en el inventario en este momento.\n";
+                    echo "\nNo hay armas disponibles en el inventario en este momento.\n";
                 }
                 echo "---------------------------------------------------\n";
 
@@ -196,7 +196,7 @@ MENU:
                 $personajeObj = $torneo->obtenerPersonajePorId($idPersonaje);
                 $armaObj = $torneo->obtenerArmaPorId($idArma);
 
-                if ($personajeObj !== null && $armaObj !== null) {
+                if ($personajeObj != null && $armaObj != null) {
                     $respuesta = $torneo->equiparArma($personajeObj, $armaObj);
                     echo $respuesta["mensaje"];
                     if ($respuesta["exito"]) {
@@ -205,7 +205,7 @@ MENU:
                     }
 
                 } else {
-                    echo "\n El personaje o el arma no existen en el sistema \n";
+                    echo "\nEl personaje o el arma no existen en el sistema \n";
                 }
 				break;
 
@@ -222,7 +222,7 @@ MENU:
                         echo $objPersonaje; 
                     }
                 } else {
-                    echo "\n No hay ningún personaje disponible para pelear en este momento.\n";
+                    echo "\nNo hay ningún personaje disponible para pelear en este momento.\n";
                 }
 
                 $listaArenas = $database->select("arenas", ["id"]);
@@ -230,7 +230,7 @@ MENU:
                 echo "  Arenas disponibles  \n";
                 foreach ($listaArenas as $arenaItem) {
                     $objArena = $torneo->obtenerArenaPorId($arenaItem['id'], $database);
-                    if ($objArena !== null) {
+                    if ($objArena != null) {
                         echo $objArena; 
                     }
                 }
@@ -249,7 +249,7 @@ MENU:
                 $personaje2 = $torneo->obtenerPersonajePorId($idP2);
                 $arena = $torneo->obtenerArenaPorId($idArena, $database);
 
-                if ($personaje1 !== null && $personaje2 !== null && $arena !== null) {
+                if ($personaje1 != null && $personaje2 != null && $arena != null) {
                     $exito = $torneo->registrarDuelo($personaje1, $personaje2, $arena);
                     if ($exito) {
                         echo "Duelo agendado en la arena " . $arena->getNombre() . "\n";
@@ -257,7 +257,7 @@ MENU:
                         echo "No se pudo agendar el duelo. Revisá los personajes.\n";
                     }
                 } else {
-                    echo "\n Alguno de los personajes o la arena elegida no existen en el sistema.\n";
+                    echo "\nAlguno de los personajes o la arena elegida no existen en el sistema.\n";
                 }
 				break;
 
@@ -294,13 +294,13 @@ MENU:
                         }
                     }
 
-                    if ($dueloApelear !== null) {
+                    if ($dueloApelear != null) {
                         $nombreGanador = $torneo->ejecutarDuelo($dueloApelear);
                         
-                        echo "\n COMBATE TERMINADO \n";
+                        echo "\nCOMBATE TERMINADO \n";
                         echo "Ganador: " . $nombreGanador . "\n";
                     } else {
-                        echo "\n El ID ingresado no corresponde a un duelo pendiente.\n";
+                        echo "\nEl ID ingresado no corresponde a un duelo pendiente.\n";
                     }
                 } else {
                     echo "No hay duelos pendientes en este momento.\n";
@@ -318,9 +318,9 @@ MENU:
 
                 foreach ($lesionados as $personLesionado) {
                     $objPersonaje = $torneo->obtenerPersonajePorId($personLesionado['id']);
-                    if ($objPersonaje !== null) {
-                        echo "ID: " . $objPersonaje->getId() . "\n Nombre: " . $objPersonaje->getNombre() . 
-                             "\n Vida actual: " . $objPersonaje->getPuntosVida() . "\n";
+                    if ($objPersonaje != null) {
+                        echo "ID: " . $objPersonaje->getId() . "\nNombre: " . $objPersonaje->getNombre() . 
+                             "\nVida actual: " . $objPersonaje->getPuntosVida() . "\n";
                         $hayLesionados = true;
                     }
                 }
@@ -352,7 +352,7 @@ MENU:
                 echo $ranking;
                 
                 $masGanador = $torneo->personajeConMasVictorias($database);
-                if ($masGanador !== null) {
+                if ($masGanador != null) {
                     echo "Personaje con mas victorias: " . $masGanador->getNombre() . " (" . $masGanador->getDuelosGanados() . " victorias)\n\n";
                 }
 
@@ -375,8 +375,8 @@ MENU:
 
                 $personajeObj = $torneo->obtenerPersonajePorId($idBuscar);
                 
-                if ($personajeObj !== null) {
-                    echo "\n -DETALLES DEL PERSONAJE- \n";
+                if ($personajeObj != null) {
+                    echo "\n-DETALLES DEL PERSONAJE- \n";
                     echo $personajeObj . "\n";
 
                     $encontroDuelos = false;
@@ -385,7 +385,7 @@ MENU:
                     $realizadosTexto = "";
                     $pendientesTexto = "";
 
-                    if ($colDuelos !== null) {
+                    if ($colDuelos != null) {
                         foreach ($colDuelos as $duelo) {
                             if ($duelo->getPersonaje1()->getId() == $idBuscar || $duelo->getPersonaje2()->getId() == $idBuscar) {
                                 if ($duelo->getEstado() === 'realizado') {
@@ -407,7 +407,7 @@ MENU:
                         echo "Este personaje no posee enfrentamientos agendados en el sistema.\n";
                     }
                 } else {
-                    echo "\n El ID ingresado no corresponde a ningún personaje.\n";
+                    echo "\nEl ID ingresado no corresponde a ningún personaje.\n";
                 }
                 echo "---------------------------------------------------\n";
                 break;

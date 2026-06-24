@@ -40,8 +40,8 @@
 
         public function __toString(){
             return parent::__toString().
-            "\n Mana: " . $this->getMana().
-            "\n Inteligencia: " . $this->getInteligencia().
+            "\nMana: " . $this->getMana().
+            "\nInteligencia: " . $this->getInteligencia().
             "\n---------------------------------------------------";
         }
 

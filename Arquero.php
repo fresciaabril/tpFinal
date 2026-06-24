@@ -41,8 +41,8 @@
 
         public function __toString(){
             return parent::__toString().
-            "\n Precision: " . $this->getPrecision().
-            "\n Velocidad: " . $this->getVelocidad().
+            "\nPrecision: " . $this->getPrecision().
+            "\nVelocidad: " . $this->getVelocidad().
             "\n---------------------------------------------------";
         }
     }

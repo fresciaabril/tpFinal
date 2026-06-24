@@ -91,12 +91,12 @@ class Arma {
 		return 
 		"--------------------------------------------------- \n" .
 		"Nombre: " . $this->getNombre().
-		"\n Tipo: " . $this->getTipo().
-		"\n Daño base: " . $this->getDanioBase().
-		"\n Nivel minimo: " . $this->getNivelMinimo().
-		"\n Estado: " . $this->getEstado() . 
-		"\n ID: " . $this->getId() . 
-		"\n ---------------------------------------------------" ;
+		"\nTipo: " . $this->getTipo().
+		"\nDaño base: " . $this->getDanioBase().
+		"\nNivel minimo: " . $this->getNivelMinimo().
+		"\nEstado: " . $this->getEstado() . 
+		"\nID: " . $this->getId() . 
+		"\n---------------------------------------------------" ;
 	}
 
 
@@ -114,13 +114,13 @@ class Arma {
         if ($this->getId()) {
             // Si ya tiene id, actualizamos el registro
             $database->update("armas", $arma, ["id" => $this->getId()]);
-            echo "\n Arma ". $this->getNombre(). " actualizada con exito \n";
+            echo "\nArma ". $this->getNombre(). " actualizada con exito \n";
         } else {
             // Si no la insertamos
             $database->insert("armas", $arma);
             // Seteamos el ID autogenerado en el objeto
             $this->setId($database->id());
-            echo "\n Arma ". $this->getNombre(). " registrada con éxito \n";
+            echo "\nArma ". $this->getNombre(). " registrada con éxito \n";
         }
     }
 

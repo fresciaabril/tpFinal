@@ -171,14 +171,14 @@
             return 
             "--------------------------------------------------- \n" .
             "Nombre: " . $this->getNombre().
-            "\n Nivel: " . $this->getNivel().
-            "\n Vida: "  . $this->getPuntosVida().
-            "\n Energia: " . $this->getEnergia().
-            "\n Duelos ganados: " . $this->getDuelosGanados().
-            "\n Duelos perdidos: " . $this->getDuelosPerdidos().
-            "\n Estado: " . $this->getEstado().
+            "\nNivel: " . $this->getNivel().
+            "\nVida: "  . $this->getPuntosVida().
+            "\nEnergia: " . $this->getEnergia().
+            "\nDuelos ganados: " . $this->getDuelosGanados().
+            "\nDuelos perdidos: " . $this->getDuelosPerdidos().
+            "\nEstado: " . $this->getEstado().
             "\n" . $mensaje . $this->getArma().
-            "\n ID es: " . $this->getId();
+            "\nID es: " . $this->getId();
         }
 
 

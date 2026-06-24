@@ -70,9 +70,9 @@ class Arena
         {
                 $respuesta =
                         "--------------------------------------------------- \n
-                Nombre de arena = {$this->getNombre()} \n 
-                Dificultad de arena = {$this->getDificultad()} \n 
-                Capacidad = {$this->getCapacidadPublico()} \n 
+                Nombre de arena = {$this->getNombre()} \n
+                Dificultad de arena = {$this->getDificultad()} \n
+                Capacidad = {$this->getCapacidadPublico()} \n
                 Clima = {$this->getClima()} \n
                 ID = {$this->getId()} \n
                 --------------------------------------------------- \n";

@@ -40,8 +40,8 @@
        
         public function __toString(){
             return parent::__toString().
-            "\n Fuerza: " . $this->getFuerza().
-            "\n Armadura: " . $this->getArmadura().
+            "\nFuerza: " . $this->getFuerza().
+            "\nArmadura: " . $this->getArmadura().
             "\n---------------------------------------------------";
         }
 

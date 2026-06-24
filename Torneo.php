@@ -73,25 +73,25 @@
 
 		// metodos
 
-		public function agregarPersonaje($personaje){
-			array_push($this->personajes, $personaje);
+		public function agregarPersonaje($personaje, $database){
+            $personaje->guardar($database);
 		}
 
 
-		public function agregarArma($arma){
-			array_push($this->armas, $arma);
-		}
+		public function agregarArma($arma, $database){
+			$arma->guardar($database);
+        }
 
-
-		public function agregarArena($arena){
-			array_push($this->arenas, $arena);
+		public function agregarArena($arena, $database){
+			$arena->guardar($database);
 		}
 
         
         // BUSCAR UN PERSONAJE POR ID Y TRANSFORMARLO EN OBJETO
         public function obtenerPersonajePorId($id) {
+            //de los personaje con el mismo id al que ingresa traer todos los datos
             $personaje = $this->db->get("personajes", "*", ["id" => $id]);
-            $obj = null;
+            $objTipo = null;
 
             if ($personaje) {
                 $objArma = null;
@@ -101,7 +101,7 @@
 
                 // DEPENDE DEL TIPO DE PERSONAJE 
                 if ($personaje["tipoPersonaje"] == 'guerrero') {
-                    $obj = new Guerrero(
+                    $objTipo = new Guerrero(
                         $personaje["nombre"], 
                         $personaje["nivel"], 
                         $personaje["puntosVida"], 
@@ -113,10 +113,10 @@
                         $personaje["armadura"], 
                         $personaje["id"]     
                     );
-                    $obj->setArma($objArma);
+                    $objTipo->setArma($objArma);
 
                 } elseif ($personaje["tipoPersonaje"] == 'mago') {
-                    $obj = new Mago(
+                    $objTipo = new Mago(
                         $personaje["nombre"], 
                         $personaje["nivel"], 
                         $personaje["puntosVida"], 
@@ -128,10 +128,10 @@
                         $personaje["inteligencia"], 
                         $personaje["id"]     
                     );
-                    $obj->setArma($objArma);
+                    $objTipo->setArma($objArma);
 
                 } elseif ($personaje["tipoPersonaje"] == 'arquero') {
-                    $obj = new Arquero(
+                    $objTipo = new Arquero(
                         $personaje["nombre"], 
                         $personaje["nivel"], 
                         $personaje["puntosVida"], 
@@ -143,10 +143,10 @@
                         $personaje["velocidad"], 
                         $personaje["id"]     
                     );
-                    $obj->setArma($objArma);
+                    $objTipo->setArma($objArma);
                 }
             }
-            return $obj;
+            return $objTipo;
         }
 
         
@@ -200,7 +200,7 @@
             if (!$personaje->puedeDuelar()) {
                 $resultado["mensaje"] = "El personaje no está disponible.\n";
             } elseif (!$arma->puedeSerEquipadaPor($personaje)) {
-                $resultado["mensaje"] = "\n El arma no puede ser equipada.\n";
+                $resultado["mensaje"] = "\nEl arma no puede ser equipada.\n";
               }else {
                 if ($personaje->getArma() != null) {
                     $personaje->getArma()->setEstado("disponible");
@@ -360,7 +360,7 @@
             $datosArenas = $database->select("arenas", "*", ["ORDER" => ["nombre" => "ASC"]]);
 
             // Controlamos que la comunicación con phpMyAdmin haya funcionado
-            if ($datosArenas != false) {
+            if ($datosArenas == true) {
                 $colArenas = []; 
                 foreach ($datosArenas as $datosArena) {
                     $objArena = new Arena(
@@ -481,7 +481,7 @@
                 if ($totales > 0) {
                     $porcentaje = ($personaje->getDuelosGanados() / $totales) * 100;
                 }                                         //round sirve para redondear decimales,y que queden los primeros 2 num
-                $mensaje .= $personaje->getNombre() . ": " . round($porcentaje, 2) . "% de victorias \n Jugados: " . $totales . "\n";
+                $mensaje .= $personaje->getNombre() . ": " . round($porcentaje, 2) . "% de victorias \nJugados: " . $totales . "\n";
             }
             return $mensaje;
         }
