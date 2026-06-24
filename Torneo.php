@@ -193,8 +193,9 @@
 
         public function equiparArma($personaje, $arma) {
             $resultado = [
-                "exito"   => false,
-                "mensaje" => ""
+                "exito"        => false,
+                "mensaje"      => "",
+                "armaAnterior" => null
             ];
 
             if (!$personaje->puedeDuelar()) {
@@ -203,7 +204,10 @@
                 $resultado["mensaje"] = "\nEl arma no puede ser equipada.\n";
               }else {
                 if ($personaje->getArma() != null) {
-                    $personaje->getArma()->setEstado("disponible");
+                    $armaAnterior = $personaje->getArma();
+                    $armaAnterior->setEstado("disponible");
+                    // Devolvemos el arma anterior para que el principal la guarde en la BD
+                    $resultado["armaAnterior"] = $armaAnterior;
                 }
                 $personaje->setArma($arma);
                 $arma->setEstado("equipada");

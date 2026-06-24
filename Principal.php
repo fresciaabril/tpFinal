@@ -202,6 +202,10 @@ MENU:
                     if ($respuesta["exito"]) {
                         $personajeObj->guardar($database);
                         $armaObj->guardar($database);
+                        // Si tenía un arma equipada antes, guardamos su nuevo estado (disponible)
+                        if ($respuesta["armaAnterior"] != null) {
+                            $respuesta["armaAnterior"]->guardar($database);
+                        }
                     }
 
                 } else {
