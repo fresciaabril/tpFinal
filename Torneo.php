@@ -212,9 +212,9 @@
                 $personaje->setArma($arma);
                 $arma->setEstado("equipada");
 
-                $resultado["mensaje"] = $personaje->getNombre() . "equipó " . $arma->getNombre(). "\n";
-                $resultado["exito"]   = true;
-            }
+                    $resultado["mensaje"] = $personaje->getNombre() . "equipó " . $arma->getNombre(). "\n";
+                    $resultado["exito"]   = true;
+                }
             return $resultado;
         }
 
@@ -260,7 +260,7 @@
                             $datoPersonaje['armadura'], 
                             $datoPersonaje['id']
                         );
-                    } elseif ($datoPersonaje['tipoPersonaje'] === 'mago') {
+                    } elseif ($datoPersonaje['tipoPersonaje'] == 'mago') {
                         $objPersonaje = new Mago(
                             $datoPersonaje['nombre'], 
                             $datoPersonaje['nivel'], 
@@ -273,7 +273,7 @@
                             $datoPersonaje['inteligencia'], 
                             $datoPersonaje['id']
                         );
-                    } elseif ($datoPersonaje['tipoPersonaje'] === 'arquero') {
+                    } elseif ($datoPersonaje['tipoPersonaje'] == 'arquero') {
                         $objPersonaje = new Arquero(
                             $datoPersonaje['nombre'], 
                             $datoPersonaje['nivel'], 
@@ -558,7 +558,7 @@
         public function registrarDuelo($personaje1, $personaje2, $arena) {
             $exito = true;
 
-            if ($personaje1->getId() === $personaje2->getId()) {
+            if ($personaje1->getId() == $personaje2->getId()) {
                 $exito = false; 
             } elseif (!$personaje1->puedeDuelar()) {
                 $exito = false;
