@@ -583,6 +583,8 @@
             return $exito;
         }
 
+
+        //Este metodo tambien es realizarDuelo pero para no confundirnos en el principal le pusimos otro nombre
         public function ejecutarDuelo($objDuelo) {
             $mensajeRetorno = "No se pudo realizar el duelo";
             if ($objDuelo->realizarDuelo()) {
