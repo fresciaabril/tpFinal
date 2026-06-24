@@ -193,25 +193,24 @@
 
         public function equiparArma($personaje, $arma) {
             $resultado = [
-                "exito"   => false,
-                "mensaje" => ""
+                "exito"        => false,
+                "mensaje"      => "",
+                "armaAnterior" => null
             ];
 
             if (!$personaje->puedeDuelar()) {
                 $resultado["mensaje"] = "El personaje no está disponible.\n";
-            } elseif ($arma->puedeSerEquipadaPor($personaje) == "equipada") {
-                $resultado["mensaje"] = "\nEste arma no puede ser usado por varios personajes\n";
-              }elseif ($arma->puedeSerEquipadaPor($personaje) == "rota"){
-                $resultado["mensaje"] = "\nEl se encuentra rota\n";
-              }elseif($arma->puedeSerEquipadaPor($personaje) == "nivel bajo"){
-                $resultado["mensaje"] = "\nEl personaje no cuenta con el nivel que necesita el arma\n";
-              }
-              else{
-                    if ($personaje->getArma() != null) {
-                        $personaje->getArma()->setEstado("disponible");
-                    }
-                    $personaje->setArma($arma);
-                    $arma->setEstado("equipada");
+            } elseif (!$arma->puedeSerEquipadaPor($personaje)) {
+                $resultado["mensaje"] = "\nEl arma no puede ser equipada.\n";
+              }else {
+                if ($personaje->getArma() != null) {
+                    $armaAnterior = $personaje->getArma();
+                    $armaAnterior->setEstado("disponible");
+                    // Devolvemos el arma anterior para que el principal la guarde en la BD
+                    $resultado["armaAnterior"] = $armaAnterior;
+                }
+                $personaje->setArma($arma);
+                $arma->setEstado("equipada");
 
                     $resultado["mensaje"] = $personaje->getNombre() . "equipó " . $arma->getNombre(). "\n";
                     $resultado["exito"]   = true;
