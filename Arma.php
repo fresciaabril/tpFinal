@@ -80,11 +80,16 @@ class Arma {
 
 
 	public function puedeSerEquipadaPor(Personaje $personaje){
-		$bandera=false;
-        if ($this->getEstado() === 'disponible' && ($personaje->getNivel() >= $this->getNivelMinimo())){
-        	$bandera=true;
+		$mensaje = "";
+        if ($this->getEstado() == 'equipada'){
+			$mensaje = "equipada";
+		}elseif($this->getEstado() == 'rota'){
+			$mensaje = "rota";
+		}elseif(($personaje->getNivel() < $this->getNivelMinimo())){
+			$mensaje = "nivel bajo";
         }
-        return $bandera;
+		
+        return $mensaje;
 	}
 
 	public function __toString(){

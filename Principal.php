@@ -271,7 +271,7 @@ MENU:
                 
                 //  muestra solo los que están pendientes
                 foreach ($todosLosDuelos as $duelo) {
-                    if ($duelo->getEstado() === 'pendiente') {
+                    if ($duelo->getEstado() == 'pendiente') {
                         // Mostramos el id, nombres de los personajes y la arena
                         echo "ID DUELO: " . $duelo->getId() . "\n" . 
                              $duelo->getPersonaje1()->getNombre() . "\n" . 
@@ -289,7 +289,7 @@ MENU:
                     // 3. Buscamos el objeto Duelo ingresado
                     $dueloApelear = null;
                     foreach ($todosLosDuelos as $duelo) {
-                        if ($duelo->getId() === $idDueloElegido && $duelo->getEstado() === 'pendiente') {
+                        if ($duelo->getId() == $idDueloElegido && $duelo->getEstado() == 'pendiente') {
                             $dueloApelear = $duelo;
                         }
                     }
@@ -388,7 +388,7 @@ MENU:
                     if ($colDuelos != null) {
                         foreach ($colDuelos as $duelo) {
                             if ($duelo->getPersonaje1()->getId() == $idBuscar || $duelo->getPersonaje2()->getId() == $idBuscar) {
-                                if ($duelo->getEstado() === 'realizado') {
+                                if ($duelo->getEstado() == 'realizado') {
                                     $realizadosTexto .= $duelo . "\n";
                                 } else {
                                     $pendientesTexto .= $duelo . "\n";

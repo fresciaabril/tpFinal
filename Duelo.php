@@ -89,7 +89,7 @@ class Duelo {
 		$personaje1 = $this->getPersonaje1();
 		$personaje2 = $this->getPersonaje2();
 		if($this->getPersonaje1()->getId() != $this->getPersonaje2()->getId()){
-			if($personaje1->getEstado() === "disponible" && $personaje2->getEstado() === "disponible"){
+			if($personaje1->getEstado() == "disponible" && $personaje2->getEstado() == "disponible"){
 				$puede = true;
 			}
 		}

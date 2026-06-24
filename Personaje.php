@@ -205,12 +205,15 @@
 
             // instanceof sirve para verificar que pertenezca a una clase
             if ($this instanceof Guerrero) {
+                $personaje["tipoPersonaje"] = "guerrero";
                 $personaje["fuerza"]   = $this->getFuerza();
                 $personaje["armadura"] = $this->getArmadura();
             } elseif ($this instanceof Mago) {
+                $personaje["tipoPersonaje"] = "mago";
                 $personaje["mana"]         = $this->getMana();
                 $personaje["inteligencia"] = $this->getInteligencia();
             } elseif ($this instanceof Arquero) {
+                $personaje["tipoPersonaje"] = "arquero";
                 $personaje["precisionPersonaje"] = $this->getPrecision();
                 $personaje["velocidad"]          = $this->getVelocidad();
             }
