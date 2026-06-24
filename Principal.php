@@ -104,7 +104,7 @@ MENU:
 				$nivelMin = (int)trim(fgets(STDIN));
 				$objArma = new Arma($nomArma, $tipoArma, $danio, $nivelMin,);
 
-				if ($objArma != null) {
+				if ($objArma !== null) {
 					$objArma->guardar($database);
 				}
 				break;
@@ -115,7 +115,7 @@ MENU:
                 echo "-- Registro de Nueva Arena de Combate --\n";
                 
                 $topArena = $torneo->arenaMasPopular($database);
-                if ($topArena != null) {
+                if ($topArena !== null) {
                     echo "La arena más popular actualmente es: '" . $topArena->getNombre() . "-Clima: " . $topArena->getClima() . "-\n";
                     echo "Considerá crear una arena distinta \n";
                 }
@@ -154,7 +154,7 @@ MENU:
 
                 $objArena = new Arena($nomArena, $dificultad, $capacidad, $clima);
 
-                if ($objArena != null) {
+                if ($objArena !== null) {
                     $objArena->guardar($database);
                 }
 
@@ -168,7 +168,7 @@ MENU:
                 echo "--Personajes registrados-- \n";
                 foreach ($listaPersonajes as $personaje) {
                     $objPersonaje = $torneo->obtenerPersonajePorId($personaje['id']);
-                    if ($objPersonaje != null) {
+                    if ($objPersonaje !== null) {
                         echo $objPersonaje; 
                     }
                 }
@@ -196,7 +196,7 @@ MENU:
                 $personajeObj = $torneo->obtenerPersonajePorId($idPersonaje);
                 $armaObj = $torneo->obtenerArmaPorId($idArma);
 
-                if ($personajeObj != null && $armaObj != null) {
+                if ($personajeObj !== null && $armaObj !== null) {
                     $respuesta = $torneo->equiparArma($personajeObj, $armaObj);
                     echo $respuesta["mensaje"];
                     if ($respuesta["exito"]) {
@@ -230,7 +230,7 @@ MENU:
                 echo "  Arenas disponibles  \n";
                 foreach ($listaArenas as $arenaItem) {
                     $objArena = $torneo->obtenerArenaPorId($arenaItem['id'], $database);
-                    if ($objArena != null) {
+                    if ($objArena !== null) {
                         echo $objArena; 
                     }
                 }
@@ -249,7 +249,7 @@ MENU:
                 $personaje2 = $torneo->obtenerPersonajePorId($idP2);
                 $arena = $torneo->obtenerArenaPorId($idArena, $database);
 
-                if ($personaje1 != null && $personaje2 != null && $arena != null) {
+                if ($personaje1 !== null && $personaje2 !== null && $arena !== null) {
                     $exito = $torneo->registrarDuelo($personaje1, $personaje2, $arena);
                     if ($exito) {
                         echo "Duelo agendado en la arena " . $arena->getNombre() . "\n";
@@ -294,7 +294,7 @@ MENU:
                         }
                     }
 
-                    if ($dueloApelear != null) {
+                    if ($dueloApelear !== null) {
                         $nombreGanador = $torneo->ejecutarDuelo($dueloApelear);
                         
                         echo "\n COMBATE TERMINADO \n";
@@ -318,7 +318,7 @@ MENU:
 
                 foreach ($lesionados as $personLesionado) {
                     $objPersonaje = $torneo->obtenerPersonajePorId($personLesionado['id']);
-                    if ($objPersonaje != null) {
+                    if ($objPersonaje !== null) {
                         echo "ID: " . $objPersonaje->getId() . "\n Nombre: " . $objPersonaje->getNombre() . 
                              "\n Vida actual: " . $objPersonaje->getPuntosVida() . "\n";
                         $hayLesionados = true;
@@ -352,7 +352,7 @@ MENU:
                 echo $ranking;
                 
                 $masGanador = $torneo->personajeConMasVictorias($database);
-                if ($masGanador != null) {
+                if ($masGanador !== null) {
                     echo "Personaje con mas victorias: " . $masGanador->getNombre() . " (" . $masGanador->getDuelosGanados() . " victorias)\n\n";
                 }
 
@@ -375,7 +375,7 @@ MENU:
 
                 $personajeObj = $torneo->obtenerPersonajePorId($idBuscar);
                 
-                if ($personajeObj != null) {
+                if ($personajeObj !== null) {
                     echo "\n -DETALLES DEL PERSONAJE- \n";
                     echo $personajeObj . "\n";
 
@@ -385,7 +385,7 @@ MENU:
                     $realizadosTexto = "";
                     $pendientesTexto = "";
 
-                    if ($colDuelos != null) {
+                    if ($colDuelos !== null) {
                         foreach ($colDuelos as $duelo) {
                             if ($duelo->getPersonaje1()->getId() == $idBuscar || $duelo->getPersonaje2()->getId() == $idBuscar) {
                                 if ($duelo->getEstado() === 'realizado') {
