@@ -393,8 +393,9 @@
         
         public function listarDuelos($database) {
             $colDuelos = null;
-            $todosLosPersonajes = $this->listarPersonajes($database);
-            $todasLasArenas = $this->listarArenas($database);
+            
+            $todosLosPersonajes = $this->listarPersonajes($database) ?? [];
+            $todasLasArenas = $this->listarArenas($database) ?? [];
 
             $personajesCol = [];
             foreach ($todosLosPersonajes as $personaje) {
@@ -406,9 +407,11 @@
                 $arenasCol[$arena->getId()] = $arena;
             }
 
+            // Hacemos la consulta
             $filas = $database->select("duelos", "*");
 
-            if ($filas != false) {
+            // Validamos con is_array. Si es un array (aunque esté vacío), la consulta fue exitosa.
+            if (is_array($filas)) {
                 $colDuelos = [];
 
                 foreach ($filas as $fila) {
@@ -430,8 +433,10 @@
                     }
                 }
             } else {
-                throw new Exception("No se pudo acceder al historial de duelos.");
+                // Si realmente no es un array, es porque falló la estructura SQL
+                throw new Exception("No se pudo acceder al historial de duelos. Verifique la conexión o la existencia de la tabla.");
             }
+            
             return $colDuelos;
         }
 
