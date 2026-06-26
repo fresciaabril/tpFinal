@@ -6,16 +6,6 @@
 
 	$torneo = new torneo();
 
-	// echo" El nombre del juego ;( que queria:
-	// echo" _____ _            _____ _     _             _____                _ _     \n";
-	// echo"|_   _| |          |  ___| |   | |           /  ___|              | | |    \n";
-	// echo"  | | | |__   ___  | |__ | | __| | ___ _ __  \ `--.  ___ _ __ ___ | | |___ \n";
-	// echo"  | | | '_ \ / _ \ |  __|| |/ _` |/ _ \ '__|  `--. \/ __| '__/ _ \| | / __|\n";
-	// echo"  | | | | | |  __/ | |___| | (_| |  __/ |    /\__/ / (__| | | (_) | | \__\ \n";
-	// echo"  \_/ |_| |_|\___| \____/|_|\____|\___|_|    \____/ \___|_|  \___/|_|_|__/ \n";
-
-
-
 
 do{		
 echo"---------------------------------------------------------------------------
@@ -204,6 +194,7 @@ MENU:
                         $armaObj->guardar($database);
                         
                         // isset busca que no este vacio y devuelve un booleano
+                        //actualiza el estado del arma anterior
                         if (isset($respuesta["armaAnterior"])) {
                             $respuesta["armaAnterior"]->guardar($database);
                         }
